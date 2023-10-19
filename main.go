@@ -4,13 +4,18 @@ import (
 	"log/slog"
 
 	"github.com/nomad-software/goat/log"
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/window"
 )
 
 func main() {
 	log.SetLevel(slog.LevelDebug)
 
-	tk := tk.Get()
-	tk.Eval("wm geometry . 1024x768")
-	tk.Start()
+	win := window.GetMain()
+	win.SetSize(1024, 768)
+	win.SetTitle("test")
+
+	win2 := window.New(win)
+	win2.SetTitle("test2")
+
+	win.Show()
 }
