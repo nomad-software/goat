@@ -7,56 +7,61 @@ import (
 )
 
 const (
-	dateFormat = "15:04:05"
+	dateFormat = "15:04:05" // Log date format.
 )
 
+// Initialise the logger with the custom handler.
+func init() {
+	SetLevel(slog.LevelInfo)
+}
+
+// handler is a custom log handler.
 type handler struct {
 	level slog.Level
 }
 
+// Enabled implements the slog.Handler interface.
 func (h *handler) Enabled(ctx context.Context, level slog.Level) bool {
 	return level >= h.level
 }
 
+// WithAttrs implements the slog.Handler interface.
 func (h *handler) WithAttrs(attrs []slog.Attr) slog.Handler {
 	return h
 }
 
+// WithGroup implements the slog.Handler interface.
 func (h *handler) WithGroup(name string) slog.Handler {
 	return h
 }
 
+// Handle implements the slog.Handler interface.
 func (h *handler) Handle(ctx context.Context, r slog.Record) error {
 	fmt.Printf(
-		"%s %-5s %s",
+		"[ %s ] %-5s %s",
 		r.Time.Format(dateFormat),
 		r.Level.String(),
 		r.Message,
 	)
 
-	// WTF????
-	// TODO use https://github.com/sirupsen/logrus
-	r.Attrs(func(a slog.Attr) bool {
+	if r.NumAttrs() > 0 {
 		fmt.Print(" ")
-		fmt.Print(a)
-		return true
-	})
+		r.Attrs(func(a slog.Attr) bool {
+			if len(a.Key) > 0 {
+				fmt.Printf("[ %s %s ] ", a.Key, a.Value)
+			} else {
+				fmt.Printf("[ %s ] ", a.Value)
+			}
+			return true
+		})
+	}
 
-	fmt.Println("")
+	fmt.Print("\n")
 
 	return nil
 }
 
-func init() {
-	handler := &handler{
-		level: slog.LevelInfo,
-	}
-
-	log := slog.New(handler)
-
-	slog.SetDefault(log)
-}
-
+// SetLevel sets the level of the custom logger.
 func SetLevel(lvl slog.Level) {
 	handler := &handler{
 		level: lvl,

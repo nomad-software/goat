@@ -70,7 +70,7 @@ func new() *Tk {
 		os.Exit(1)
 	}
 
-	slog.Info("loading the tk package into the interpreter")
+	slog.Info("initialising the tk package")
 	if C.Tk_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("tk package cannot be initialised")
 		slog.Error(err.Error())
@@ -95,7 +95,7 @@ func (tk *Tk) Start() {
 func (tk *Tk) Eval(format string, a ...any) {
 	cmd := fmt.Sprintf(format, a...)
 
-	slog.Debug("eval", "command", cmd)
+	slog.Debug("tcl", "", cmd)
 
 	cstr := C.CString(cmd)
 	defer C.free(unsafe.Pointer(cstr))
