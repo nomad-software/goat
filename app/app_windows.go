@@ -1,4 +1,4 @@
-package window
+package app
 
 import "github.com/nomad-software/goat/tk"
 

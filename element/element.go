@@ -25,7 +25,7 @@ type Ele struct {
 }
 
 // SetID sets and overrides the element id.
-// This should only be called in a constructor.
+// This should only be called in internal constructors.
 func (e *Ele) SetID(id string) {
 	e.overriddenID = id
 }
@@ -50,7 +50,7 @@ func (e *Ele) GetID() string {
 }
 
 // SetParent sets the element parent.
-// This should only be called in a constructor.
+// This should only be called in internal constructors.
 func (e *Ele) SetParent(el Element) {
 	e.parent = el
 }
@@ -61,7 +61,7 @@ func (e *Ele) GetParent() Element {
 }
 
 // SetType sets the element type.
-// This should only be called in a constructor.
+// This should only be called in internal constructors.
 func (e *Ele) SetType(id string) {
 	e.typ = id
 }

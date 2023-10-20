@@ -197,8 +197,12 @@ func (e *UIEle) GetYPos(relativeToParent bool) int {
 }
 
 // Focus gives focus to the ui element.
-func (e *UIEle) Focus() {
-	tk.Get().Eval("focus %s", e.GetID())
+func (e *UIEle) Focus(force bool) {
+	if force {
+		tk.Get().Eval("focus -force %s", e.GetID())
+	} else {
+		tk.Get().Eval("focus %s", e.GetID())
+	}
 }
 
 // Lower lowers a ui element below another if specified or below all of its
