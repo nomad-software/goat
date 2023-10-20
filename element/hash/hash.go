@@ -8,6 +8,8 @@ import (
 )
 
 // Generate generates an element hash.
+// If no arguments are given a random hash is returned. Otherwise the arguments
+// are hashed.
 func Generate(args ...string) string {
 	var text string
 

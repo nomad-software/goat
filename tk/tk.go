@@ -7,6 +7,11 @@ package tk
 
 #include <stdlib.h>
 #include <tcl/tk.h>
+
+int TclCustomCommand(void* clientData, Tcl_Interp* interp, int argc, const char* argv) {
+
+    return TCL_OK;
+}
 */
 import "C"
 
@@ -135,6 +140,12 @@ func (tk *Tk) GetIntResult() int {
 	}
 
 	return i
+}
+
+func (tk *Tk) CreateCommand(name string) {
+	cname := C.CString(name)
+
+	C.Tcl_CreateCommand(tk.interpreter, cname, C.TclCustomCommand, nil, nil)
 }
 
 // createError reads the last result from the interpreter and returns it as

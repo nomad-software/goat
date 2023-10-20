@@ -1,11 +1,13 @@
 package element
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 
 	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/tk/command"
 )
 
 type UIElement interface {
@@ -223,4 +225,13 @@ func (e *UIEle) Raise(el Element) {
 	} else {
 		tk.Get().Eval("raise %s", e.GetID())
 	}
+}
+
+func (e *UIEle) Bind(binding string, fn command.Callback) {
+	name := command.GenerateName(binding, e.GetID())
+	// proc, deleteProc := command.CreateProcedure(fn)
+
+	// tk.Get.CreateCommand(name, proc, data, deleteProc)
+
+	fmt.Printf("%v\n", name)
 }
