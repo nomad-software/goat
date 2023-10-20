@@ -11,11 +11,11 @@ func main() {
 	log.SetLevel(slog.LevelDebug)
 
 	win := window.GetMain()
+	defer win.Show()
+
 	win.SetSize(1024, 768)
 	win.SetTitle("test")
 
 	win2 := window.New(win)
 	win2.SetTitle("test2")
-
-	win.Show()
 }

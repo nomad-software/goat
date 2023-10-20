@@ -38,8 +38,8 @@ func (h *handler) WithGroup(name string) slog.Handler {
 // Handle implements the slog.Handler interface.
 func (h *handler) Handle(ctx context.Context, r slog.Record) error {
 	fmt.Printf(
-		"[ %s ] %-5s %s",
-		r.Time.Format(dateFormat),
+		"%-5s %s",
+		// r.Time.Format(dateFormat),
 		r.Level.String(),
 		r.Message,
 	)
