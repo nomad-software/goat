@@ -46,9 +46,6 @@ func New(parent element.Element) *Window {
 	// Create and show the window.
 	tk.Get().Eval("toplevel %s", win.GetID())
 
-	// Raise it above the parent.
-	tk.Get().Eval("raise %s %s", win.GetID(), parent.GetID())
-
 	return win
 }
 

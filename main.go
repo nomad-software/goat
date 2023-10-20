@@ -14,9 +14,16 @@ func main() {
 	win2 := window.New(win)
 	win2.SetTitle("test2")
 
-	log.Debug("main win size: %d, %d", win.GetWidth(), win.GetHeight())
-	log.Debug("child win size: %d, %d", win2.GetWidth(), win2.GetHeight())
-	log.Debug("main win handle: %d", win.GetOSHandle())
+	log.Debug("main win cursor y pos: %v", win.GetCursorYPos())
+
+	log.Debug("screen width: %v", win.GetScreenWidth())
+	log.Debug("screen height: %v", win.GetScreenHeight())
+
+	log.Debug("x pos: %v", win.GetXPos(false))
+	log.Debug("x pos: %v", win.GetXPos(true))
+
+	log.Debug("y pos: %v", win.GetYPos(false))
+	log.Debug("y pos: %v", win.GetYPos(true))
 
 	win.Show()
 }

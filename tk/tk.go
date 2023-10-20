@@ -13,6 +13,7 @@ import "C"
 import (
 	"fmt"
 	"os"
+	"strconv"
 	"unsafe"
 
 	"github.com/nomad-software/goat/log"
@@ -116,17 +117,30 @@ func (tk *Tk) Eval(format string, a ...any) {
 	}
 }
 
-// GetResult gets the interpreter result as a string.
-func (tk *Tk) GetResult() string {
+// GetStrResult gets the interpreter result as a string.
+func (tk *Tk) GetStrResult() string {
 	result := C.Tcl_GetStringResult(tk.interpreter)
 	str := C.GoString(result)
+
 	return str
+}
+
+// GetStrResult gets the interpreter result as a string.
+func (tk *Tk) GetIntResult() int {
+	str := tk.GetStrResult()
+
+	i, err := strconv.Atoi(str)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return i
 }
 
 // createError reads the last result from the interpreter and returns it as
 // a normal Go error.
 func (tk *Tk) getTclError(format string, a ...any) error {
-	str := tk.GetResult()
+	str := tk.GetStrResult()
 	err := fmt.Errorf("%s: %s", fmt.Sprintf(format, a...), str)
 	return err
 }
