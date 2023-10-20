@@ -58,6 +58,7 @@ import "C"
 
 import (
 	"fmt"
+	"runtime/cgo"
 	"unsafe"
 
 	"github.com/nomad-software/goat/tk/command"
@@ -73,10 +74,11 @@ func CommandWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int,
 		fmt.Printf("arg: %v\n", C.GoString(val))
 	}
 
-	payload := (*command.CallbackArgs)(clientData)
+	payload := (*command.CallbackPayload)(clientData)
 	fmt.Printf("unique data: %v\n", payload.UniqueData)
 
-	payload.Callback(payload)
+	callback := payload.Callback.Value().(command.Callback)
+	callback(payload)
 
 	return C.TCL_OK
 }
@@ -92,13 +94,15 @@ func main() {
 	// https://github.com/golang/go/issues/19835
 	fwdRef := (*[0]byte)(unsafe.Pointer(C.CommandWrapper))
 
-	fn := func(*command.CallbackArgs) {
+	fn := func(*command.CallbackPayload) {
 		fmt.Println("printing from inside the function.")
 	}
 
-	payload := &command.CallbackArgs{
+	handle := cgo.NewHandle(fn)
+
+	payload := &command.CallbackPayload{
 		UniqueData: "yolo",
-		Callback:   fn,
+		Callback:   handle,
 	}
 
 	cpayload := C.ClientData(payload)
