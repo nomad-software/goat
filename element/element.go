@@ -16,7 +16,7 @@ type Element interface {
 	GetType() string
 }
 
-// ElementImpl provides a base implementation of the element.
+// ElementImpl provides a base implementation of an element.
 type ElementImpl struct {
 	parent       Element
 	overriddenID string

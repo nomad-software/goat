@@ -7,7 +7,7 @@ import (
 
 // Window is the struct representing a window.
 type Window struct {
-	element.ElementImpl
+	element.UIElementImpl
 }
 
 // New creates a new window.
@@ -28,7 +28,12 @@ func New(parent element.Element) *Window {
 
 // SetSize sets the window size.
 func (w *Window) SetSize(width, height int) {
-	tk.Get().Eval("wm geometry %s %dx%d", w.GetID(), width, height)
+	tk.Get().Eval("wm geometry %s {%dx%d}", w.GetID(), width, height)
+}
+
+// SetGeometry sets the window size.
+func (w *Window) SetGeometry(width, height, x, y int) {
+	tk.Get().Eval("wm geometry %s {%dx%d+%d+%d}", w.GetID(), width, height, x, y)
 }
 
 // SetTitle sets the window title.

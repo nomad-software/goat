@@ -67,14 +67,14 @@ func new() *Tk {
 	if C.Tcl_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("interpreter cannot be initialised")
 		slog.Error(err.Error())
-		os.Exit(1)
+		tk.Destroy(1)
 	}
 
 	slog.Info("initialising the tk package")
 	if C.Tk_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("tk package cannot be initialised")
 		slog.Error(err.Error())
-		os.Exit(1)
+		tk.Destroy(1)
 	}
 
 	return tk
@@ -83,11 +83,19 @@ func new() *Tk {
 // Start starts the tk main loop.
 // This will immediately show the room window.
 func (tk *Tk) Start() {
-	slog.Info("starting the tk main loop")
+	slog.Info("starting tk main loop")
 	C.Tk_MainLoop() // This will block until the main window is closed.
 
-	slog.Info("freeing the interpreter")
+	slog.Info("exited tk main loop")
+	tk.Destroy(0)
+}
+
+// Destroy deletes the interpreter and cleans up its resources.
+func (tk *Tk) Destroy(code int) {
+	slog.Info("deleting the interpreter")
 	C.Tcl_DeleteInterp(tk.interpreter)
+
+	os.Exit(code)
 }
 
 // Eval passes the specified command to the interpreter for evaluation.
@@ -105,15 +113,21 @@ func (tk *Tk) Eval(format string, a ...any) {
 	if result == C.TCL_ERROR {
 		err := tk.getTclError("evaluation error")
 		slog.Error(err.Error())
-		os.Exit(1)
+		tk.Destroy(1)
 	}
+}
+
+// GetResult gets the interpreter result as a string.
+func (tk *Tk) GetResult() string {
+	result := C.Tcl_GetStringResult(tk.interpreter)
+	str := C.GoString(result)
+	return str
 }
 
 // createError reads the last result from the interpreter and returns it as
 // a normal Go error.
 func (tk *Tk) getTclError(format string, a ...any) error {
-	result := C.Tcl_GetStringResult(tk.interpreter)
-	str := C.GoString(result)
+	str := tk.GetResult()
 	err := fmt.Errorf("%s: %s", fmt.Sprintf(format, a...), str)
 	return err
 }
