@@ -16,7 +16,6 @@ func main() {
 
 	log.Debug("main win size: %d, %d", win.GetWidth(), win.GetHeight())
 	log.Debug("child win size: %d, %d", win2.GetWidth(), win2.GetHeight())
-
 	log.Debug("main win handle: %d", win.GetOSHandle())
 
 	win.Show()

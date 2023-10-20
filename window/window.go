@@ -33,7 +33,7 @@ func (w *MainWindow) Show() {
 
 // Window is the struct representing a window.
 type Window struct {
-	element.UIElementImpl
+	element.UIEle
 }
 
 // New creates a new window.

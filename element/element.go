@@ -16,8 +16,8 @@ type Element interface {
 	GetType() string
 }
 
-// ElementImpl provides a base implementation of an element.
-type ElementImpl struct {
+// Ele provides a base implementation of an element.
+type Ele struct {
 	parent       Element
 	overriddenID string
 	typ          string
@@ -26,12 +26,12 @@ type ElementImpl struct {
 
 // SetID sets and overrides the element id.
 // This should only be called in a constructor.
-func (e *ElementImpl) SetID(id string) {
+func (e *Ele) SetID(id string) {
 	e.overriddenID = id
 }
 
 // GetID gets the element id.
-func (e *ElementImpl) GetID() string {
+func (e *Ele) GetID() string {
 	if e.overriddenID != "" {
 		return e.overriddenID
 	}
@@ -51,22 +51,22 @@ func (e *ElementImpl) GetID() string {
 
 // SetParent sets the element parent.
 // This should only be called in a constructor.
-func (e *ElementImpl) SetParent(el Element) {
+func (e *Ele) SetParent(el Element) {
 	e.parent = el
 }
 
 // GetParent gets the element parent.
-func (e *ElementImpl) GetParent() Element {
+func (e *Ele) GetParent() Element {
 	return e.parent
 }
 
 // SetType sets the element type.
 // This should only be called in a constructor.
-func (e *ElementImpl) SetType(id string) {
+func (e *Ele) SetType(id string) {
 	e.typ = id
 }
 
 // GetType gets the element type.
-func (e *ElementImpl) GetType() string {
+func (e *Ele) GetType() string {
 	return e.typ
 }

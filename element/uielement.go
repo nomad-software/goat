@@ -26,14 +26,14 @@ type UIElement interface {
 	Raise(Element)
 }
 
-// UIElementImpl provides a base implementation of an ui element.
-type UIElementImpl struct {
-	ElementImpl
+// UIEle provides a base implementation of an ui element.
+type UIEle struct {
+	Ele
 }
 
 // GetClass gets the ui element class.
 // See [class] package for class names.
-func (e *UIElementImpl) GetClass() string {
+func (e *UIEle) GetClass() string {
 	tk.Get().Eval("%s cget -class ", e.GetID())
 
 	result := tk.Get().GetResult()
@@ -48,13 +48,13 @@ func (e *UIElementImpl) GetClass() string {
 
 // SetCursor sets the cursor of the ui element.
 // See [cursor] package for cursor names.
-func (e *UIElementImpl) SetCursor(cursor string) {
+func (e *UIEle) SetCursor(cursor string) {
 	tk.Get().Eval("%s configure -cursor {%s}", e.GetID(), cursor)
 }
 
 // GetCursor gets the cursor of the ui element.
 // See [cursor] package for cursor names.
-func (e *UIElementImpl) GetCursor() string {
+func (e *UIEle) GetCursor() string {
 	tk.Get().Eval("%s cget -cursor", e.GetID())
 	return tk.Get().GetResult()
 }
@@ -62,13 +62,13 @@ func (e *UIElementImpl) GetCursor() string {
 // Destroy removes the element from the UI and cleans up its resources.
 // Once destroyed you cannot refer to this ui element again or you will get a
 // bad path name error from the interpreter.
-func (e *UIElementImpl) Destroy() {
+func (e *UIEle) Destroy() {
 	tk.Get().Eval("destroy %s", e.GetID())
 	e.SetType("destroyed")
 }
 
 // GetWidth gets the width of the ui element.
-func (e *UIElementImpl) GetWidth() int {
+func (e *UIEle) GetWidth() int {
 	tk.Get().Eval("winfo width %s", e.GetID())
 	result := tk.Get().GetResult()
 
@@ -81,7 +81,7 @@ func (e *UIElementImpl) GetWidth() int {
 }
 
 // GetHeight gets the height of the ui element.
-func (e *UIElementImpl) GetHeight() int {
+func (e *UIEle) GetHeight() int {
 	tk.Get().Eval("winfo height %s", e.GetID())
 	result := tk.Get().GetResult()
 
@@ -94,7 +94,7 @@ func (e *UIElementImpl) GetHeight() int {
 }
 
 // GetOSHandle gets the OS specific window handle.
-func (e *UIElementImpl) GetOSHandle() int64 {
+func (e *UIEle) GetOSHandle() int64 {
 	tk.Get().Eval("winfo id %s", e.GetID())
 	result := tk.Get().GetResult()
 
