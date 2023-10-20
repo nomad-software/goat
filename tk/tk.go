@@ -12,11 +12,10 @@ import "C"
 
 import (
 	"fmt"
-	"log/slog"
 	"os"
 	"unsafe"
 
-	_ "github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/log"
 )
 
 // Tcl_CreateInterp
@@ -57,23 +56,23 @@ type Tk struct {
 // new creates a new instance of the interpreter.
 // This will end the program on any error.
 func new() *Tk {
-	slog.Info("creating new interpreter")
+	log.Info("creating new interpreter")
 
 	tk := &Tk{
 		interpreter: C.Tcl_CreateInterp(),
 	}
 
-	slog.Info("initialising interpreter")
+	log.Info("initialising interpreter")
 	if C.Tcl_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("interpreter cannot be initialised")
-		slog.Error(err.Error())
+		log.Error(err)
 		tk.Destroy(1)
 	}
 
-	slog.Info("initialising the tk package")
+	log.Info("initialising the tk package")
 	if C.Tk_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("tk package cannot be initialised")
-		slog.Error(err.Error())
+		log.Error(err)
 		tk.Destroy(1)
 	}
 
@@ -83,16 +82,16 @@ func new() *Tk {
 // Start starts the tk main loop.
 // This will immediately show the room window.
 func (tk *Tk) Start() {
-	slog.Info("starting tk main loop")
+	log.Info("starting tk main loop")
 	C.Tk_MainLoop() // This will block until the main window is closed.
 
-	slog.Info("exited tk main loop")
+	log.Info("exited tk main loop")
 	tk.Destroy(0)
 }
 
 // Destroy deletes the interpreter and cleans up its resources.
 func (tk *Tk) Destroy(code int) {
-	slog.Info("deleting the interpreter")
+	log.Info("deleting the interpreter")
 	C.Tcl_DeleteInterp(tk.interpreter)
 
 	os.Exit(code)
@@ -103,7 +102,7 @@ func (tk *Tk) Destroy(code int) {
 func (tk *Tk) Eval(format string, a ...any) {
 	cmd := fmt.Sprintf(format, a...)
 
-	slog.Debug("tcl", "", cmd)
+	log.Tcl(cmd)
 
 	cstr := C.CString(cmd)
 	defer C.free(unsafe.Pointer(cstr))
@@ -112,7 +111,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 
 	if result == C.TCL_ERROR {
 		err := tk.getTclError("evaluation error")
-		slog.Error(err.Error())
+		log.Error(err)
 		tk.Destroy(1)
 	}
 }

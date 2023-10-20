@@ -1,6 +1,11 @@
 package element
 
-import "github.com/nomad-software/goat/tk"
+import (
+	"strconv"
+
+	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/tk"
+)
 
 type UIElement interface {
 	GetClass() string
@@ -59,4 +64,30 @@ func (e *UIElementImpl) GetCursor() string {
 func (e *UIElementImpl) Destroy() {
 	tk.Get().Eval("destroy %s", e.GetID())
 	e.SetType("destroyed")
+}
+
+// GetWidth gets the width of the ui element.
+func (e *UIElementImpl) GetWidth() int {
+	tk.Get().Eval("winfo width %s", e.GetID())
+	result := tk.Get().GetResult()
+
+	width, err := strconv.Atoi(result)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return width
+}
+
+// GetHeight gets the height of the ui element.
+func (e *UIElementImpl) GetHeight() int {
+	tk.Get().Eval("winfo height %s", e.GetID())
+	result := tk.Get().GetResult()
+
+	height, err := strconv.Atoi(result)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return height
 }
