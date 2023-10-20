@@ -16,6 +16,7 @@ type UIElement interface {
 	Destroy()
 	GetWidth() int
 	GetHeight() int
+	GetHandle() int
 	GetCursorPos() []int
 	GetXPos(bool) int
 	GetYPos(bool) int
@@ -90,4 +91,22 @@ func (e *UIElementImpl) GetHeight() int {
 	}
 
 	return height
+}
+
+// GetOSHandle gets the OS specific window handle.
+func (e *UIElementImpl) GetOSHandle() int64 {
+	tk.Get().Eval("winfo id %s", e.GetID())
+	result := tk.Get().GetResult()
+
+	// Remove the 0x prefix.
+	if len(result) > 2 {
+		result = result[2:]
+	}
+
+	hwnd, err := strconv.ParseInt(result, 16, 0)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return hwnd
 }

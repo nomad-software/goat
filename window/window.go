@@ -5,6 +5,32 @@ import (
 	"github.com/nomad-software/goat/tk"
 )
 
+// init configures the environment.
+func init() {
+	tk.Get().Eval("encoding system utf-8")
+}
+
+// MainWindow is the struct representing the main window.
+type MainWindow struct {
+	Window
+}
+
+// GetMain gets the main window of the application.
+func GetMain() *MainWindow {
+	win := &MainWindow{}
+	win.SetID(".")
+	win.SetType("window")
+
+	return win
+}
+
+// Show shows the main window and starts the application.
+// This method should not be deferred in the main function or else it will
+// potentially trap panics in other parts of the program.
+func (w *MainWindow) Show() {
+	tk.Get().Start()
+}
+
 // Window is the struct representing a window.
 type Window struct {
 	element.UIElementImpl

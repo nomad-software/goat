@@ -7,7 +7,6 @@ import (
 
 func main() {
 	win := window.GetMain()
-	defer win.Show()
 
 	win.SetSize(1024, 768)
 	win.SetTitle("test")
@@ -15,5 +14,10 @@ func main() {
 	win2 := window.New(win)
 	win2.SetTitle("test2")
 
+	log.Debug("main win size: %d, %d", win.GetWidth(), win.GetHeight())
 	log.Debug("child win size: %d, %d", win2.GetWidth(), win2.GetHeight())
+
+	log.Debug("main win handle: %d", win.GetOSHandle())
+
+	win.Show()
 }
