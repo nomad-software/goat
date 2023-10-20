@@ -2,7 +2,6 @@ package command
 
 import (
 	"fmt"
-	"runtime/cgo"
 
 	"github.com/nomad-software/goat/element/hash"
 )
@@ -15,7 +14,7 @@ type Callback = func(*CallbackPayload)
 // relevant with data during the call.
 type CallbackPayload struct {
 	UniqueData string
-	Callback   cgo.Handle // Handle to a callback.
+	Callback   Callback
 	Event      Event
 	Dialog     Dialog
 }

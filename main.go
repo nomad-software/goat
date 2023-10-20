@@ -40,6 +40,7 @@ package main
 #cgo LDFLAGS: -ltk
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <tcl/tk.h>
 
 int CommandWrapper(ClientData clientData, Tcl_Interp* interp, int argc, char** argv);
@@ -50,8 +51,8 @@ int CommandWrapper(ClientData clientData, Tcl_Interp* interp, int argc, char** a
 	int CommandWrapper(ClientData clientData, Tcl_Interp* interp, int argc, char** argv);
 #endif
 
-static int RegisterTclCommand(Tcl_Interp* interp, char* name, int (*func)(ClientData, Tcl_Interp*, int, const char**), ClientData clientData) {
-    Tcl_CreateCommand(interp, name, func, clientData, NULL);
+static int RegisterTclCommand(Tcl_Interp* interp, char* name, int (*func)(ClientData, Tcl_Interp*, int, const char**), uintptr_t clientData) {
+    Tcl_CreateCommand(interp, name, func, (ClientData)clientData, NULL);
 	return TCL_OK;
 }*/
 import "C"
@@ -74,11 +75,10 @@ func CommandWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int,
 		fmt.Printf("arg: %v\n", C.GoString(val))
 	}
 
-	payload := (*command.CallbackPayload)(clientData)
+	payload := cgo.Handle(clientData).Value().(*command.CallbackPayload)
 	fmt.Printf("unique data: %v\n", payload.UniqueData)
 
-	callback := payload.Callback.Value().(command.Callback)
-	callback(payload)
+	payload.Callback(payload)
 
 	return C.TCL_OK
 }
@@ -98,16 +98,14 @@ func main() {
 		fmt.Println("printing from inside the function.")
 	}
 
-	handle := cgo.NewHandle(fn)
-
 	payload := &command.CallbackPayload{
 		UniqueData: "yolo",
-		Callback:   handle,
+		Callback:   fn,
 	}
 
-	cpayload := C.ClientData(payload)
+	handle := C.uintptr_t(cgo.NewHandle(payload))
 
-	ret := C.RegisterTclCommand(interpreter, name, fwdRef, cpayload)
+	ret := C.RegisterTclCommand(interpreter, name, fwdRef, handle)
 	if ret != C.TCL_OK {
 		fmt.Println("Failed to register Tcl command")
 		return
