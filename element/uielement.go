@@ -1,7 +1,6 @@
 package element
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
 
@@ -227,11 +226,8 @@ func (e *UIEle) Raise(el Element) {
 	}
 }
 
-func (e *UIEle) Bind(binding string, fn command.Callback) {
+func (e *UIEle) Bind(binding string, callback command.Callback) {
 	name := command.GenerateName(binding, e.GetID())
-	// proc, deleteProc := command.CreateProcedure(fn)
-
-	// tk.Get.CreateCommand(name, proc, data, deleteProc)
-
-	fmt.Printf("%v\n", name)
+	tk.Get().CreateCommand(name, callback)
+	tk.Get().Eval("bind %s {%s} {%s %%b %%k %%x %%y %%D %%K %%X %%Y}", e.GetID(), binding, name)
 }

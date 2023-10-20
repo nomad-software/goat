@@ -6,22 +6,33 @@ package tk
 #cgo LDFLAGS: -ltk
 
 #include <stdlib.h>
+#include <stdint.h>
 #include <tcl/tk.h>
 
-int TclCustomCommand(void* clientData, Tcl_Interp* interp, int argc, const char* argv) {
+#if _WIN32
+	int __declspec(dllexport) procWrapper(ClientData clientData, Tcl_Interp* interp, int argc, char** argv);
+	void __declspec(dllexport) delWrapper(ClientData clientData);
+#else
+	int procWrapper(ClientData clientData, Tcl_Interp* interp, int argc, char** argv);
+	void delWrapper(ClientData clientData);
+#endif
 
-    return TCL_OK;
+static void RegisterTclCommand(Tcl_Interp* interp, char* name, int (*proc)(ClientData, Tcl_Interp*, int, const char**), uintptr_t clientData, void (*del)(ClientData)) {
+    Tcl_CreateCommand(interp, name, proc, (ClientData)clientData, del);
 }
+
 */
 import "C"
 
 import (
 	"fmt"
 	"os"
+	"runtime/cgo"
 	"strconv"
 	"unsafe"
 
 	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/tk/command"
 )
 
 // Tcl_CreateInterp
@@ -142,16 +153,94 @@ func (tk *Tk) GetIntResult() int {
 	return i
 }
 
-func (tk *Tk) CreateCommand(name string) {
-	cname := C.CString(name)
+// CreateCommand creates a custom command in the interpreter.
+func (tk *Tk) CreateCommand(name string, callback command.Callback) {
+	log.Debug("creating command {%s}", name)
 
-	C.Tcl_CreateCommand(tk.interpreter, cname, C.TclCustomCommand, nil, nil)
+	payload := &command.CallbackPayload{
+		Name:     name,
+		Callback: callback,
+	}
+
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+	cpayload := C.uintptr_t(cgo.NewHandle(payload))
+
+	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cpayload, delWrapper)
 }
 
-// createError reads the last result from the interpreter and returns it as
+// getTclError reads the last result from the interpreter and returns it as
 // a normal Go error.
 func (tk *Tk) getTclError(format string, a ...any) error {
 	str := tk.GetStrResult()
 	err := fmt.Errorf("%s: %s", fmt.Sprintf(format, a...), str)
 	return err
+}
+
+// procWrapper is an exported C ABI function to make interop a little easier.
+// This function is called when a bound event fires.
+//
+//export procWrapper
+func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, argv **C.char) C.int {
+	values := unsafe.Slice(argv, argc)
+	payload := cgo.Handle(clientData).Value().(*command.CallbackPayload)
+
+	if argc == 9 {
+		payload.Event.MouseButton = readIntArg(values, 1)
+		payload.Event.KeyCode = readIntArg(values, 2)
+		payload.Event.X = readIntArg(values, 3)
+		payload.Event.Y = readIntArg(values, 4)
+		payload.Event.Wheel = readIntArg(values, 5)
+		payload.Event.Key = readStringArg(values, 6)
+		payload.Event.ScreenX = readIntArg(values, 7)
+		payload.Event.ScreenY = readIntArg(values, 8)
+
+	} else if argc == 2 {
+		payload.Dialog.Font = readStringArg(values, 2)
+	}
+
+	payload.Callback(payload)
+
+	return C.TCL_OK
+}
+
+// delWrapper is an exported C ABI function to make interop a little easier.
+// This function is called when a command is deleted.
+//
+//export delWrapper
+func delWrapper(clientData unsafe.Pointer) {
+	handle := cgo.Handle(clientData)
+	payload := handle.Value().(*command.CallbackPayload)
+	log.Debug("deleting command {%s}", payload.Name)
+	handle.Delete()
+}
+
+// readIntArg is a helper function to read int based arguments passed to the
+// procWrapper.
+func readIntArg(argv []*C.char, index int) int {
+	val := C.GoString(argv[index])
+	if val == "??" {
+		return 0
+	}
+
+	i, err := strconv.Atoi(val)
+	if err != nil {
+		log.Error(err)
+		return 0
+	}
+
+	return i
+}
+
+// readIntArg is a helper function to read string based arguments passed to the
+// procWrapper.
+func readStringArg(argv []*C.char, index int) string {
+	val := C.GoString(argv[index])
+	if val == "??" {
+		return ""
+	}
+	return val
 }
