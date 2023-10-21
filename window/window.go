@@ -8,6 +8,8 @@ import (
 )
 
 // Window is the struct representing a window.
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/toplevel.html
 type Window struct {
 	ui.Ele
 }

@@ -370,7 +370,7 @@ func (e *Ele) Raise(el element.Element) {
 // the type field may be omitted; it will default to KeyPress. For example,
 // <Control-comma> is equivalent to <Control-KeyPress-comma>.
 //
-// For information see: https://www.tcl.tk/man/tcl8.6/TkCmd/bind.html
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/bind.html
 func (e *Ele) Bind(binding string, callback command.Callback) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
