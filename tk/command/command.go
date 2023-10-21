@@ -13,10 +13,11 @@ type Callback = func(*CallbackPayload)
 // This is automatically loaded with data before the call and is populated
 // relevant with data during the call.
 type CallbackPayload struct {
-	Name     string
-	Callback Callback
-	Event    Event
-	Dialog   Dialog
+	CommandName string
+	ElementID   string
+	Callback    Callback
+	Event       Event
+	Dialog      Dialog
 }
 
 // Event is the part of the payload that contains information about any events

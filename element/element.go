@@ -6,6 +6,11 @@ import (
 	"github.com/nomad-software/goat/element/hash"
 )
 
+var (
+	// Enforce that Ele implements Element.
+	_ Element = &Ele{}
+)
+
 // Element defines an element at the lowest level.
 type Element interface {
 	SetID(string)

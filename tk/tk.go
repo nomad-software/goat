@@ -27,6 +27,7 @@ import "C"
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"runtime/cgo"
 	"strconv"
 	"unsafe"
@@ -35,24 +36,14 @@ import (
 	"github.com/nomad-software/goat/tk/command"
 )
 
-// Tcl_CreateInterp
-// Tcl_Init
-// Tcl_DeleteInterp
+var (
+	// Global interpreter instance.
+	instance *Tk
 
-// Tk_Init
-// Tk_MainLoop
-
-// Tcl_EvalEx
-// Tcl_GetStringResult
-// Tcl_SetResult
-
-// Tcl_SetVar
-// Tcl_GetVar
-// Tcl_UnsetVar
-// Tcl_CreateCommand
-// Tcl_DeleteCommand
-
-var instance *Tk // Global interpreter instance.
+	Binding      = regexp.MustCompile(`^<.*?>$`)
+	Event        = regexp.MustCompile(`^<.*?>$`)
+	VirtualEvent = regexp.MustCompile(`^<<.*?>>$`)
+)
 
 // Get gets the global instance of the interpreter.
 func Get() *Tk {
@@ -155,11 +146,11 @@ func (tk *Tk) GetIntResult() int {
 
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(name string, callback command.Callback) {
-	log.Debug("creating command {%s}", name)
+	log.Debug("create command {%s}", name)
 
 	payload := &command.CallbackPayload{
-		Name:     name,
-		Callback: callback,
+		CommandName: name,
+		Callback:    callback,
 	}
 
 	cname := C.CString(name)
@@ -170,6 +161,20 @@ func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 	cpayload := C.uintptr_t(cgo.NewHandle(payload))
 
 	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cpayload, delWrapper)
+}
+
+// DeleteCommand deletes the specified command from the interpreter.
+func (tk *Tk) DeleteCommand(name string) {
+	log.Debug("delete command {%s}", name)
+
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	status := C.Tcl_DeleteCommand(tk.interpreter, cname)
+	if status != C.TCL_OK {
+		err := tk.getTclError("delete command failed")
+		log.Error(err)
+	}
 }
 
 // getTclError reads the last result from the interpreter and returns it as
@@ -188,15 +193,16 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 	values := unsafe.Slice(argv, argc)
 	payload := cgo.Handle(clientData).Value().(*command.CallbackPayload)
 
-	if argc == 9 {
-		payload.Event.MouseButton = readIntArg(values, 1)
-		payload.Event.KeyCode = readIntArg(values, 2)
-		payload.Event.X = readIntArg(values, 3)
-		payload.Event.Y = readIntArg(values, 4)
-		payload.Event.Wheel = readIntArg(values, 5)
-		payload.Event.Key = readStringArg(values, 6)
-		payload.Event.ScreenX = readIntArg(values, 7)
-		payload.Event.ScreenY = readIntArg(values, 8)
+	if argc == 10 {
+		payload.ElementID = readStringArg(values, 1)
+		payload.Event.MouseButton = readIntArg(values, 2)
+		payload.Event.KeyCode = readIntArg(values, 3)
+		payload.Event.X = readIntArg(values, 4)
+		payload.Event.Y = readIntArg(values, 5)
+		payload.Event.Wheel = readIntArg(values, 6)
+		payload.Event.Key = readStringArg(values, 7)
+		payload.Event.ScreenX = readIntArg(values, 8)
+		payload.Event.ScreenY = readIntArg(values, 9)
 
 	} else if argc == 2 {
 		payload.Dialog.Font = readStringArg(values, 2)
@@ -212,10 +218,7 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 //
 //export delWrapper
 func delWrapper(clientData unsafe.Pointer) {
-	handle := cgo.Handle(clientData)
-	payload := handle.Value().(*command.CallbackPayload)
-	log.Debug("deleting command {%s}", payload.Name)
-	handle.Delete()
+	cgo.Handle(clientData).Delete()
 }
 
 // readIntArg is a helper function to read int based arguments passed to the

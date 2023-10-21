@@ -2,12 +2,13 @@ package window
 
 import (
 	"github.com/nomad-software/goat/element"
+	"github.com/nomad-software/goat/element/ui"
 	"github.com/nomad-software/goat/tk"
 )
 
 // Window is the struct representing a window.
 type Window struct {
-	element.UIEle
+	ui.Ele
 }
 
 // New creates a new window.
@@ -41,4 +42,14 @@ func (w *Window) SetTitle(title string) {
 // WaitForVisibility waits until this window is visible before continuing.
 func (w *Window) WaitForVisibility() {
 	tk.Get().Eval("tkwait visibility %s", w.GetID())
+}
+
+// SetOpacity sets the window opacity if it's supported.
+func (w *Window) SetOpacity(opacity float64) {
+	tk.Get().Eval("wm attributes %s -alpha %v", w.GetID(), opacity)
+}
+
+// SetFullScreen sets the window to be fullscreen or not.
+func (w *Window) SetFullScreen(fullscreen bool) {
+	tk.Get().Eval("wm attributes %s -fullscreen %v", w.GetID(), fullscreen)
 }

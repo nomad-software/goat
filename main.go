@@ -4,21 +4,22 @@ import (
 	"fmt"
 
 	"github.com/nomad-software/goat/app"
+	"github.com/nomad-software/goat/app/theme"
 	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk/command"
 )
 
 func main() {
 	app := app.New()
+	app.SetTheme(theme.Clam)
 	main := app.GetMainWindow()
 
 	main.SetSize(1024, 768)
 	main.SetTitle("test")
+	main.WaitForVisibility()
 
-	// win2 := window.New(main)
-	// win2.SetTitle("test2")
-	// win2.Raise(main)
-	// win2.Focus(true)
+	log.Debug("screen width: %v", main.GetScreenWidth())
+	log.Debug("screen height: %v", main.GetScreenHeight())
 
 	log.Debug("x pos: %v", main.GetXPos(false))
 	log.Debug("x pos: %v", main.GetXPos(true))
@@ -28,6 +29,7 @@ func main() {
 
 	main.Bind("<Button-1>", func(pl *command.CallbackPayload) {
 		fmt.Printf("%#v\n", pl)
+		// app.Exit()
 	})
 
 	app.Start()
