@@ -2,12 +2,12 @@ package main
 
 import (
 	"github.com/nomad-software/goat/app"
-	"github.com/nomad-software/goat/app/theme"
+	"github.com/nomad-software/goat/element/color"
 )
 
 func main() {
 	app := app.New()
-	app.SetTheme(theme.Clam)
+	// app.SetTheme(theme.Clam)
 	main := app.GetMainWindow()
 
 	main.SetSize(1024, 768)
@@ -15,6 +15,8 @@ func main() {
 	main.SetMinSize(200, 200)
 	main.SetMaxSize(1024, 768)
 	main.WaitForVisibility()
+
+	main.SetBackgroundColor(color.Aquamarine)
 
 	// log.Debug("screen width: %v", main.GetScreenWidth())
 	// log.Debug("screen height: %v", main.GetScreenHeight())

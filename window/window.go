@@ -123,3 +123,9 @@ func (w *Window) IsBelow(other *Window) bool {
 func (w *Window) Wait() {
 	tk.Get().Eval("tkwait window %s", w.GetID())
 }
+
+// SetBackgroundColor sets the background color.
+// See [element.color] for color names.
+func (w *Window) SetBackgroundColor(color string) {
+	tk.Get().Eval("%s configure -background %s", w.GetID(), color)
+}
