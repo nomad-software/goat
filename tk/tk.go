@@ -144,6 +144,12 @@ func (tk *Tk) GetIntResult() int {
 	return i
 }
 
+// GetBoolResult gets the interpreter result as a boolean.
+func (tk *Tk) GetBoolResult() bool {
+	i := tk.GetIntResult()
+	return i == 1
+}
+
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)
