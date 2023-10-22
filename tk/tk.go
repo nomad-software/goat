@@ -129,6 +129,8 @@ func (tk *Tk) GetStrResult() string {
 	result := C.Tcl_GetStringResult(tk.interpreter)
 	str := C.GoString(result)
 
+	log.Debug("interpreter result: %v", str)
+
 	return str
 }
 

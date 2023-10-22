@@ -11,34 +11,6 @@ import (
 	"github.com/nomad-software/goat/tk/command"
 )
 
-var (
-	// Enforce that Ele implements Element.
-	_ Element = &Ele{}
-)
-
-type Element interface {
-	GetClass() string
-	SetCursor(cursor string)
-	GetCursor() string
-	Bind(binding string, callback command.Callback)
-	UnBind(binding string)
-	Destroy()
-	GetWidth() int
-	GetHeight() int
-	GetOSHandle() int64
-	GetCursorPos() []int
-	GetCursorXPos() int
-	GetCursorYPos() int
-	GetScreenWidth() int
-	GetScreenHeight() int
-	GetXPos(relativeToParent bool) int
-	GetYPos(relativeToParent bool) int
-	GenerateEvent(event string)
-	Focus(force bool)
-	Lower(element element.Element)
-	Raise(element element.Element)
-}
-
 // Ele provides a base implementation of an ui element.
 type Ele struct {
 	element.Ele
@@ -59,6 +31,13 @@ func (e *Ele) GetClass() string {
 	return result
 }
 
+// GetStyle gets the ui element class.
+// See [element.style] for style names.
+func (e *Ele) GetStyle() string {
+	tk.Get().Eval("%s cget -style ", e.GetID())
+	return tk.Get().GetStrResult()
+}
+
 // SetCursor sets the cursor of the ui element.
 // See [element.cursor] for cursor names.
 func (e *Ele) SetCursor(cursor string) {
@@ -70,6 +49,23 @@ func (e *Ele) SetCursor(cursor string) {
 func (e *Ele) GetCursor() string {
 	tk.Get().Eval("%s cget -cursor", e.GetID())
 	return tk.Get().GetStrResult()
+}
+
+// SetKeyboadFocus sets that this ui element accepts the focus during keyboard
+// traversal.
+func (e *Ele) SetKeyboadFocus(focus bool) {
+	val := 0
+	if focus {
+		val = 1
+	}
+	tk.Get().Eval("%s configure -takefocus %d", e.GetID(), val)
+}
+
+// GetKeyboadFocus returns true if this ui element accepts the focus during
+// keyboard traversal.
+func (e *Ele) GetKeyboadFocus() bool {
+	tk.Get().Eval("%s cget -takefocus", e.GetID())
+	return tk.Get().GetBoolResult()
 }
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once

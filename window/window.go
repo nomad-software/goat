@@ -27,6 +27,13 @@ func New(parent element.Element) *Window {
 	return win
 }
 
+// GetStyle gets the ui element class.
+// Override and fake this for window because style is not supported.
+// See [element.style] for style names.
+func (w *Window) GetStyle() string {
+	return "Toplevel"
+}
+
 // SetSize sets the window size.
 func (w *Window) SetSize(width, height int) {
 	tk.Get().Eval("wm geometry %s {%dx%d}", w.GetID(), width, height)

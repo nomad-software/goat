@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/color"
+	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/window"
 )
 
 func main() {
@@ -17,6 +19,15 @@ func main() {
 	main.WaitForVisibility()
 
 	main.SetBackgroundColor(color.Aquamarine)
+
+	child := window.New(main)
+	child.SetTitle("child")
+	child.WaitForVisibility()
+
+	child.SetKeyboadFocus(true)
+	log.Debug("keyboard focus: %v", child.GetKeyboadFocus())
+	log.Debug("style: %v", main.GetStyle())
+	log.Debug("style: %v", child.GetStyle())
 
 	// log.Debug("screen width: %v", main.GetScreenWidth())
 	// log.Debug("screen height: %v", main.GetScreenHeight())
