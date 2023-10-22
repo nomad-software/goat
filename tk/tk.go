@@ -26,7 +26,6 @@ import "C"
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 	"runtime/cgo"
 	"strconv"
@@ -74,35 +73,35 @@ func new() *Tk {
 	if C.Tcl_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("interpreter cannot be initialised")
 		log.Error(err)
-		tk.Destroy(1)
+		panic("cannot continue")
 	}
 
 	log.Info("initialising the tk package")
 	if C.Tk_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("tk package cannot be initialised")
 		log.Error(err)
-		tk.Destroy(1)
+		panic("cannot continue")
 	}
 
 	return tk
 }
 
-// Start starts the tk main loop.
-// This will immediately show the room window.
+// Start starts the app main loop. This will immediately show the main window
+// and will block until the main window is closed. When this method exits, the
+// interpreter is destroyed.
 func (tk *Tk) Start() {
 	log.Info("starting tk main loop")
-	C.Tk_MainLoop() // This will block until the main window is closed.
+	C.Tk_MainLoop()
 
 	log.Info("exited tk main loop")
-	tk.Destroy(0)
+	tk.Destroy()
 }
 
 // Destroy deletes the interpreter and cleans up its resources.
-func (tk *Tk) Destroy(code int) {
+func (tk *Tk) Destroy() {
 	log.Info("deleting the interpreter")
 	C.Tcl_DeleteInterp(tk.interpreter)
-
-	os.Exit(code)
+	instance = nil
 }
 
 // Eval passes the specified command to the interpreter for evaluation.
@@ -120,7 +119,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 	if result == C.TCL_ERROR {
 		err := tk.getTclError("evaluation error")
 		log.Error(err)
-		tk.Destroy(1)
+		panic("cannot continue")
 	}
 }
 

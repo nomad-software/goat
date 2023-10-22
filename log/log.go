@@ -5,38 +5,50 @@ import (
 	"os"
 	"runtime"
 	"strconv"
+	"strings"
 )
+
+func show() bool {
+	if b, ok := os.LookupEnv("SHOW_LOG"); ok {
+		if ok, err := strconv.ParseBool(b); err == nil {
+			return ok
+		}
+	}
+	return false
+}
 
 // Info logs useful information.
 func Info(format string, a ...any) {
-	fmt.Printf("INFO  "+format+"\n", a...)
+	if show() {
+		fmt.Printf("INFO  "+format+"\n", a...)
+	}
 }
 
 // Tcl logs tcl commands when the environment variable is set.
 func Tcl(cmd string) {
-	if b, ok := os.LookupEnv("LOG_TCL"); ok {
-		if ok, err := strconv.ParseBool(b); err == nil {
-			if ok {
-				fmt.Printf("TCL   %s\n", cmd)
-			}
-		}
+	if show() {
+		fmt.Printf("TCL   %s\n", cmd)
 	}
 }
 
 // Debug logs useful debug information.
 func Debug(format string, a ...any) {
-	fmt.Printf("DEBUG "+format+"\n", a...)
+	if show() {
+		fmt.Printf("DEBUG "+format+"\n", a...)
+	}
 }
 
 // Error prints information about the passed error.
 func Error(err error) {
-	fmt.Printf("ERROR %s\n", err)
-
-	_, file, line, _ := runtime.Caller(1)
-	fmt.Printf("      - file: %s\n", file)
-	fmt.Printf("      - line: %d\n", line)
-
-	_, file, line, _ = runtime.Caller(2)
-	fmt.Printf("      - caller: %s\n", file)
-	fmt.Printf("      - line: %d\n", line)
+	if show() {
+		fmt.Printf("ERROR %s\n", err)
+		for i := 1; i <= 10; i++ {
+			_, file, line, _ := runtime.Caller(i)
+			if !strings.Contains(file, "goat") {
+				break
+			}
+			fmt.Printf("      - file: %s\n", file)
+			fmt.Printf("      - line: %d\n", line)
+		}
+	}
 }

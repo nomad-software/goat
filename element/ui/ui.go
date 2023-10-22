@@ -370,7 +370,7 @@ func (e *Ele) Raise(el element.Element) {
 func (e *Ele) Bind(binding string, callback command.Callback) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	name := command.GenerateName(binding, e.GetID())
@@ -383,7 +383,7 @@ func (e *Ele) Bind(binding string, callback command.Callback) {
 func (e *Ele) UnBind(binding string) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	name := command.GenerateName(binding, e.GetID())
@@ -396,7 +396,7 @@ func (e *Ele) UnBind(binding string) {
 func (e *Ele) GenerateEvent(event string) {
 	if ok := tk.Event.MatchString(event); !ok {
 		log.Error(fmt.Errorf("invalid event: %s", event))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	tk.Get().Eval("event generate %s {%s}", e.GetID(), event)

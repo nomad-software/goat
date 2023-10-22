@@ -2,9 +2,11 @@ package app
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/tk/command"
 	"github.com/nomad-software/goat/window"
 )
 
@@ -33,8 +35,8 @@ func (w *App) GetMainWindow() *window.Window {
 }
 
 // Start shows the main window and starts the application.
-// This method should not be deferred in the main function or else it will
-// potentially trap panics in other parts of the program.
+// This method will block and should not be deferred in the main function or
+// else it will potentially trap panics in other parts of the program.
 func (w *App) Start() {
 	tk.Get().Start()
 }
@@ -43,6 +45,13 @@ func (w *App) Start() {
 // See [app.theme] for theme names.
 func (w *App) SetTheme(theme string) {
 	tk.Get().Eval("ttk::style theme use {%s}", theme)
+}
+
+// GetTheme gets the theme of the app.
+// See [app.theme] for theme names.
+func (w *App) GetTheme() string {
+	tk.Get().Eval("ttk::style theme use ")
+	return tk.Get().GetStrResult()
 }
 
 // Update is used to bring the application 'up to date' by entering the event
@@ -60,12 +69,12 @@ func (w *App) Update() {
 func (w *App) CreateVirtualEvent(event, binding string) {
 	if ok := tk.VirtualEvent.MatchString(event); !ok {
 		log.Error(fmt.Errorf("invalid virtual event: %s", event))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	tk.Get().Eval("event add {%s} {%s}", event, binding)
@@ -80,13 +89,13 @@ func (w *App) CreateVirtualEvent(event, binding string) {
 func (w *App) DeleteVirtualEvent(event, binding string) {
 	if ok := tk.VirtualEvent.MatchString(event); !ok {
 		log.Error(fmt.Errorf("invalid virtual event: %s", event))
-		tk.Get().Destroy(1)
+		return
 	}
 
 	if binding != "" {
 		if ok := tk.Binding.MatchString(binding); !ok {
 			log.Error(fmt.Errorf("invalid binding: %s", binding))
-			tk.Get().Destroy(1)
+			return
 		}
 
 		tk.Get().Eval("event delete {%s} {%s}", event, binding)
@@ -94,6 +103,18 @@ func (w *App) DeleteVirtualEvent(event, binding string) {
 	} else {
 		tk.Get().Eval("event delete {%s}", event)
 	}
+}
+
+// CreateIdleCallback sets a callback to be executed after a delay and after
+// processing all other events. The callback is executed only once and
+// discarded. This is useful for refreshing the GUI at regular intervals when
+// monitoring something or to schedule a future action. The callback executed
+// by this method is not asynchronous and could halt the app from processing
+// events if it takes a long time to finish.
+func (w *App) CreateIdleCallback(dur time.Duration, callback command.Callback) {
+	name := command.GenerateName("idle")
+	tk.Get().CreateCommand(name, callback)
+	tk.Get().Eval("after idle [list after {%d} {%s}]", dur.Milliseconds(), name)
 }
 
 // Exit closes the app.
