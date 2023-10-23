@@ -155,7 +155,7 @@ func (tk *Tk) GetBoolResult() bool {
 func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)
 
-	payload := &command.CallbackPayload{
+	data := &command.CallbackData{
 		CommandName: name,
 		Callback:    callback,
 	}
@@ -165,9 +165,9 @@ func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 
 	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
 	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
-	cpayload := C.uintptr_t(cgo.NewHandle(payload))
+	cdata := C.uintptr_t(cgo.NewHandle(data))
 
-	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cpayload, delWrapper)
+	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
 }
 
 // DeleteCommand deletes the specified command from the interpreter.
@@ -198,24 +198,24 @@ func (tk *Tk) getTclError(format string, a ...any) error {
 //export procWrapper
 func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, argv **C.char) C.int {
 	values := unsafe.Slice(argv, argc)
-	payload := cgo.Handle(clientData).Value().(*command.CallbackPayload)
+	data := cgo.Handle(clientData).Value().(*command.CallbackData)
 
 	if argc == 10 {
-		payload.ElementID = readStringArg(values, 1)
-		payload.Event.MouseButton = readIntArg(values, 2)
-		payload.Event.KeyCode = readIntArg(values, 3)
-		payload.Event.X = readIntArg(values, 4)
-		payload.Event.Y = readIntArg(values, 5)
-		payload.Event.Wheel = readIntArg(values, 6)
-		payload.Event.Key = readStringArg(values, 7)
-		payload.Event.ScreenX = readIntArg(values, 8)
-		payload.Event.ScreenY = readIntArg(values, 9)
+		data.ElementID = readStringArg(values, 1)
+		data.Event.MouseButton = readIntArg(values, 2)
+		data.Event.KeyCode = readIntArg(values, 3)
+		data.Event.X = readIntArg(values, 4)
+		data.Event.Y = readIntArg(values, 5)
+		data.Event.Wheel = readIntArg(values, 6)
+		data.Event.Key = readStringArg(values, 7)
+		data.Event.ScreenX = readIntArg(values, 8)
+		data.Event.ScreenY = readIntArg(values, 9)
 
 	} else if argc == 2 {
-		payload.Dialog.Font = readStringArg(values, 2)
+		data.Dialog.Font = readStringArg(values, 2)
 	}
 
-	payload.Callback(payload)
+	data.Callback(data)
 
 	return C.TCL_OK
 }

@@ -234,8 +234,8 @@ func (e *Ele) Raise(el element.Element) {
 }
 
 // Bind binds a callback to a specific binding.
-// Once the callback is called, the payload argument contains information about
-// the event and data from the ui element.
+// Once the callback is called, the argument contains information about the
+// event and data from the ui element.
 //
 // # Bindings
 //

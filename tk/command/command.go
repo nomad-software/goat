@@ -7,12 +7,12 @@ import (
 )
 
 // Callback is the main command callback that is specified for a command.
-type Callback = func(*CallbackPayload)
+type Callback = func(*CallbackData)
 
-// CallbackPayload is the main payload of the callback.
+// CallbackData is the data which is pass to the callback when invoked.
 // This is automatically loaded with data before the call and is populated
 // relevant with data during the call.
-type CallbackPayload struct {
+type CallbackData struct {
 	CommandName string
 	ElementID   string
 	Callback    Callback
@@ -20,8 +20,8 @@ type CallbackPayload struct {
 	Dialog      Dialog
 }
 
-// Event is the part of the payload that contains information about any events
-// that have taken place.
+// Event is the part of the callback data that contains information about any
+// events that have taken place.
 type Event struct {
 	MouseButton int
 	KeyCode     int
@@ -33,8 +33,8 @@ type Event struct {
 	ScreenY     int
 }
 
-// Dialog is the part of the payload that contain information about dialog
-// interaction.
+// Dialog is the part of the callback data that contain information about
+// dialog interaction.
 type Dialog struct {
 	Font string
 }

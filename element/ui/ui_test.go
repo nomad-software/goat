@@ -117,7 +117,7 @@ func TestBind(t *testing.T) {
 	el.SetID(".")
 	el.SetType("window")
 
-	el.Bind("<<Modified>>", func(data *command.CallbackPayload) {
+	el.Bind("<<Modified>>", func(data *command.CallbackData) {
 		assert.Equal(t, ".", data.ElementID)
 	})
 
@@ -129,7 +129,7 @@ func TestUnBind(t *testing.T) {
 	el.SetID(".")
 	el.SetType("window")
 
-	el.Bind("<<Modified>>", func(data *command.CallbackPayload) {
+	el.Bind("<<Modified>>", func(data *command.CallbackData) {
 		assert.Fail(t, "this should have been unbound")
 	})
 

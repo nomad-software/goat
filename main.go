@@ -41,8 +41,8 @@ func main() {
 	// log.Debug("y pos: %v", main.GetYPos(false))
 	// log.Debug("y pos: %v", main.GetYPos(true))
 	//
-	main.Bind("<Button-1>", func(pl *command.CallbackPayload) {
-		fmt.Printf("%#v\n", pl)
+	main.Bind("<Button-1>", func(data *command.CallbackData) {
+		fmt.Printf("%#v\n", data)
 		app.Exit()
 	})
 
