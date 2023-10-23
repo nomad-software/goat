@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestElementOverrideID(t *testing.T) {
+func TestOverrideID(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -15,14 +15,14 @@ func TestElementOverrideID(t *testing.T) {
 	assert.Equal(t, ".", el.GetID())
 }
 
-func TestElementGenerateID(t *testing.T) {
+func TestGenerateID(t *testing.T) {
 	el := &Ele{}
 	el.SetType("window")
 
 	assert.Regexp(t, `^\.window-[A-Z0-9]{1,8}$`, el.GetID())
 }
 
-func TestElementMainWindowParent(t *testing.T) {
+func TestMainWindowParent(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -35,7 +35,7 @@ func TestElementMainWindowParent(t *testing.T) {
 	assert.Regexp(t, `^\.window-[A-Z0-9]{1,8}$`, child.GetID())
 }
 
-func TestElementParent(t *testing.T) {
+func TestParent(t *testing.T) {
 	el := &Ele{}
 	el.SetType("window")
 

@@ -1,9 +1,12 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/color"
 	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/tk/command"
 	"github.com/nomad-software/goat/window"
 )
 
@@ -38,10 +41,10 @@ func main() {
 	// log.Debug("y pos: %v", main.GetYPos(false))
 	// log.Debug("y pos: %v", main.GetYPos(true))
 	//
-	// main.Bind("<Button-1>", func(pl *command.CallbackPayload) {
-	// 	fmt.Printf("%#v\n", pl)
-	// 	// app.Exit()
-	// })
+	main.Bind("<Button-1>", func(pl *command.CallbackPayload) {
+		fmt.Printf("%#v\n", pl)
+		app.Exit()
+	})
 
 	app.Start()
 }

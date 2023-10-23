@@ -9,7 +9,7 @@ import (
 func TestRandomHash(t *testing.T) {
 	hash := Generate()
 
-	assert.Len(t, hash, 8)
+	assert.Regexp(t, `^[A-Z0-9]{1,8}$`, hash)
 }
 
 func TestDeterministicHash(t *testing.T) {
