@@ -84,3 +84,26 @@ func TestTopmost(t *testing.T) {
 
 	assert.True(t, win.GetTopmost())
 }
+
+func TestIconfiy(t *testing.T) {
+	win := New(nil)
+	win.SetIconify(true)
+	win.SetIconify(false)
+}
+
+func TestMinMaxSize(t *testing.T) {
+	win := New(nil)
+
+	win.SetMinSize(100, 100)
+	win.SetMaxSize(200, 200)
+
+	win.SetSize(250, 250)
+	win.Update()
+	assert.Equal(t, 200, win.GetWidth())
+	assert.Equal(t, 200, win.GetHeight())
+
+	win.SetSize(50, 50)
+	win.Update()
+	assert.Equal(t, 100, win.GetWidth())
+	assert.Equal(t, 100, win.GetHeight())
+}
