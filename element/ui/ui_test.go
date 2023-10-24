@@ -85,8 +85,7 @@ func TestPosition(t *testing.T) {
 	el.SetID(".")
 	el.SetType("window")
 
-	// Update the element so it registers its position.
-	el.Raise(nil)
+	el.Update()
 
 	assert.Greater(t, el.GetXPos(false), 0)
 	assert.Greater(t, el.GetYPos(false), 0)

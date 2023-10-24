@@ -145,10 +145,28 @@ func (tk *Tk) GetIntResult() int {
 	return i
 }
 
+// GetFloatResult gets the interpreter result as a float.
+func (tk *Tk) GetFloatResult() float64 {
+	str := tk.GetStrResult()
+
+	f, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return f
+}
+
 // GetBoolResult gets the interpreter result as a boolean.
 func (tk *Tk) GetBoolResult() bool {
-	i := tk.GetIntResult()
-	return i == 1
+	str := tk.GetStrResult()
+
+	b, err := strconv.ParseBool(str)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return b
 }
 
 // CreateCommand creates a custom command in the interpreter.

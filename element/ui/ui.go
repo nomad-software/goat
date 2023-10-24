@@ -16,6 +16,12 @@ type Ele struct {
 	element.Ele
 }
 
+// Update causes operations that are normally deferred, such as display updates
+// and window layout calculations, to be performed immediately.
+func (e *Ele) Update() {
+	tk.Get().Eval("update idletasks")
+}
+
 // GetClass gets the ui element class.
 // See [element.class] for class names.
 func (e *Ele) GetClass() string {
@@ -54,11 +60,7 @@ func (e *Ele) GetCursor() string {
 // SetKeyboadFocus sets that this ui element accepts the focus during keyboard
 // traversal.
 func (e *Ele) SetKeyboadFocus(focus bool) {
-	val := 0
-	if focus {
-		val = 1
-	}
-	tk.Get().Eval("%s configure -takefocus %d", e.GetID(), val)
+	tk.Get().Eval("%s configure -takefocus %v", e.GetID(), focus)
 }
 
 // GetKeyboadFocus returns true if this ui element accepts the focus during

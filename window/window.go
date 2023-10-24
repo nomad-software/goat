@@ -49,6 +49,12 @@ func (w *Window) SetTitle(title string) {
 	tk.Get().Eval("wm title %s {%s}", w.GetID(), title)
 }
 
+// GetTitle gets the window title.
+func (w *Window) GetTitle() string {
+	tk.Get().Eval("wm title %s", w.GetID())
+	return tk.Get().GetStrResult()
+}
+
 // WaitForVisibility waits until this window is visible.
 // This is typically used to wait for a newly-created window to appear on
 // the screen before taking some action.
@@ -61,15 +67,33 @@ func (w *Window) SetOpacity(opacity float64) {
 	tk.Get().Eval("wm attributes %s -alpha %v", w.GetID(), opacity)
 }
 
+// GetOpacity gets the window opacity if it's supported.
+func (w *Window) GetOpacity() float64 {
+	tk.Get().Eval("wm attributes %s -alpha", w.GetID())
+	return tk.Get().GetFloatResult()
+}
+
 // SetFullScreen sets the window to be fullscreen or not.
 func (w *Window) SetFullScreen(fullscreen bool) {
 	tk.Get().Eval("wm attributes %s -fullscreen %v", w.GetID(), fullscreen)
+}
+
+// GetFullScreen gets if the window is fullscreen.
+func (w *Window) GetFullScreen() bool {
+	tk.Get().Eval("wm attributes %s -fullscreen", w.GetID())
+	return tk.Get().GetBoolResult()
 }
 
 // SetTopmost sets the window to be the top-most. This makes the window not
 // able to be lowered behind any others.
 func (w *Window) SetTopmost(top bool) {
 	tk.Get().Eval("wm attributes %s -topmost %v", w.GetID(), top)
+}
+
+// GetTopmost gets if the window is the top-most.
+func (w *Window) GetTopmost() bool {
+	tk.Get().Eval("wm attributes %s -topmost", w.GetID())
+	return tk.Get().GetBoolResult()
 }
 
 // SetIconify sets whether the window is minimised.

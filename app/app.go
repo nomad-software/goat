@@ -26,6 +26,9 @@ func New() *App {
 	return app
 }
 
+// GetMainWindow returns the implicitly created main window of the application.
+// As soon as the Tk main loop starts, this window is created.
+// Tk creates it with the special id of '.'.
 func (w *App) GetMainWindow() *window.Window {
 	win := &window.Window{}
 	win.SetID(".")
