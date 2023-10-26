@@ -107,3 +107,39 @@ func TestMinMaxSize(t *testing.T) {
 	assert.Equal(t, 100, win.GetWidth())
 	assert.Equal(t, 100, win.GetHeight())
 }
+
+func TestResizable(t *testing.T) {
+	win := New(nil)
+
+	res := win.GetResizeable()
+	assert.True(t, res[0])
+	assert.True(t, res[1])
+
+	win.SetResizeable(false, false)
+
+	res = win.GetResizeable()
+	assert.False(t, res[0])
+	assert.False(t, res[1])
+}
+
+func TestIsAbove(t *testing.T) {
+	win := New(nil)
+	win.Update()
+
+	child := New(win)
+	child.Update()
+
+	assert.True(t, child.IsAbove(win))
+	assert.True(t, win.IsBelow(child))
+}
+
+func TestIsBelow(t *testing.T) {
+	win := New(nil)
+	child := New(win)
+
+	win.SetTopmost(true)
+	win.Update()
+
+	assert.True(t, child.IsBelow(win))
+	assert.True(t, win.IsAbove(child))
+}

@@ -1,8 +1,12 @@
 package window
 
 import (
+	"strconv"
+	"strings"
+
 	"github.com/nomad-software/goat/element"
 	"github.com/nomad-software/goat/element/ui"
+	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk"
 	"github.com/nomad-software/goat/tk/command"
 )
@@ -136,6 +140,25 @@ func (w *Window) UnBindProtocol(protocol string) {
 // SetResizeable sets if a window width and height can be resized.
 func (w *Window) SetResizeable(width, height bool) {
 	tk.Get().Eval("wm resizable %s %v %v", w.GetID(), width, height)
+}
+
+// GetResizeable gets if a window width and height can be resized.
+func (w *Window) GetResizeable() []bool {
+	tk.Get().Eval("wm resizable %s", w.GetID())
+	result := tk.Get().GetStrResult()
+
+	strs := strings.Split(result, " ")
+	res := make([]bool, 0)
+
+	for _, s := range strs {
+		i, err := strconv.ParseBool(s)
+		if err != nil {
+			log.Error(err)
+		}
+		res = append(res, i)
+	}
+
+	return res
 }
 
 // IsAbove returns if this window is above another.
