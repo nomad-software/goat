@@ -26,6 +26,7 @@ func New(fs embed.FS) *Store {
 }
 
 // GetImage gets an image from the store.
+// The passed name must be a valid path in the embedded store.
 // Only Png and Gif formats are supported.
 func (s *Store) GetImage(name string) image.Image {
 	b, err := s.fs.ReadFile(name)
@@ -38,9 +39,9 @@ func (s *Store) GetImage(name string) image.Image {
 	ext := filepath.Ext(name)
 
 	switch ext {
-	case "gif":
+	case ".gif":
 		return gif.New(str)
-	case "png":
+	case ".png":
 		return png.New(str)
 	default:
 		panic("image extension not recognised")
