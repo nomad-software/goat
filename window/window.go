@@ -189,14 +189,18 @@ func (w *Window) Wait() {
 // Multiple images are accepted to allow different images sizes (e.g., 16x16
 // and 32x32) to be provided. The window manager may scale provided icons to an
 // appropriate size.
-func (w *Window) SetIcon(imgs []*image.Image, applyToChildren bool) {
+func (w *Window) SetIcon(imgs []*image.Image, applyToChildwindows bool) {
 	ids := make([]string, 0)
 
 	for _, img := range imgs {
 		ids = append(ids, img.GetID())
 	}
 
-	tk.Get().Eval("wm iconphoto %s -default %s", w.GetID(), strings.Join(ids, " "))
+	if applyToChildwindows {
+		tk.Get().Eval("wm iconphoto %s -default %s", w.GetID(), strings.Join(ids, " "))
+	} else {
+		tk.Get().Eval("wm iconphoto %s %s", w.GetID(), strings.Join(ids, " "))
+	}
 }
 
 // SetBackgroundColor sets the background color.
