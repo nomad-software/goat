@@ -6,6 +6,7 @@ import (
 
 	"github.com/nomad-software/goat/element"
 	"github.com/nomad-software/goat/element/ui"
+	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk"
 	"github.com/nomad-software/goat/tk/command"
@@ -178,6 +179,24 @@ func (w *Window) IsBelow(other *Window) bool {
 // dialog box before using the result of that interaction.
 func (w *Window) Wait() {
 	tk.Get().Eval("tkwait window %s", w.GetID())
+}
+
+// SetIcon sets the default icon for this window. This is applied to all future
+// child windows as well.
+//
+// The data in the images is taken as a snapshot at the time of invocation. If
+// the images are later changed, this is not reflected to the titlebar icons.
+// Multiple images are accepted to allow different images sizes (e.g., 16x16
+// and 32x32) to be provided. The window manager may scale provided icons to an
+// appropriate size.
+func (w *Window) SetIcon(imgs []*image.Image, applyToChildren bool) {
+	ids := make([]string, 0)
+
+	for _, img := range imgs {
+		ids = append(ids, img.GetID())
+	}
+
+	tk.Get().Eval("wm iconphoto %s -default %s", w.GetID(), strings.Join(ids, " "))
 }
 
 // SetBackgroundColor sets the background color.

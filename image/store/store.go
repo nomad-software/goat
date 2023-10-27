@@ -6,8 +6,6 @@ import (
 	"path/filepath"
 
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/image/gif"
-	"github.com/nomad-software/goat/image/png"
 	"github.com/nomad-software/goat/log"
 )
 
@@ -28,22 +26,34 @@ func New(fs embed.FS) *Store {
 // GetImage gets an image from the store.
 // The passed name must be a valid path in the embedded store.
 // Only Png and Gif formats are supported.
-func (s *Store) GetImage(name string) image.Image {
-	b, err := s.fs.ReadFile(name)
+func (s *Store) GetImage(path string) *image.Image {
+	b, err := s.fs.ReadFile(path)
 	if err != nil {
 		log.Error(err)
 		panic("cannot read file")
 	}
 
-	str := base64.StdEncoding.EncodeToString(b)
-	ext := filepath.Ext(name)
+	data := base64.StdEncoding.EncodeToString(b)
+	ext := filepath.Ext(path)
 
 	switch ext {
 	case ".gif":
-		return gif.New(str)
+		return image.New(data, "gif")
 	case ".png":
-		return png.New(str)
+		return image.New(data, "png")
 	default:
 		panic("image extension not recognised")
 	}
+}
+
+// GetImages gets multiple images at once.
+func (s *Store) GetImages(paths ...string) []*image.Image {
+	imgs := make([]*image.Image, 0)
+
+	for _, p := range paths {
+		img := s.GetImage(p)
+		imgs = append(imgs, img)
+	}
+
+	return imgs
 }
