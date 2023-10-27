@@ -3,6 +3,8 @@ package window
 import (
 	"testing"
 
+	"github.com/nomad-software/goat/example/image"
+	"github.com/nomad-software/goat/image/store"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -15,7 +17,7 @@ func TestWindow(t *testing.T) {
 	assert.Regexp(t, `^\.window-[A-Z0-9]{1,8}$`, win.GetID())
 }
 
-func TestParent(t *testing.T) {
+func TestWindowParent(t *testing.T) {
 	win := New(nil)
 	child := New(win)
 
@@ -25,7 +27,7 @@ func TestParent(t *testing.T) {
 	assert.Regexp(t, `^\.window-[A-Z0-9]{1,8}\.window-[A-Z0-9]{1,8}$`, child.GetID())
 }
 
-func TestSize(t *testing.T) {
+func TestWindowSize(t *testing.T) {
 	win := New(nil)
 
 	win.SetSize(250, 250)
@@ -35,7 +37,7 @@ func TestSize(t *testing.T) {
 	assert.Equal(t, 250, win.GetHeight())
 }
 
-func TestGeometry(t *testing.T) {
+func TestWindowGeometry(t *testing.T) {
 	win := New(nil)
 
 	win.SetGeometry(350, 350, 150, 150)
@@ -48,14 +50,14 @@ func TestGeometry(t *testing.T) {
 	assert.Equal(t, 187, win.GetYPos(false))
 }
 
-func TestTitle(t *testing.T) {
+func TestWindowTitle(t *testing.T) {
 	win := New(nil)
 	win.SetTitle("foo")
 
 	assert.Equal(t, "foo", win.GetTitle())
 }
 
-func TestWaitForVisiblity(t *testing.T) {
+func TestWindowWaitForVisiblity(t *testing.T) {
 	win := New(nil)
 
 	win.SetSize(250, 250)
@@ -65,7 +67,7 @@ func TestWaitForVisiblity(t *testing.T) {
 	assert.Equal(t, 250, win.GetHeight())
 }
 
-func TestFullScreen(t *testing.T) {
+func TestWindowFullScreen(t *testing.T) {
 	win := New(nil)
 	assert.False(t, win.GetFullScreen())
 
@@ -75,7 +77,7 @@ func TestFullScreen(t *testing.T) {
 	assert.True(t, win.GetFullScreen())
 }
 
-func TestTopmost(t *testing.T) {
+func TestWindowTopmost(t *testing.T) {
 	win := New(nil)
 	assert.False(t, win.GetTopmost())
 
@@ -85,13 +87,13 @@ func TestTopmost(t *testing.T) {
 	assert.True(t, win.GetTopmost())
 }
 
-func TestIconfiy(t *testing.T) {
+func TestWindowIconfiy(t *testing.T) {
 	win := New(nil)
 	win.SetIconify(true)
 	win.SetIconify(false)
 }
 
-func TestMinMaxSize(t *testing.T) {
+func TestWindowMinMaxSize(t *testing.T) {
 	win := New(nil)
 
 	win.SetMinSize(100, 100)
@@ -108,7 +110,7 @@ func TestMinMaxSize(t *testing.T) {
 	assert.Equal(t, 100, win.GetHeight())
 }
 
-func TestResizable(t *testing.T) {
+func TestWindowResizable(t *testing.T) {
 	win := New(nil)
 
 	res := win.GetResizeable()
@@ -122,7 +124,7 @@ func TestResizable(t *testing.T) {
 	assert.False(t, res[1])
 }
 
-func TestIsAbove(t *testing.T) {
+func TestWindowIsAbove(t *testing.T) {
 	win := New(nil)
 	win.Update()
 
@@ -133,7 +135,7 @@ func TestIsAbove(t *testing.T) {
 	assert.True(t, win.IsBelow(child))
 }
 
-func TestIsBelow(t *testing.T) {
+func TestWindowIsBelow(t *testing.T) {
 	win := New(nil)
 	child := New(win)
 
@@ -142,4 +144,12 @@ func TestIsBelow(t *testing.T) {
 
 	assert.True(t, child.IsBelow(win))
 	assert.True(t, win.IsAbove(child))
+}
+
+func TestWindowIcon(t *testing.T) {
+	store := store.New(image.FS)
+	icons := store.GetImages("png/tkicon.png")
+
+	win := New(nil)
+	win.SetIcon(icons, false)
 }

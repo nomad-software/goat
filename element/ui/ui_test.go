@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestClass(t *testing.T) {
+func TestUIElementClass(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -16,7 +16,7 @@ func TestClass(t *testing.T) {
 	assert.Equal(t, "Tk", el.GetClass())
 }
 
-func TestCursor(t *testing.T) {
+func TestUIElementCursor(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -25,7 +25,7 @@ func TestCursor(t *testing.T) {
 	assert.Equal(t, cursor.Pirate, el.GetCursor())
 }
 
-func TestKeyboardFocus(t *testing.T) {
+func TestUIElementKeyboardFocus(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -36,7 +36,7 @@ func TestKeyboardFocus(t *testing.T) {
 	assert.True(t, el.GetKeyboadFocus())
 }
 
-func TestDimensions(t *testing.T) {
+func TestUIElementDimensions(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -45,7 +45,7 @@ func TestDimensions(t *testing.T) {
 	assert.Equal(t, 1, el.GetHeight())
 }
 
-func TestOSHandle(t *testing.T) {
+func TestUIElementOSHandle(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -53,7 +53,7 @@ func TestOSHandle(t *testing.T) {
 	assert.Greater(t, el.GetOSHandle(), int64(0))
 }
 
-func TestCursorPosition(t *testing.T) {
+func TestUIElementCursorPosition(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -71,7 +71,7 @@ func TestCursorPosition(t *testing.T) {
 	assert.Equal(t, y, pos[1])
 }
 
-func TestScreenDimensions(t *testing.T) {
+func TestUIElementScreenDimensions(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -80,7 +80,7 @@ func TestScreenDimensions(t *testing.T) {
 	assert.Greater(t, el.GetScreenHeight(), 0)
 }
 
-func TestPosition(t *testing.T) {
+func TestUIElementPosition(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -91,7 +91,7 @@ func TestPosition(t *testing.T) {
 	assert.Greater(t, el.GetYPos(false), 0)
 }
 
-func TestFocus(t *testing.T) {
+func TestUIElementFocus(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -101,7 +101,7 @@ func TestFocus(t *testing.T) {
 	el.Focus(false)
 }
 
-func TestZPosition(t *testing.T) {
+func TestUIElementZPosition(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -111,7 +111,7 @@ func TestZPosition(t *testing.T) {
 	el.Lower(nil)
 }
 
-func TestBind(t *testing.T) {
+func TestUIElementBind(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -123,7 +123,7 @@ func TestBind(t *testing.T) {
 	el.GenerateEvent("<<Modified>>")
 }
 
-func TestUnBind(t *testing.T) {
+func TestUIElementUnBind(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -136,10 +136,12 @@ func TestUnBind(t *testing.T) {
 	el.GenerateEvent("<<Modified>>")
 }
 
-func TestDestroy(t *testing.T) {
+func TestUIElementDestroy(t *testing.T) {
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
+
+	assert.Equal(t, "Tk", el.GetClass())
 
 	el.Destroy()
 

@@ -26,14 +26,14 @@ func TestAppTheme(t *testing.T) {
 	assert.Equal(t, app.GetTheme(), theme.Clam)
 }
 
-func TestGetMainWindow(t *testing.T) {
+func TestAppGetMainWindow(t *testing.T) {
 	app := New()
 	main := app.GetMainWindow()
 	assert.Equal(t, main.GetID(), ".")
 	assert.Equal(t, main.GetClass(), "Tk")
 }
 
-func TestCreateVirtualEvent(t *testing.T) {
+func TestAppCreateVirtualEvent(t *testing.T) {
 	app := New()
 	app.CreateVirtualEvent("<<quit-app>>", "<Control-Q>")
 
@@ -49,7 +49,7 @@ func TestCreateVirtualEvent(t *testing.T) {
 	app.Start()
 }
 
-func TestDeleteVirtualEvent(t *testing.T) {
+func TestAppDeleteVirtualEvent(t *testing.T) {
 	app := New()
 	app.CreateVirtualEvent("<<quit-app>>", "<Control-Q>")
 	app.CreateVirtualEvent("<<bad-event>>", "<Control-B>")
