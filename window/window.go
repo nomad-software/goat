@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/element"
+	"github.com/nomad-software/goat/element/common/color"
 	"github.com/nomad-software/goat/element/ui"
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/log"
@@ -205,6 +206,6 @@ func (w *Window) SetIcon(imgs []*image.Image, applyToChildwindows bool) {
 
 // SetBackgroundColor sets the background color.
 // See [element.color] for color names.
-func (w *Window) SetBackgroundColor(color string) {
-	tk.Get().Eval("%s configure -background %s", w.GetID(), color)
+func (w *Window) SetBackgroundColor(c string) {
+	color.SetBackgroundColor(w.GetID(), c)
 }
