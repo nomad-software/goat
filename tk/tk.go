@@ -72,15 +72,13 @@ func new() *Tk {
 	log.Info("initialising interpreter")
 	if C.Tcl_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("interpreter cannot be initialised")
-		log.Error(err)
-		panic("cannot continue")
+		log.Panic(err, "cannot continue")
 	}
 
 	log.Info("initialising the tk package")
 	if C.Tk_Init(tk.interpreter) != C.TCL_OK {
 		err := tk.getTclError("tk package cannot be initialised")
-		log.Error(err)
-		panic("cannot continue")
+		log.Panic(err, "cannot continue")
 	}
 
 	return tk
@@ -118,8 +116,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 
 	if result == C.TCL_ERROR {
 		err := tk.getTclError("evaluation error")
-		log.Error(err)
-		panic("cannot continue")
+		log.Panic(err, "cannot continue")
 	}
 }
 

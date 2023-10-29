@@ -52,3 +52,17 @@ func Error(err error) {
 		}
 	}
 }
+
+// Panic prints information about the passed error and then panics.
+func Panic(err error, msg string) {
+	fmt.Printf("PANIC %s\n", err)
+	for i := 1; i <= 10; i++ {
+		_, file, line, _ := runtime.Caller(i)
+		if !strings.Contains(file, "goat") {
+			break
+		}
+		fmt.Printf("      - file: %s\n", file)
+		fmt.Printf("      - line: %d\n", line)
+	}
+	panic(msg)
+}

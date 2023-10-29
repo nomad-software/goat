@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/element"
-	"github.com/nomad-software/goat/element/common/color"
 	"github.com/nomad-software/goat/element/ui"
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/log"
@@ -204,8 +203,4 @@ func (w *Window) SetIcon(imgs []*image.Image, applyToChildwindows bool) {
 	}
 }
 
-// SetBackgroundColor sets the background color.
-// See [element.color] for color names.
-func (w *Window) SetBackgroundColor(c string) {
-	color.SetBackgroundColor(w.GetID(), c)
-}
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=color -func=SetBackgroundColor

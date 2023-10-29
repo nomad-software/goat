@@ -29,8 +29,7 @@ func New(fs embed.FS) *Store {
 func (s *Store) GetImage(path string) *image.Image {
 	b, err := s.fs.ReadFile(path)
 	if err != nil {
-		log.Error(err)
-		panic("cannot read file")
+		log.Panic(err, "cannot read file")
 	}
 
 	data := base64.StdEncoding.EncodeToString(b)
