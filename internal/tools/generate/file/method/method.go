@@ -14,7 +14,7 @@ import (
 const (
 	methTmpl = `{{.Comments}}
 func (ele {{.Receiver}}) {{.Name}}({{.Parameters}}){{.ReturnTypes}} {
-	{{if .ReturnTypes}}return {{.PkgName}}.{{.Name}}(ele.GetID(), {{.Arguments}}){{else}}{{.PkgName}}.{{.Name}}(ele.GetID(), {{.Arguments}}){{end}}
+	{{if .ReturnTypes}}return {{end}}{{.PkgName}}.{{.Name}}(ele.GetID(), {{.Arguments}})
 }`
 )
 

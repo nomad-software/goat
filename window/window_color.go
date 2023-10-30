@@ -10,3 +10,4 @@ import (
 func (ele *Window) SetBackgroundColor(c string) {
 	color.SetBackgroundColor(ele.GetID(), c)
 }
+

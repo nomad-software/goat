@@ -17,8 +17,7 @@ import (
 )
 
 {{range .Methods}}{{println .}}
-{{end}}
-`
+{{end}}`
 )
 
 func Create(o *method.Output) []byte {
