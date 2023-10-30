@@ -46,7 +46,14 @@ func main() {
 func createMenu(win *window.Window) {
 	bar := menu.NewBar(win)
 
+	checkSubMenu := menu.NewPopUp()
+	checkSubMenu.AddCheckboxEntry("Option 1", "", func(*command.CallbackData) {})
+	checkSubMenu.AddCheckboxEntry("Option 2", "", func(*command.CallbackData) {})
+	checkSubMenu.AddCheckboxEntry("Option 3", "", func(*command.CallbackData) {})
+
 	file := menu.New(bar, "File", 0)
+	file.AddMenuEntry("Checkbox submenu", 0, checkSubMenu)
+
 	img := embedded.GetImage("png/cancel.png")
 	file.AddImageEntry("Quit", "Ctrl-Q", img, compound.Left, func(*command.CallbackData) {
 		win.Destroy()
