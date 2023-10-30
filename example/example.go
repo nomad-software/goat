@@ -1,16 +1,24 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/color"
+	"github.com/nomad-software/goat/element/compound"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/tk/command"
+	"github.com/nomad-software/goat/widget/menu"
+	"github.com/nomad-software/goat/window"
 	"github.com/nomad-software/goat/window/protocol"
 )
 
+var (
+	embedded = store.New(image.FS)
+)
+
 func main() {
-	embedded := store.New(image.FS)
 	icons := embedded.GetImages("png/tkicon.png")
 
 	app := app.New()
@@ -20,17 +28,29 @@ func main() {
 	main.SetMinSize(600, 600)
 	main.SetIcon(icons, true)
 
-	main.BindProtocol(protocol.DeleteWindow, func(*command.CallbackData) {
-		//show dialog.
+	main.Bind("<Control-Key-q>", func(*command.CallbackData) {
 		main.Destroy()
 	})
 
-	main.Bind("<Key-Escape>", func(data *command.CallbackData) {
-		// fmt.Printf("%#v\n", data)
-		app.Exit()
+	main.BindProtocol(protocol.DeleteWindow, func(*command.CallbackData) {
+		main.Destroy()
 	})
+
+	createMenu(main)
 
 	main.SetBackgroundColor(color.Beige)
 
 	app.Start()
+}
+
+func createMenu(win *window.Window) {
+	bar := menu.NewBar(win)
+
+	file := menu.New(bar, "File", 0)
+	img := embedded.GetImage("png/cancel.png")
+	file.AddImageEntry("Quit", "Ctrl-Q", img, compound.Left, func(*command.CallbackData) {
+		win.Destroy()
+	})
+
+	fmt.Printf("%v\n", file)
 }
