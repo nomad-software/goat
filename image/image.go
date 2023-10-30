@@ -1,7 +1,7 @@
 package image
 
 import (
-	"github.com/nomad-software/goat/element"
+	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/tk"
 )
 

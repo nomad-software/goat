@@ -3,7 +3,7 @@ package element
 import (
 	"fmt"
 
-	"github.com/nomad-software/goat/element/hash"
+	"github.com/nomad-software/goat/internal/element/hash"
 )
 
 var (

@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nomad-software/goat/element"
+	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/log"
 	"github.com/nomad-software/goat/tk"
 	"github.com/nomad-software/goat/tk/command"
