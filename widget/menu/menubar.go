@@ -9,6 +9,8 @@ import (
 // Menubar is the bar across the top of a window holding the menu items.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -pkg=bind -out=menubar
 type MenuBar struct {
 	ui.Ele
 }

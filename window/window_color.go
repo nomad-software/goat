@@ -2,12 +2,18 @@
 package window
 
 import (
-	"github.com/nomad-software/goat/internal/element/common/color"
+	"github.com/nomad-software/goat/tk"
 )
+
+
+
+
+
 
 // SetBackgroundColor sets the background color.
 // See [element.color] for color names.
 func (ele *Window) SetBackgroundColor(c string) {
-	color.SetBackgroundColor(ele.GetID(), c)
+	tk.Get().Eval("%s configure -background %s", ele.GetID(), c)
 }
+
 

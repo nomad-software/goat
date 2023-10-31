@@ -15,6 +15,9 @@ import (
 // Window is the struct representing a window.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/toplevel.html
+//
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=bind
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=color -methods=SetBackgroundColor
 type Window struct {
 	ui.Ele
 }
@@ -202,5 +205,3 @@ func (w *Window) SetIcon(imgs []*image.Image, applyToChildwindows bool) {
 		tk.Get().Eval("wm iconphoto %s %s", w.GetID(), strings.Join(ids, " "))
 	}
 }
-
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=color -func=SetBackgroundColor

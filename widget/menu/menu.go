@@ -15,6 +15,8 @@ import (
 // Menubar is the cascading menu that items are selected from.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=bind
 type Menu struct {
 	ui.Ele
 
