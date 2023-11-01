@@ -127,15 +127,69 @@ func (m *Menu) AddImageRadioButtonEntry(label string, shortcut string, img *imag
 	tk.Get().Eval("%s add radiobutton -variable %s -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), m.radioButtonVar, label, shortcut, img.GetID(), compound, name)
 }
 
-// GetCheckboxEntrySelected gets if the check box entry at the passed index is
-// checked or not. The index only applies to check box entries in the menu not
-// any other type of entry. If there are no check box entries in the menu this
-// method returns false.
-func (m *Menu) GetCheckboxEntrySelected(index int) bool {
+// AddSeparator adds a separator.
+func (m *Menu) AddSeparator() {
+	tk.Get().Eval("%s add separator", m.GetID())
+}
+
+// DisableEntry disables an entry.
+func (m *Menu) DisableEntry(index int) {
+	tk.Get().Eval("%s entryconfigure %d -state disable", m.GetID(), index)
+}
+
+// EnableEntry enables an entry.
+func (m *Menu) EnableEntry(index int) {
+	tk.Get().Eval("%s entryconfigure %d -state normal", m.GetID(), index)
+}
+
+// Invoke invokes the entries callback.
+func (m *Menu) Invoke(index int) {
+	tk.Get().Eval("%s invoke %d", m.GetID(), index)
+}
+
+// SelectCheckButtonEntry selects or deselects a check button entry at the
+// specified index. This will also execute the callback.
+func (m *Menu) SelectCheckButtonEntry(index int, selected bool) {
+	if index >= 0 && index < len(m.checkButtonVars) {
+		name := m.checkButtonVars[index]
+		if selected {
+			tk.Get().SetVariableStringValue(name, "1")
+		} else {
+			tk.Get().SetVariableStringValue(name, "0")
+		}
+	}
+}
+
+// GetCheckButtonEntrySelected gets if the check button entry at the passed
+// index is checked or not. The index only applies to check button entries in
+// the menu not any other type of entry. If there are no check button entries
+// in the menu this method returns false.
+func (m *Menu) IsCheckButtonEntrySelected(index int) bool {
 	if index >= 0 && index < len(m.checkButtonVars) {
 		name := m.checkButtonVars[index]
 		return tk.Get().GetVariableBoolValue(name)
 	}
 
 	return false
+}
+
+// SelectRadioButtonEntry selects or deselects the radio button entry at the
+// specified index. This will also execute the callback.
+func (m *Menu) SelectRadioButtonEntry(index int) {
+	tk.Get().Eval("%s entrycget %d -label", m.GetID(), index)
+	label := tk.Get().GetStrResult()
+
+	tk.Get().SetVariableStringValue(m.radioButtonVar, label)
+}
+
+// GetSelectedRadioButtonEntry gets the value of the selected radio button
+// entry. This value will be the same as the entry's label. This method will
+// return an empty string if no radio button entry exists or none are selected.
+func (m *Menu) GetSelectedRadioButtonEntry() string {
+	return tk.Get().GetVariableStringValue(m.radioButtonVar)
+}
+
+// PopUp shows a popup menu at the specified coords.
+func (m *Menu) PopUp(x int, y int) {
+	tk.Get().Eval("tk_popup %s %d %d", m.GetID(), x, y)
 }

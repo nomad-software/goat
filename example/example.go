@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/color"
 	"github.com/nomad-software/goat/element/compound"
@@ -49,23 +47,23 @@ func createMenu(win *window.Window) {
 	checkSubMenu := menu.NewPopUp()
 	checkSubMenu.AddCheckButtonEntry("Option 1", "", func(*command.CallbackData) {})
 	checkSubMenu.AddCheckButtonEntry("Option 2", "", func(*command.CallbackData) {})
-	img := embedded.GetImage("png/chart_organisation.png")
-	checkSubMenu.AddImageCheckButtonEntry("Option 3", "", img, compound.Left, func(*command.CallbackData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 3", "", func(*command.CallbackData) {})
 
 	radioSubMenu := menu.NewPopUp()
 	radioSubMenu.AddRadioButtonEntry("Option 1", "", func(*command.CallbackData) {})
 	radioSubMenu.AddRadioButtonEntry("Option 2", "", func(*command.CallbackData) {})
-	img = embedded.GetImage("png/chart_organisation.png")
-	radioSubMenu.AddImageRadioButtonEntry("Option 3", "", img, compound.Left, func(*command.CallbackData) {})
+	radioSubMenu.AddRadioButtonEntry("Option 3", "", func(*command.CallbackData) {})
 
 	file := menu.New(bar, "File", 0)
 	file.AddMenuEntry("Check button submenu", 0, checkSubMenu)
 	file.AddMenuEntry("Radio button submenu", 0, radioSubMenu)
-
-	img = embedded.GetImage("png/cancel.png")
+	file.AddSeparator()
+	img := embedded.GetImage("png/cancel.png")
 	file.AddImageEntry("Quit", "Ctrl-Q", img, compound.Left, func(*command.CallbackData) {
 		win.Destroy()
 	})
 
-	fmt.Printf("%v\n", file)
+	help := menu.New(bar, "Help", 0)
+	img = embedded.GetImage("png/help.png")
+	help.AddImageEntry("About...", "F1", img, compound.Left, func(*command.CallbackData) {})
 }

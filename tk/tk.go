@@ -166,6 +166,19 @@ func (tk *Tk) GetBoolResult() bool {
 	return b
 }
 
+// SetVariableStringValue sets the named variable value using a string.
+func (tk *Tk) SetVariableStringValue(name string, val string) {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	cval := C.CString(val)
+	defer C.free(unsafe.Pointer(cval))
+
+	C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
+
+	log.Debug("set variable {%s} <- {%s}", name, val)
+}
+
 // GetVariableStringValue gets the named variable value as a string.
 func (tk *Tk) GetVariableStringValue(name string) string {
 	cname := C.CString(name)

@@ -86,8 +86,8 @@ func (w *Window) SetFullScreen(fullscreen bool) {
 	tk.Get().Eval("wm attributes %s -fullscreen %v", w.GetID(), fullscreen)
 }
 
-// GetFullScreen gets if the window is fullscreen.
-func (w *Window) GetFullScreen() bool {
+// IsFullScreen gets if the window is fullscreen.
+func (w *Window) IsFullScreen() bool {
 	tk.Get().Eval("wm attributes %s -fullscreen", w.GetID())
 	return tk.Get().GetBoolResult()
 }
@@ -98,8 +98,8 @@ func (w *Window) SetTopmost(top bool) {
 	tk.Get().Eval("wm attributes %s -topmost %v", w.GetID(), top)
 }
 
-// GetTopmost gets if the window is the top-most.
-func (w *Window) GetTopmost() bool {
+// IsTopmost gets if the window is the top-most.
+func (w *Window) IsTopmost() bool {
 	tk.Get().Eval("wm attributes %s -topmost", w.GetID())
 	return tk.Get().GetBoolResult()
 }

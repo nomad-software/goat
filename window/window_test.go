@@ -69,22 +69,22 @@ func TestWindowWaitForVisiblity(t *testing.T) {
 
 func TestWindowFullScreen(t *testing.T) {
 	win := New(nil)
-	assert.False(t, win.GetFullScreen())
+	assert.False(t, win.IsFullScreen())
 
 	win.SetFullScreen(true)
 	win.WaitForVisibility()
 
-	assert.True(t, win.GetFullScreen())
+	assert.True(t, win.IsFullScreen())
 }
 
 func TestWindowTopmost(t *testing.T) {
 	win := New(nil)
-	assert.False(t, win.GetTopmost())
+	assert.False(t, win.IsTopmost())
 
 	win.SetTopmost(true)
 	win.WaitForVisibility()
 
-	assert.True(t, win.GetTopmost())
+	assert.True(t, win.IsTopmost())
 }
 
 func TestWindowIconfiy(t *testing.T) {

@@ -61,9 +61,9 @@ func (e *Ele) SetKeyboadFocus(focus bool) {
 	tk.Get().Eval("%s configure -takefocus %v", e.GetID(), focus)
 }
 
-// GetKeyboadFocus returns true if this ui element accepts the focus during
+// AcceptsKeyboadFocus returns true if this ui element accepts the focus during
 // keyboard traversal.
-func (e *Ele) GetKeyboadFocus() bool {
+func (e *Ele) AcceptsKeyboadFocus() bool {
 	tk.Get().Eval("%s cget -takefocus", e.GetID())
 	return tk.Get().GetBoolResult()
 }
