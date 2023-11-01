@@ -29,10 +29,10 @@ func TestUIElementKeyboardFocus(t *testing.T) {
 	el.SetID(".")
 	el.SetType("window")
 
-	assert.False(t, el.GetKeyboadFocus())
+	assert.False(t, el.AcceptsKeyboadFocus())
 
 	el.SetKeyboadFocus(true)
-	assert.True(t, el.GetKeyboadFocus())
+	assert.True(t, el.AcceptsKeyboadFocus())
 }
 
 func TestUIElementDimensions(t *testing.T) {

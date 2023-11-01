@@ -166,8 +166,8 @@ func (tk *Tk) GetBoolResult() bool {
 	return b
 }
 
-// SetVariableStringValue sets the named variable value using a string.
-func (tk *Tk) SetVariableStringValue(name string, val string) {
+// SetVarStrValue sets the named variable value using a string.
+func (tk *Tk) SetVarStrValue(name string, val string) {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
@@ -179,8 +179,8 @@ func (tk *Tk) SetVariableStringValue(name string, val string) {
 	log.Debug("set variable {%s} <- {%s}", name, val)
 }
 
-// GetVariableStringValue gets the named variable value as a string.
-func (tk *Tk) GetVariableStringValue(name string) string {
+// GetVarStrValue gets the named variable value as a string.
+func (tk *Tk) GetVarStrValue(name string) string {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
@@ -192,8 +192,8 @@ func (tk *Tk) GetVariableStringValue(name string) string {
 	return str
 }
 
-// GetVariableIntValue gets the named variable value as an integer.
-func (tk *Tk) GetVariableIntValue(name string) int {
+// GetVarIntValue gets the named variable value as an integer.
+func (tk *Tk) GetVarIntValue(name string) int {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
@@ -210,8 +210,8 @@ func (tk *Tk) GetVariableIntValue(name string) int {
 	return i
 }
 
-// GetVariableFloatValue gets the named variable value as a float.
-func (tk *Tk) GetVariableFloatValue(name string) float64 {
+// GetVarFloatValue gets the named variable value as a float.
+func (tk *Tk) GetVarFloatValue(name string) float64 {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
@@ -228,8 +228,8 @@ func (tk *Tk) GetVariableFloatValue(name string) float64 {
 	return f
 }
 
-// GetVariableBoolValue gets the named variable value as a boolean.
-func (tk *Tk) GetVariableBoolValue(name string) bool {
+// GetVarBoolValue gets the named variable value as a boolean.
+func (tk *Tk) GetVarBoolValue(name string) bool {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 

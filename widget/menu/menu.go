@@ -153,9 +153,9 @@ func (m *Menu) SelectCheckButtonEntry(index int, selected bool) {
 	if index >= 0 && index < len(m.checkButtonVars) {
 		name := m.checkButtonVars[index]
 		if selected {
-			tk.Get().SetVariableStringValue(name, "1")
+			tk.Get().SetVarStrValue(name, "1")
 		} else {
-			tk.Get().SetVariableStringValue(name, "0")
+			tk.Get().SetVarStrValue(name, "0")
 		}
 	}
 }
@@ -167,7 +167,7 @@ func (m *Menu) SelectCheckButtonEntry(index int, selected bool) {
 func (m *Menu) IsCheckButtonEntrySelected(index int) bool {
 	if index >= 0 && index < len(m.checkButtonVars) {
 		name := m.checkButtonVars[index]
-		return tk.Get().GetVariableBoolValue(name)
+		return tk.Get().GetVarBoolValue(name)
 	}
 
 	return false
@@ -179,14 +179,14 @@ func (m *Menu) SelectRadioButtonEntry(index int) {
 	tk.Get().Eval("%s entrycget %d -label", m.GetID(), index)
 	label := tk.Get().GetStrResult()
 
-	tk.Get().SetVariableStringValue(m.radioButtonVar, label)
+	tk.Get().SetVarStrValue(m.radioButtonVar, label)
 }
 
 // GetSelectedRadioButtonEntry gets the value of the selected radio button
 // entry. This value will be the same as the entry's label. This method will
 // return an empty string if no radio button entry exists or none are selected.
 func (m *Menu) GetSelectedRadioButtonEntry() string {
-	return tk.Get().GetVariableStringValue(m.radioButtonVar)
+	return tk.Get().GetVarStrValue(m.radioButtonVar)
 }
 
 // PopUp shows a popup menu at the specified coords.
