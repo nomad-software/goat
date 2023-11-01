@@ -47,14 +47,22 @@ func createMenu(win *window.Window) {
 	bar := menu.NewBar(win)
 
 	checkSubMenu := menu.NewPopUp()
-	checkSubMenu.AddCheckboxEntry("Option 1", "", func(*command.CallbackData) {})
-	checkSubMenu.AddCheckboxEntry("Option 2", "", func(*command.CallbackData) {})
-	checkSubMenu.AddCheckboxEntry("Option 3", "", func(*command.CallbackData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 1", "", func(*command.CallbackData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 2", "", func(*command.CallbackData) {})
+	img := embedded.GetImage("png/chart_organisation.png")
+	checkSubMenu.AddImageCheckButtonEntry("Option 3", "", img, compound.Left, func(*command.CallbackData) {})
+
+	radioSubMenu := menu.NewPopUp()
+	radioSubMenu.AddRadioButtonEntry("Option 1", "", func(*command.CallbackData) {})
+	radioSubMenu.AddRadioButtonEntry("Option 2", "", func(*command.CallbackData) {})
+	img = embedded.GetImage("png/chart_organisation.png")
+	radioSubMenu.AddImageRadioButtonEntry("Option 3", "", img, compound.Left, func(*command.CallbackData) {})
 
 	file := menu.New(bar, "File", 0)
-	file.AddMenuEntry("Checkbox submenu", 0, checkSubMenu)
+	file.AddMenuEntry("Check button submenu", 0, checkSubMenu)
+	file.AddMenuEntry("Radio button submenu", 0, radioSubMenu)
 
-	img := embedded.GetImage("png/cancel.png")
+	img = embedded.GetImage("png/cancel.png")
 	file.AddImageEntry("Quit", "Ctrl-Q", img, compound.Left, func(*command.CallbackData) {
 		win.Destroy()
 	})

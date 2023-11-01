@@ -166,6 +166,73 @@ func (tk *Tk) GetBoolResult() bool {
 	return b
 }
 
+// GetVariableStringValue gets the named variable value as a string.
+func (tk *Tk) GetVariableStringValue(name string) string {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+	str := C.GoString(result)
+
+	log.Debug("get variable {%s} -> %s", name, str)
+
+	return str
+}
+
+// GetVariableIntValue gets the named variable value as an integer.
+func (tk *Tk) GetVariableIntValue(name string) int {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+	str := C.GoString(result)
+
+	log.Debug("get variable {%s} -> %s", name, str)
+
+	i, err := strconv.Atoi(str)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return i
+}
+
+// GetVariableFloatValue gets the named variable value as a float.
+func (tk *Tk) GetVariableFloatValue(name string) float64 {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+	str := C.GoString(result)
+
+	log.Debug("get variable {%s} -> %s", name, str)
+
+	f, err := strconv.ParseFloat(str, 64)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return f
+}
+
+// GetVariableBoolValue gets the named variable value as a boolean.
+func (tk *Tk) GetVariableBoolValue(name string) bool {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+	str := C.GoString(result)
+
+	log.Debug("get variable {%s} -> %s", name, str)
+
+	b, err := strconv.ParseBool(str)
+	if err != nil {
+		log.Error(err)
+	}
+
+	return b
+}
+
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)

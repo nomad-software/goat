@@ -51,6 +51,16 @@ func NewPopUp() *Menu {
 	return menu
 }
 
+// AddMenuEntry adds a cascading menu entry.
+func (m *Menu) AddMenuEntry(label string, underline int, menu *Menu) {
+	origId := menu.GetID()
+	menu.SetParent(m)
+
+	// Update the menu id.
+	tk.Get().Eval("%s clone %s", origId, menu.GetID())
+	tk.Get().Eval("%s add cascade -label {%s} -underline %d -menu %s", m.GetID(), label, underline, menu.GetID())
+}
+
 // AddEntry adds a menu entry with an optional cosmetic shortcut and a callback
 // to execute when selected.
 // The shortcut will need to be bound using the Bind method.
@@ -71,9 +81,9 @@ func (m *Menu) AddImageEntry(label string, shortcut string, img *image.Image, co
 	tk.Get().Eval("%s add command -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), label, shortcut, img.GetID(), compound, name)
 }
 
-// AddCheckboxEntry add a checkbox based menu entry.
+// AddCheckButtonEntry adds an item to the menu that acts as a check button.
 // The shortcut will need to be bound using the Bind method.
-func (m *Menu) AddCheckboxEntry(label string, shortcut string, callback command.Callback) {
+func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback command.Callback) {
 	varName := variable.GenerateName(label, m.GetID())
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
@@ -83,12 +93,49 @@ func (m *Menu) AddCheckboxEntry(label string, shortcut string, callback command.
 	tk.Get().Eval("%s add checkbutton -variable %s -label {%s} -accelerator {%s} -command {%s}", m.GetID(), varName, label, shortcut, cmdName)
 }
 
-// AddMenuEntry adds a cascading menu entry.
-func (m *Menu) AddMenuEntry(label string, underline int, menu *Menu) {
-	origId := menu.GetID()
-	menu.SetParent(m)
+// AddImageCheckButtonEntry is the same as AddCheckButtonEntry but also
+// displays an image.
+// The shortcut will need to be bound using the Bind method.
+// See [element.compound] for image positions.
+func (m *Menu) AddImageCheckButtonEntry(label string, shortcut string, img *image.Image, compound string, callback command.Callback) {
+	varName := variable.GenerateName(label, m.GetID())
+	m.checkButtonVars = append(m.checkButtonVars, varName)
 
-	// Update the menu id.
-	tk.Get().Eval("%s clone %s", origId, menu.GetID())
-	tk.Get().Eval("%s add cascade -label {%s} -underline %d -menu %s", m.GetID(), label, underline, menu.GetID())
+	cmdName := command.GenerateName(label, m.GetID())
+	tk.Get().CreateCommand(cmdName, callback)
+
+	tk.Get().Eval("%s add checkbutton -variable %s -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), varName, label, shortcut, img.GetID(), compound, cmdName)
+}
+
+// AddRadioButtonEntry adds an item to the menu that acts as a radio button.
+// The shortcut will need to be bound using the Bind method.
+func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback command.Callback) {
+	name := command.GenerateName(label, m.GetID())
+	tk.Get().CreateCommand(name, callback)
+
+	tk.Get().Eval("%s add radiobutton -variable %s -label {%s} -accelerator {%s} -command {%s}", m.GetID(), m.radioButtonVar, label, shortcut, name)
+}
+
+// AddImageRadioButtonEntry is the same as AddRadioButtonEntry but also
+// displays an image.
+// The shortcut will need to be bound using the Bind method.
+// See [element.compound] for image positions.
+func (m *Menu) AddImageRadioButtonEntry(label string, shortcut string, img *image.Image, compound string, callback command.Callback) {
+	name := command.GenerateName(label, m.GetID())
+	tk.Get().CreateCommand(name, callback)
+
+	tk.Get().Eval("%s add radiobutton -variable %s -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), m.radioButtonVar, label, shortcut, img.GetID(), compound, name)
+}
+
+// GetCheckboxEntrySelected gets if the check box entry at the passed index is
+// checked or not. The index only applies to check box entries in the menu not
+// any other type of entry. If there are no check box entries in the menu this
+// method returns false.
+func (m *Menu) GetCheckboxEntrySelected(index int) bool {
+	if index >= 0 && index < len(m.checkButtonVars) {
+		name := m.checkButtonVars[index]
+		return tk.Get().GetVariableBoolValue(name)
+	}
+
+	return false
 }
