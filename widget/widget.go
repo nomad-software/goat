@@ -196,6 +196,6 @@ func (w *Widget) Place(x, y, width, height int, anchor string, border string) {
 //
 // See [widget.geometry.Anchor]
 // See [widget.geometry.BorderMode]
-func (w *Widget) PlaceRelative(x, y, width, height int, anchor string, border string) {
-	tk.Get().Eval("place %s -relx %d -rely %d -relwidth %d -relheight %d -anchor {%s} -bordermode {%s}", w.GetID(), x, y, width, height, anchor, border)
+func (w *Widget) PlaceRelative(x, y, width, height float64, anchor string, border string) {
+	tk.Get().Eval("place %s -relx %v -rely %v -relwidth %v -relheight %v -anchor {%s} -bordermode {%s}", w.GetID(), x, y, width, height, anchor, border)
 }

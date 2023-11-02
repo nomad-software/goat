@@ -26,6 +26,7 @@ type Menu struct {
 
 // New creates a new menu.
 // The parent will usually be a menu bar.
+// See [element.underline] for underline options.
 func New(bar element.Element, label string, underline int) *Menu {
 	menu := &Menu{}
 	menu.SetParent(bar)
@@ -52,6 +53,7 @@ func NewPopUp() *Menu {
 }
 
 // AddMenuEntry adds a cascading menu entry.
+// See [element.underline] for underline options.
 func (m *Menu) AddMenuEntry(label string, underline int, menu *Menu) {
 	origId := menu.GetID()
 	menu.SetParent(m)

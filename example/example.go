@@ -2,12 +2,13 @@ package main
 
 import (
 	"github.com/nomad-software/goat/app"
-	"github.com/nomad-software/goat/element/color"
 	"github.com/nomad-software/goat/element/compound"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/tk/command"
+	"github.com/nomad-software/goat/widget/geometry"
 	"github.com/nomad-software/goat/widget/menu"
+	"github.com/nomad-software/goat/widget/notebook"
 	"github.com/nomad-software/goat/window"
 	"github.com/nomad-software/goat/window/protocol"
 )
@@ -36,7 +37,8 @@ func main() {
 
 	createMenu(main)
 
-	main.SetBackgroundColor(color.Beige)
+	note := notebook.New(main)
+	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
 
 	app.Start()
 }

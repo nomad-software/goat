@@ -146,37 +146,37 @@ import (
 // <Control-comma> is equivalent to <Control-KeyPress-comma>.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/bind.html
-func (ele *Window) Bind(binding string, callback command.Callback) {
+func (el *Window) Bind(binding string, callback command.Callback) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
 		return
 	}
 
-	name := command.GenerateName(binding, ele.GetID())
+	name := command.GenerateName(binding, el.GetID())
 
 	tk.Get().CreateCommand(name, callback)
-	tk.Get().Eval("bind %s {%s} {%s %%W %%b %%k %%x %%y %%D %%K %%X %%Y}", ele.GetID(), binding, name)
+	tk.Get().Eval("bind %s {%s} {%s %%W %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
 }
 
 // UnBind unbinds a command from the passed binding.
-func (ele *Window) UnBind(binding string) {
+func (el *Window) UnBind(binding string) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
 		return
 	}
 
-	name := command.GenerateName(binding, ele.GetID())
+	name := command.GenerateName(binding, el.GetID())
 
-	tk.Get().Eval("bind %s {%s} {}", ele.GetID(), binding)
+	tk.Get().Eval("bind %s {%s} {}", el.GetID(), binding)
 	tk.Get().DeleteCommand(name)
 }
 
 // GenerateEvent generates the passed event on the ui element.
-func (ele *Window) GenerateEvent(event string) {
+func (el *Window) GenerateEvent(event string) {
 	if ok := tk.Event.MatchString(event); !ok {
 		log.Error(fmt.Errorf("invalid event: %s", event))
 		return
 	}
 
-	tk.Get().Eval("event generate %s {%s}", ele.GetID(), event)
+	tk.Get().Eval("event generate %s {%s}", el.GetID(), event)
 }
