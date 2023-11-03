@@ -66,9 +66,9 @@ func main() {
 	contents = ReceiverRegex.ReplaceAll(contents, []byte("el "+opt.Receiver))
 
 	if opt.FileName != "" {
-		path = filepath.Join(env.PkgDir, opt.FileName+"_"+opt.PkgName+".go")
+		path = filepath.Join(env.PkgDir, opt.FileName+"_"+opt.PkgName+".gen.go")
 	} else {
-		path = filepath.Join(env.PkgDir, env.GoPackage+"_"+opt.PkgName+".go")
+		path = filepath.Join(env.PkgDir, env.GoPackage+"_"+opt.PkgName+".gen.go")
 	}
 
 	err = os.WriteFile(path, contents, 0666)

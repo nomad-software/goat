@@ -3,9 +3,12 @@ package main
 import (
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/compound"
+	"github.com/nomad-software/goat/element/relief"
+	"github.com/nomad-software/goat/element/underline"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/tk/command"
+	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/geometry"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/notebook"
@@ -38,8 +41,14 @@ func main() {
 	createMenu(main)
 
 	note := notebook.New(main)
-	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
 
+	f1 := frame.New(nil, 5, relief.Groove)
+	f2 := frame.New(nil, 5, relief.Groove)
+
+	note.AddTab("test 1", underline.None, f1)
+	note.AddTab("test 2", underline.None, f2)
+
+	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
 	app.Start()
 }
 

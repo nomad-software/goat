@@ -14,6 +14,9 @@ import (
 
 // Menubar is the cascading menu that items are selected from.
 //
+// Virtual events that can also be bound to.
+// <<MenuSelect>>
+//
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
 //
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=bind

@@ -16,26 +16,26 @@ type Widget struct {
 }
 
 // SetState sets the state of the widget.
-// See [widget.state] for state strings.
+// See [widget.state] for state values.
 func (w *Widget) SetState(state []string) {
 	tk.Get().Eval("%s state {%s}", w.GetID(), strings.Join(state, " "))
 }
 
 // RemoveState removes states from the widget.
-// See [widget.state] for state strings.
+// See [widget.state] for state values.
 func (w *Widget) RemoveState(state []string) {
 	tk.Get().Eval("%s state {!%s}", w.GetID(), strings.Join(state, " !"))
 }
 
 // InState returns true if the widget is in the passed state.
-// See [widget.state] for state strings.
+// See [widget.state] for state values.
 func (w *Widget) InState(state string) bool {
 	tk.Get().Eval("%s instate {%s}", w.GetID(), state)
 	return tk.Get().GetBoolResult()
 }
 
 // GetState gets the state of the widget.
-// See [widget.state] for state strings.
+// See [widget.state] for state values.
 func (w *Widget) GetState() []string {
 	tk.Get().Eval("%s state", w.GetID())
 	result := tk.Get().GetStrResult()
@@ -60,61 +60,61 @@ func (w *Widget) Disable() {
 }
 
 // Focus sets that the widget has keyboard focus.
-// See [widget.stat.Focus]
+// See [widget.state.Focus]
 func (w *Widget) Focus() {
 	w.SetState([]string{state.Focus})
 }
 
 // Blur sets that the widget does not have keyboard focus.
-// See [widget.stat.Focus]
+// See [widget.state.Focus]
 func (w *Widget) Blur() {
 	w.RemoveState([]string{state.Focus})
 }
 
 // Press set the widget to be pressed.
-// See [widget.stat.Pressed]
+// See [widget.state.Pressed]
 func (w *Widget) Press() {
 	w.SetState([]string{state.Pressed})
 }
 
 // UnPress set the widget to not be pressed.
-// See [widget.stat.Pressed]
+// See [widget.state.Pressed]
 func (w *Widget) UnPress() {
 	w.RemoveState([]string{state.Pressed})
 }
 
 // Select sets the widget to be selected.
-// See [widget.stat.Selected]
+// See [widget.state.Selected]
 func (w *Widget) Select() {
 	w.SetState([]string{state.Selected})
 }
 
 // Deselect sets the widget to not be selected.
-// See [widget.stat.Selected]
+// See [widget.state.Selected]
 func (w *Widget) Deselect() {
 	w.RemoveState([]string{state.Selected})
 }
 
 // ReadOnly sets the widget to be readonly.
-// See [widget.stat.Readonly]
+// See [widget.state.Readonly]
 func (w *Widget) ReadOnly() {
 	w.SetState([]string{state.Readonly})
 }
 
 // ReadAnWrite sets the widget to be read and write.
-// See [widget.stat.Readonly]
+// See [widget.state.Readonly]
 func (w *Widget) ReadAndWrite() {
 	w.RemoveState([]string{state.Readonly})
 }
 
 // Invalid sets the widget to be invalid.
-// See [widget.stat.Invalid]
+// See [widget.state.Invalid]
 func (w *Widget) Invalid() {
 	w.SetState([]string{state.Invalid})
 }
 
 // Valid sets the widget to be valid.
-// See [widget.stat.Invalid]
+// See [widget.state.Invalid]
 func (w *Widget) Valid() {
 	w.RemoveState([]string{state.Invalid})
 }

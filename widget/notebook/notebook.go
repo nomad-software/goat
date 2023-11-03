@@ -7,6 +7,19 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+// A notebook widget manages a collection of panes and displays a single one at
+// a time. Each pane is associated with a tab, which the user may select to
+// change the currently displayed pane.
+//
+// Virtual events that can also be bound to.
+//
+// <<NotebookTabChanged>>
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_notebook.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=padding
+//go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=width
 type NoteBook struct {
 	widget.Widget
 }
@@ -45,6 +58,73 @@ func (n *NoteBook) InsertTab(index int, text string, underline int, el element.E
 // See [element.compound] for image positions.
 func (n *NoteBook) InsertImageTab(index int, text string, underline int, img *image.Image, compound string, el element.Element) {
 	tk.Get().Eval("%s insert %d %s -text {%s} -underline %d -image %s -compound {%s}", n.GetID(), index, el.GetID(), text, underline, img.GetID(), compound)
+}
+
+// SelectTab selects the tab specified by the passed index.
+func (n *NoteBook) SelectTab(index int) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s select %d", n.GetID(), index)
+}
+
+// RemoveTab removes the tab specified by the passed index.
+func (n *NoteBook) RemoveTab(index int) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s forget %d", n.GetID(), index)
+}
+
+// DisableTab disables the tab specified by the passed index.
+func (n *NoteBook) DisableTab(index int) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s tab %d -state disable", n.GetID(), index)
+}
+
+// EnableTab enables the tab specified by the passed index.
+func (n *NoteBook) EnableTab(index int) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s tab %d -state normal", n.GetID(), index)
+}
+
+// SetPaneStickyState sets a tab pane's sticky state. Specifies how the widget
+// is positioned within the pane area. Sticky state is a string containing zero
+// or more of the characters n, s, e, or w. Each letter refers to a side
+// (north, south, east, or west) that the widget will "stick" to, as per the
+// grid geometry manager.
+func (n *NoteBook) SetPaneStickyState(index int, state string) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s tab %d -sticky {%s}", n.GetID(), index, state)
+}
+
+// SetPanePadding sets the pane's padding.
+func (n *NoteBook) SetPanePadding(index int, padding int) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s tab %d -padding %d", n.GetID(), index, padding)
+}
+
+// SetTabText sets the tab's text.
+func (n *NoteBook) SetTabText(index int, text string) {
+	count := n.GetNumberOfTabs()
+	if index >= count {
+		index = count - 1
+	}
+	tk.Get().Eval("%s tab %d -text {%s}", n.GetID(), index, text)
 }
 
 // GetNumberOfTabs gets the number of tabs.
