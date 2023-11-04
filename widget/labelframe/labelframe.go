@@ -30,3 +30,9 @@ func New(parent element.Element, text string, underline int) *LabelFrame {
 
 	return frame
 }
+
+// SetLabelAnchor sets the anchor for the label.
+// See [widget.geometry.Anchor] for anchor values.
+func (l *LabelFrame) SetLabelAnchor(anchor string) {
+	tk.Get().Eval("%s configure -labelanchor {%s}", l.GetID(), anchor)
+}
