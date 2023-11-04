@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/element/hash"
 	"github.com/nomad-software/goat/internal/element/ui"
 	"github.com/nomad-software/goat/tk"
@@ -28,9 +27,8 @@ type Menu struct {
 }
 
 // New creates a new menu.
-// The parent will usually be a menu bar.
 // See [element.underline] for underline options.
-func New(bar element.Element, label string, underline int) *Menu {
+func New(bar *MenuBar, label string, underline int) *Menu {
 	menu := &Menu{}
 	menu.SetParent(bar)
 	menu.SetType("menu")
@@ -152,9 +150,9 @@ func (m *Menu) Invoke(index int) {
 	tk.Get().Eval("%s invoke %d", m.GetID(), index)
 }
 
-// SelectCheckButtonEntry selects or deselects a check button entry at the
+// SetCheckButtonEntry selects or deselects a check button entry at the
 // specified index. This will also execute the callback.
-func (m *Menu) SelectCheckButtonEntry(index int, selected bool) {
+func (m *Menu) SetCheckButtonEntry(index int, selected bool) {
 	if index >= 0 && index < len(m.checkButtonVars) {
 		name := m.checkButtonVars[index]
 		if selected {

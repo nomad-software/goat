@@ -17,7 +17,11 @@ import (
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/toplevel.html
 //
 //go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=bind
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=borderwidth
 //go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=color -methods=SetBackgroundColor
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=height
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=relief
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=width
 type Window struct {
 	ui.Ele
 }
@@ -35,7 +39,7 @@ func New(parent element.Element) *Window {
 	return win
 }
 
-// GetStyle gets the ui element class.
+// GetStyle gets the ui element style.
 // Override and fake this for window because style is not supported.
 // See [element.style] for style names.
 func (w *Window) GetStyle() string {
@@ -204,4 +208,9 @@ func (w *Window) SetIcon(imgs []*image.Image, applyToChildwindows bool) {
 	} else {
 		tk.Get().Eval("wm iconphoto %s %s", w.GetID(), strings.Join(ids, " "))
 	}
+}
+
+// SetPadding sets the padding.
+func (w *Window) SetPadding(p int) {
+	tk.Get().Eval("%s configure -padx %d -pady %d", w.GetID(), p, p)
 }

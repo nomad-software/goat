@@ -1,9 +1,9 @@
 package menu
 
 import (
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/element/ui"
 	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/window"
 )
 
 // Menubar is the bar across the top of a window holding the menu items.
@@ -16,10 +16,9 @@ type MenuBar struct {
 }
 
 // NewBar creates a new menu bar to hold the menu.
-// The parent will usually be a window.
-func NewBar(parent element.Element) *MenuBar {
+func NewBar(win *window.Window) *MenuBar {
 	bar := &MenuBar{}
-	bar.SetParent(parent)
+	bar.SetParent(win)
 	bar.SetType("menubar")
 
 	tk.Get().Eval("menu %s -tearoff 0", bar.GetID())

@@ -42,8 +42,8 @@ func main() {
 
 	note := notebook.New(main)
 
-	f1 := frame.New(nil, 5, relief.Groove)
-	f2 := frame.New(nil, 5, relief.Groove)
+	f1 := frame.New(nil, 0, relief.Flat)
+	f2 := frame.New(nil, 0, relief.Flat)
 
 	note.AddTab("test 1", underline.None, f1)
 	note.AddTab("test 2", underline.None, f2)
@@ -59,11 +59,13 @@ func createMenu(win *window.Window) {
 	checkSubMenu.AddCheckButtonEntry("Option 1", "", func(*command.CallbackData) {})
 	checkSubMenu.AddCheckButtonEntry("Option 2", "", func(*command.CallbackData) {})
 	checkSubMenu.AddCheckButtonEntry("Option 3", "", func(*command.CallbackData) {})
+	checkSubMenu.SetCheckButtonEntry(0, true)
 
 	radioSubMenu := menu.NewPopUp()
 	radioSubMenu.AddRadioButtonEntry("Option 1", "", func(*command.CallbackData) {})
 	radioSubMenu.AddRadioButtonEntry("Option 2", "", func(*command.CallbackData) {})
 	radioSubMenu.AddRadioButtonEntry("Option 3", "", func(*command.CallbackData) {})
+	radioSubMenu.SelectRadioButtonEntry(0)
 
 	file := menu.New(bar, "File", 0)
 	file.AddMenuEntry("Check button submenu", 0, checkSubMenu)

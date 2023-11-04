@@ -12,3 +12,13 @@ import (
 func (el *Frame) SetPadding(p int) {
 	tk.Get().Eval("%s configure -padding %d", el.GetID(), p)
 }
+
+// SetPadX sets the horizontal padding.
+func (el *Frame) SetPadX(p int) {
+	tk.Get().Eval("%s configure -padx %d", el.GetID(), p)
+}
+
+// SetPadY sets the vertical padding.
+func (el *Frame) SetPadY(p int) {
+	tk.Get().Eval("%s configure -pady %d", el.GetID(), p)
+}
