@@ -12,13 +12,3 @@ import (
 func (el *NoteBook) SetPadding(p int) {
 	tk.Get().Eval("%s configure -padding %d", el.GetID(), p)
 }
-
-// SetPadX sets the horizontal padding.
-func (el *NoteBook) SetPadX(p int) {
-	tk.Get().Eval("%s configure -padx %d", el.GetID(), p)
-}
-
-// SetPadY sets the vertical padding.
-func (el *NoteBook) SetPadY(p int) {
-	tk.Get().Eval("%s configure -pady %d", el.GetID(), p)
-}
