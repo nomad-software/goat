@@ -40,7 +40,7 @@ func main() {
 	// fmt.Printf("env: %#v\n", env)
 	// fmt.Printf("opt: %#v\n", opt)
 
-	fmt.Printf("processing: %s => generating %s\n", env.GoFile, opt.PkgName)
+	fmt.Printf("generating: %s => %s\n", env.GoFile, opt.PkgName)
 
 	path := filepath.Join(env.ProjectDir, env.CommonDir, opt.PkgName, opt.PkgName+".go")
 	contents, err := os.ReadFile(path)

@@ -55,7 +55,7 @@ func NewPopUp() *Menu {
 
 // AddMenuEntry adds a cascading menu entry.
 // See [element.underline] for underline options.
-func (m *Menu) AddMenuEntry(label string, underline int, menu *Menu) {
+func (m *Menu) AddMenuEntry(menu *Menu, label string, underline int) {
 	origId := menu.GetID()
 	menu.SetParent(m)
 
@@ -77,7 +77,7 @@ func (m *Menu) AddEntry(label string, shortcut string, callback command.Callback
 // AddImageEntry is the same as AddEntry but also displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [element.compound] for image positions.
-func (m *Menu) AddImageEntry(label string, shortcut string, img *image.Image, compound string, callback command.Callback) {
+func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(name, callback)
 
@@ -100,7 +100,7 @@ func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback comma
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [element.compound] for image positions.
-func (m *Menu) AddImageCheckButtonEntry(label string, shortcut string, img *image.Image, compound string, callback command.Callback) {
+func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	varName := variable.GenerateName(label, m.GetID())
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
@@ -123,7 +123,7 @@ func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback comma
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [element.compound] for image positions.
-func (m *Menu) AddImageRadioButtonEntry(label string, shortcut string, img *image.Image, compound string, callback command.Callback) {
+func (m *Menu) AddImageRadioButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(name, callback)
 

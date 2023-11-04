@@ -39,17 +39,31 @@ func main() {
 	})
 
 	createMenu(main)
+	createNotebook(main)
 
-	note := notebook.New(main)
+	app.Start()
+}
 
-	f1 := frame.New(nil, 0, relief.Flat)
-	f2 := frame.New(nil, 0, relief.Flat)
+func createNotebook(win *window.Window) {
+	note := notebook.New(win)
+	widgetPane := frame.New(nil, 0, relief.Flat)
+	panedPane := frame.New(nil, 0, relief.Flat)
+	canvasPane := frame.New(nil, 0, relief.Flat)
+	dialogPane := frame.New(nil, 0, relief.Flat)
 
-	note.AddTab("test 1", underline.None, f1)
-	note.AddTab("test 2", underline.None, f2)
+	img := embedded.GetImage("png/layout_content.png")
+	note.AddImageTab(img, compound.Left, "Widgets", underline.None, widgetPane)
+
+	img = embedded.GetImage("png/application_tile_horizontal.png")
+	note.AddImageTab(img, compound.Left, "Panes", underline.None, panedPane)
+
+	img = embedded.GetImage("png/shape_ungroup.png")
+	note.AddImageTab(img, compound.Left, "Canvas", underline.None, canvasPane)
+
+	img = embedded.GetImage("png/application_double.png")
+	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
 	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
-	app.Start()
 }
 
 func createMenu(win *window.Window) {
@@ -67,16 +81,16 @@ func createMenu(win *window.Window) {
 	radioSubMenu.AddRadioButtonEntry("Option 3", "", func(*command.CallbackData) {})
 	radioSubMenu.SelectRadioButtonEntry(0)
 
-	file := menu.New(bar, "File", 0)
-	file.AddMenuEntry("Check button submenu", 0, checkSubMenu)
-	file.AddMenuEntry("Radio button submenu", 0, radioSubMenu)
+	file := menu.New(bar, "File", underline.None)
+	file.AddMenuEntry(checkSubMenu, "Check button submenu", underline.None)
+	file.AddMenuEntry(radioSubMenu, "Radio button submenu", underline.None)
 	file.AddSeparator()
 	img := embedded.GetImage("png/cancel.png")
-	file.AddImageEntry("Quit", "Ctrl-Q", img, compound.Left, func(*command.CallbackData) {
+	file.AddImageEntry(img, compound.Left, "Quit", "Ctrl-Q", func(*command.CallbackData) {
 		win.Destroy()
 	})
 
-	help := menu.New(bar, "Help", 0)
+	help := menu.New(bar, "Help", underline.None)
 	img = embedded.GetImage("png/help.png")
-	help.AddImageEntry("About...", "F1", img, compound.Left, func(*command.CallbackData) {})
+	help.AddImageEntry(img, compound.Left, "About...", "F1", func(*command.CallbackData) {})
 }

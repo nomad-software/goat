@@ -43,7 +43,7 @@ func (n *NoteBook) AddTab(text string, underline int, el element.Element) {
 // AddImageTab is the same as AddTab but also displays an image.
 // See [element.underline] for underline options.
 // See [element.compound] for image positions.
-func (n *NoteBook) AddImageTab(text string, underline int, img *image.Image, compound string, el element.Element) {
+func (n *NoteBook) AddImageTab(img *image.Image, compound string, text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert end %s -text {%s} -underline %d -image %s -compound {%s}", n.GetID(), el.GetID(), text, underline, img.GetID(), compound)
 }
 
@@ -56,7 +56,7 @@ func (n *NoteBook) InsertTab(index int, text string, underline int, el element.E
 // InsertImageTab is the same as InsertTab but also displays an image.
 // See [element.underline] for underline options.
 // See [element.compound] for image positions.
-func (n *NoteBook) InsertImageTab(index int, text string, underline int, img *image.Image, compound string, el element.Element) {
+func (n *NoteBook) InsertImageTab(img *image.Image, compound string, index int, text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert %d %s -text {%s} -underline %d -image %s -compound {%s}", n.GetID(), index, el.GetID(), text, underline, img.GetID(), compound)
 }
 
