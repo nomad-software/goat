@@ -19,6 +19,7 @@ type Frame struct {
 	widget.Widget
 }
 
+// New creates a new frame.
 func New(parent element.Element, borderWidth int, relief string) *Frame {
 	frame := &Frame{}
 	frame.SetParent(parent)

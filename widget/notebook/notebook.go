@@ -24,6 +24,7 @@ type NoteBook struct {
 	widget.Widget
 }
 
+// New creates a new notebook.
 func New(parent element.Element) *NoteBook {
 	note := &NoteBook{}
 	note.SetParent(parent)

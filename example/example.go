@@ -10,6 +10,7 @@ import (
 	"github.com/nomad-software/goat/tk/command"
 	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/geometry"
+	"github.com/nomad-software/goat/widget/labelframe"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/notebook"
 	"github.com/nomad-software/goat/window"
@@ -46,7 +47,7 @@ func main() {
 
 func createNotebook(win *window.Window) {
 	note := notebook.New(win)
-	widgetPane := frame.New(nil, 0, relief.Flat)
+	widgetPane := createWidgetPane()
 	panedPane := frame.New(nil, 0, relief.Flat)
 	canvasPane := frame.New(nil, 0, relief.Flat)
 	dialogPane := frame.New(nil, 0, relief.Flat)
@@ -64,6 +65,14 @@ func createNotebook(win *window.Window) {
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
 	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
+}
+
+func createWidgetPane() *frame.Frame {
+	frame := frame.New(nil, 0, relief.Flat)
+	widgetFrame := labelframe.New(frame, "Text entry", underline.None)
+	widgetFrame.Pack(10, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
+
+	return frame
 }
 
 func createMenu(win *window.Window) {
