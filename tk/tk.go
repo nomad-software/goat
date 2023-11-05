@@ -246,6 +246,20 @@ func (tk *Tk) GetVarBoolValue(name string) bool {
 	return b
 }
 
+// DeleteVar deletes a variable and cleans up its resources
+func (tk *Tk) DeleteVar(name string) {
+	log.Debug("deleting variable {%s}", name)
+
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	result := C.Tcl_UnsetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+	if result == C.TCL_ERROR {
+		err := tk.getTclError("delete variable error: {%s}", name)
+		log.Error(err)
+	}
+}
+
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)

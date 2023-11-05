@@ -11,10 +11,10 @@ var (
 
 	// Fill specifies the space to fill inside its parent.
 	Fill = fill{
-		None: "none",
-		X:    "x",
-		Y:    "y",
-		Both: "both",
+		None:       "none",
+		Horizontal: "x",
+		Vertical:   "y",
+		Both:       "both",
 	}
 
 	// Anchor specifies the anchor position of the widget inside its parent.
@@ -46,10 +46,10 @@ type side struct {
 }
 
 type fill struct {
-	None string
-	X    string
-	Y    string
-	Both string
+	None       string
+	Horizontal string
+	Vertical   string
+	Both       string
 }
 
 type borderMode struct {
