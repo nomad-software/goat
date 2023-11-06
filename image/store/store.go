@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/internal/log"
 )
 
 // Store is an image store of embedded images.

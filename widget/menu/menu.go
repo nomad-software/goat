@@ -6,9 +6,9 @@ import (
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/element/hash"
 	"github.com/nomad-software/goat/internal/element/ui"
-	"github.com/nomad-software/goat/tk"
-	"github.com/nomad-software/goat/tk/command"
-	"github.com/nomad-software/goat/tk/variable"
+	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/internal/tk/variable"
 )
 
 // Menubar is the cascading menu that items are selected from.
@@ -27,7 +27,7 @@ type Menu struct {
 }
 
 // New creates a new menu.
-// See [widget.option.underline] for underline options.
+// See [option.underline] for underline options.
 func New(bar *MenuBar, label string, underline int) *Menu {
 	menu := &Menu{}
 	menu.SetParent(bar)
@@ -54,7 +54,7 @@ func NewPopUp() *Menu {
 }
 
 // AddMenuEntry adds a cascading menu entry.
-// See [widget.option.underline] for underline options.
+// See [option.underline] for underline options.
 func (m *Menu) AddMenuEntry(menu *Menu, label string, underline int) {
 	origId := menu.GetID()
 	menu.SetParent(m)
@@ -76,7 +76,7 @@ func (m *Menu) AddEntry(label string, shortcut string, callback command.Callback
 
 // AddImageEntry is the same as AddEntry but also displays an image.
 // The shortcut will need to be bound using the Bind method.
-// See [widget.option.compound] for image positions.
+// See [option.compound] for image positions.
 func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(name, callback)
@@ -99,7 +99,7 @@ func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback comma
 // AddImageCheckButtonEntry is the same as AddCheckButtonEntry but also
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
-// See [widget.option.compound] for image positions.
+// See [option.compound] for image positions.
 func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	varName := variable.GenerateName(label, m.GetID())
 	m.checkButtonVars = append(m.checkButtonVars, varName)
@@ -122,7 +122,7 @@ func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback comma
 // AddImageRadioButtonEntry is the same as AddRadioButtonEntry but also
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
-// See [widget.option.compound] for image positions.
+// See [option.compound] for image positions.
 func (m *Menu) AddImageRadioButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(name, callback)

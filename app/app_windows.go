@@ -1,6 +1,6 @@
 package app
 
-import "github.com/nomad-software/goat/tk"
+import "github.com/nomad-software/goat/internal/tk"
 
 // init configures the environment.
 func init() {

@@ -4,9 +4,9 @@ package menu
 import (
 	"fmt"
 
-	"github.com/nomad-software/goat/log"
-	"github.com/nomad-software/goat/tk"
-	"github.com/nomad-software/goat/tk/command"
+	"github.com/nomad-software/goat/internal/log"
+	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/tk/command"
 )
 
 

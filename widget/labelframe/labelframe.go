@@ -2,7 +2,7 @@ package labelframe
 
 import (
 	"github.com/nomad-software/goat/internal/element"
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/widget"
 )
 
@@ -32,7 +32,7 @@ func New(parent element.Element, text string, underline int) *LabelFrame {
 }
 
 // SetLabelAnchor sets the anchor for the label.
-// See [widget.option.anchor] for anchor values.
+// See [option.anchor] for anchor values.
 func (l *LabelFrame) SetLabelAnchor(anchor string) {
 	tk.Get().Eval("%s configure -labelanchor {%s}", l.GetID(), anchor)
 }

@@ -2,7 +2,7 @@ package frame
 
 import (
 	"github.com/nomad-software/goat/internal/element"
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/widget"
 )
 

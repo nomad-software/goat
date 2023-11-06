@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/kelseyhightower/envconfig"
-	"github.com/nomad-software/goat/log"
+	"github.com/nomad-software/goat/internal/log"
 )
 
 const (

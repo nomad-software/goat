@@ -2,14 +2,14 @@
 package window
 
 import (
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/tk"
 )
 
 
 
 
 // SetRelief sets the relief effect.
-// See [widget.option.relief]
+// See [option.relief]
 func (el *Window) SetRelief(r string) {
 	tk.Get().Eval("%s configure -relief {%s}", el.GetID(), r)
 }

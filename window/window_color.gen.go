@@ -2,7 +2,7 @@
 package window
 
 import (
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/tk"
 )
 
 
@@ -11,7 +11,7 @@ import (
 
 
 // SetBackgroundColor sets the background color.
-// See [widget.option.color] for color names.
+// See [option.color] for color names.
 // A hexadecimal string can be used too. e.g. #FFFFFF.
 func (el *Window) SetBackgroundColor(c string) {
 	tk.Get().Eval("%s configure -background {%s}", el.GetID(), c)

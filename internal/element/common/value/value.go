@@ -1,7 +1,7 @@
 package value
 
 import (
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/widget" // IGNORE
 )
 

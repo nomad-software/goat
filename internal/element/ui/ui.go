@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/internal/element"
-	"github.com/nomad-software/goat/log"
-	"github.com/nomad-software/goat/tk"
+	"github.com/nomad-software/goat/internal/log"
+	"github.com/nomad-software/goat/internal/tk"
 )
 
 // Ele provides a base implementation of an ui element.
@@ -43,13 +43,13 @@ func (e *Ele) GetStyle() string {
 }
 
 // SetCursor sets the cursor of the ui element.
-// See [element.cursor] for cursor names.
+// See [option.cursor] for cursor names.
 func (e *Ele) SetCursor(cursor string) {
 	tk.Get().Eval("%s configure -cursor {%s}", e.GetID(), cursor)
 }
 
 // GetCursor gets the cursor of the ui element.
-// See [element.cursor] for cursor names.
+// See [option.cursor] for cursor names.
 func (e *Ele) GetCursor() string {
 	tk.Get().Eval("%s cget -cursor", e.GetID())
 	return tk.Get().GetStrResult()

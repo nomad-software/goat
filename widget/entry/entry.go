@@ -2,8 +2,8 @@ package entry
 
 import (
 	"github.com/nomad-software/goat/internal/element"
-	"github.com/nomad-software/goat/tk"
-	"github.com/nomad-software/goat/tk/variable"
+	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/tk/variable"
 	"github.com/nomad-software/goat/widget"
 )
 
@@ -24,6 +24,7 @@ import (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=scrollbar -methods=AttachHorizontalScrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=show
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=value
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=width
 type Entry struct {

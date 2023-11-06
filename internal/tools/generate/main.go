@@ -9,9 +9,9 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tools/generate/cli"
 	"github.com/nomad-software/goat/internal/tools/generate/env"
-	"github.com/nomad-software/goat/log"
 )
 
 const (
