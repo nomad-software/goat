@@ -130,9 +130,9 @@ func (w *Widget) Valid() {
 // anchor   = The anchor position of the widget inside its parent.
 // expand   = Whether or not to expand to fill the entire given space.
 //
-// See [widget.geometry.Side] for side values.
-// See [widget.geometry.Fill] for fill values.
-// See [widget.geometry.Anchor] for anchor values.
+// See [widget.geometry.side] for side values.
+// See [widget.geometry.fill] for fill values.
+// See [widget.geometry.anchor] for anchor values.
 func (w *Widget) Pack(outerPad, innerPad int, side, fill, anchor string, expand bool) {
 	tk.Get().Eval("pack %s -padx %d -pady %d -ipadx %d -ipady %d -side {%s} -fill {%s} -anchor {%s} -expand %v", w.GetID(), outerPad, outerPad, innerPad, innerPad, side, fill, anchor, expand)
 }
@@ -174,8 +174,8 @@ func (w *Widget) Grid(column, row, outerPad, innerPad, colspan, rowspan int, sti
 // anchor = The anchor position of the widget inside its parent.
 // border = How the widget interacts with the parent's border.
 //
-// See [widget.geometry.Anchor] for anchor values.
-// See [widget.geometry.BorderMode] for border mode values.
+// See [widget.geometry.anchor] for anchor values.
+// See [widget.geometry.bordermode] for border mode values.
 func (w *Widget) Place(x, y, width, height int, anchor string, border string) {
 	tk.Get().Eval("place %s -x %d -y %d -width %d -height %d -anchor {%s} -bordermode {%s}", w.GetID(), x, y, width, height, anchor, border)
 }
@@ -194,8 +194,8 @@ func (w *Widget) Place(x, y, width, height int, anchor string, border string) {
 // anchor = The anchor position of the widget inside its parent.
 // border = How the widget interacts with the parent's border.
 //
-// See [widget.geometry.Anchor] for anchor values.
-// See [widget.geometry.BorderMode] for border mode values.
+// See [widget.geometry.anchor] for anchor values.
+// See [widget.geometry.bordermode] for border mode values.
 func (w *Widget) PlaceRelative(x, y, width, height float64, anchor string, border string) {
 	tk.Get().Eval("place %s -relx %v -rely %v -relwidth %v -relheight %v -anchor {%s} -bordermode {%s}", w.GetID(), x, y, width, height, anchor, border)
 }

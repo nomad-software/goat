@@ -21,8 +21,11 @@ import (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_entry.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=value
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=color -methods=SetForegroundColor
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=scrollbar -methods=AttachHorizontalScrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=value
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=width
 type Entry struct {
 	widget.Widget
 
