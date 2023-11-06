@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/element/compound"
 	"github.com/nomad-software/goat/element/relief"
@@ -22,6 +24,8 @@ import (
 
 var (
 	embedded = store.New(image.FS)
+
+	timeEntry *entry.Entry
 )
 
 func main() {
@@ -36,6 +40,11 @@ func main() {
 
 	main.Bind("<Control-Key-q>", func(*command.CallbackData) {
 		main.Destroy()
+	})
+
+	app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
+		timeEntry.SetValue(time.Now().Format(time.RFC3339))
+		app.CreateIdleCallback(time.Second, data.Callback)
 	})
 
 	main.BindProtocol(protocol.DeleteWindow, func(*command.CallbackData) {
@@ -100,41 +109,40 @@ func createNotebook(win *window.Window) {
 }
 
 func createWidgetPane() *frame.Frame {
-	frame := frame.New(nil, 0, relief.Flat)
+	pane := frame.New(nil, 0, relief.Flat)
 
-	entryFrame := labelframe.New(frame, "Text entry", underline.None)
+	entryFrame := labelframe.New(pane, "Text entry", underline.None)
 	entryFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
 
-	e := entry.New(entryFrame)
-	e.SetValue("lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ")
-	e.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
+	timeEntry = entry.New(entryFrame)
+	timeEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
 
-	// rangeFrame := labelframe.New(frame, "Progress & Scale", underline.None)
-	// rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
-	//
-	// buttonFrame := labelframe.New(frame, "Buttons", underline.None)
-	// buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
-	//
-	// checkbuttonFrame := labelframe.New(frame, "Check buttons", underline.None)
-	// checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
-	//
-	// radiobuttonFrame := labelframe.New(frame, "Radio buttons", underline.None)
-	// radiobuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+	rangeFrame := labelframe.New(pane, "Progress & Scale", underline.None)
+	rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
 
-	return frame
+	buttonFrame := labelframe.New(pane, "Buttons", underline.None)
+	buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	checkbuttonFrame := labelframe.New(pane, "Check buttons", underline.None)
+	checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	radiobuttonFrame := labelframe.New(pane, "Radio buttons", underline.None)
+	radiobuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	return pane
 }
 
 func createPanedPane() *frame.Frame {
-	frame := frame.New(nil, 0, relief.Flat)
-	return frame
+	pane := frame.New(nil, 0, relief.Flat)
+	return pane
 }
 
 func createCanvasPane() *frame.Frame {
-	frame := frame.New(nil, 0, relief.Flat)
-	return frame
+	pane := frame.New(nil, 0, relief.Flat)
+	return pane
 }
 
 func createDialogPane() *frame.Frame {
-	frame := frame.New(nil, 0, relief.Flat)
-	return frame
+	pane := frame.New(nil, 0, relief.Flat)
+	return pane
 }
