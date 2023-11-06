@@ -10,9 +10,8 @@ import (
 
 
 
-// SetHorizontalScrollbar sets the horizontal scrollbar.
-func (el *Entry) SetHorizontalScrollbar(bar *scrollbar.HorizontalScrollbar) {
-	tk.Get().Eval("%s configure -command [list %s xview]", bar.GetID(), el.GetID())
+// AttachHorizontalScrollbar sets the horizontal scrollbar.
+func (el *Entry) AttachHorizontalScrollbar(bar *scrollbar.HorizontalScrollbar) {
 	tk.Get().Eval("%s configure -xscrollcommand [list %s set]", el.GetID(), bar.GetID())
 }
 
