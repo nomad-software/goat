@@ -10,7 +10,9 @@ import (
 	"github.com/nomad-software/goat/tk/command"
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
-	"github.com/nomad-software/goat/widget/geometry"
+	"github.com/nomad-software/goat/widget/geometry/anchor"
+	"github.com/nomad-software/goat/widget/geometry/fill"
+	"github.com/nomad-software/goat/widget/geometry/side"
 	"github.com/nomad-software/goat/widget/labelframe"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/notebook"
@@ -94,30 +96,30 @@ func createNotebook(win *window.Window) {
 	img = embedded.GetImage("png/application_double.png")
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
-	note.Pack(0, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
+	note.Pack(0, 0, side.Top, fill.Both, anchor.Center, true)
 }
 
 func createWidgetPane() *frame.Frame {
 	frame := frame.New(nil, 0, relief.Flat)
 
 	entryFrame := labelframe.New(frame, "Text entry", underline.None)
-	entryFrame.Pack(10, 0, geometry.Side.Top, geometry.Fill.Both, geometry.Anchor.Center, true)
+	entryFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
 
 	e := entry.New(entryFrame)
 	e.SetValue("lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ")
-	e.Pack(5, 0, geometry.Side.Left, geometry.Fill.Horizontal, geometry.Anchor.NorthWest, true)
+	e.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
 
 	// rangeFrame := labelframe.New(frame, "Progress & Scale", underline.None)
-	// rangeFrame.Pack(10, 0, geometry.Side.Bottom, geometry.Fill.Both, geometry.Anchor.Center, true)
+	// rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
 	//
 	// buttonFrame := labelframe.New(frame, "Buttons", underline.None)
-	// buttonFrame.Pack(10, 0, geometry.Side.Left, geometry.Fill.Both, geometry.Anchor.Center, true)
+	// buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
 	//
 	// checkbuttonFrame := labelframe.New(frame, "Check buttons", underline.None)
-	// checkbuttonFrame.Pack(10, 0, geometry.Side.Left, geometry.Fill.Both, geometry.Anchor.Center, true)
+	// checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
 	//
 	// radiobuttonFrame := labelframe.New(frame, "Radio buttons", underline.None)
-	// radiobuttonFrame.Pack(10, 0, geometry.Side.Left, geometry.Fill.Both, geometry.Anchor.Center, true)
+	// radiobuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
 
 	return frame
 }
