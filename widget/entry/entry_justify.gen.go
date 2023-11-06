@@ -9,7 +9,7 @@ import (
 
 
 // AlightText aligns the text in different ways.
-// See [widget.geometry.align]
+// See [widget.option.align]
 func (el *Entry) AlignText(align string) {
 	tk.Get().Eval("%s configure -justify {%s}", el.GetID(), align)
 }

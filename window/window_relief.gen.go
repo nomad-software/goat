@@ -9,7 +9,7 @@ import (
 
 
 // SetRelief sets the relief effect.
-// See [element.relief]
+// See [widget.option.relief]
 func (el *Window) SetRelief(r string) {
 	tk.Get().Eval("%s configure -relief {%s}", el.GetID(), r)
 }

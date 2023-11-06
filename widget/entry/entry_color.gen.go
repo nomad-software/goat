@@ -9,7 +9,7 @@ import (
 
 
 // SetForegroundColor sets the foreground color.
-// See [element.color] for color names.
+// See [widget.option.color] for color names.
 // A hexadecimal string can be used too. e.g. #FFFFFF.
 func (el *Entry) SetForegroundColor(c string) {
 	tk.Get().Eval("%s configure -foreground {%s}", el.GetID(), c)

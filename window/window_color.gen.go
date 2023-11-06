@@ -11,7 +11,7 @@ import (
 
 
 // SetBackgroundColor sets the background color.
-// See [element.color] for color names.
+// See [widget.option.color] for color names.
 // A hexadecimal string can be used too. e.g. #FFFFFF.
 func (el *Window) SetBackgroundColor(c string) {
 	tk.Get().Eval("%s configure -background {%s}", el.GetID(), c)

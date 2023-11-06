@@ -36,27 +36,27 @@ func New(parent element.Element) *NoteBook {
 }
 
 // AddTab adds a tab to the end.
-// See [element.underline] for underline options.
+// See [widget.option.underline] for underline options.
 func (n *NoteBook) AddTab(text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert end %s -text {%s} -underline %d", n.GetID(), el.GetID(), text, underline)
 }
 
 // AddImageTab is the same as AddTab but also displays an image.
-// See [element.underline] for underline options.
-// See [element.compound] for image positions.
+// See [widget.option.underline] for underline options.
+// See [widget.option.compound] for image positions.
 func (n *NoteBook) AddImageTab(img *image.Image, compound string, text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert end %s -text {%s} -underline %d -image %s -compound {%s}", n.GetID(), el.GetID(), text, underline, img.GetID(), compound)
 }
 
 // InsertTab inserts a tab at the specified index.
-// See [element.underline] for underline options.
+// See [widget.option.underline] for underline options.
 func (n *NoteBook) InsertTab(index int, text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert %d %s -text {%s} -underline %d", n.GetID(), index, el.GetID(), text, underline)
 }
 
 // InsertImageTab is the same as InsertTab but also displays an image.
-// See [element.underline] for underline options.
-// See [element.compound] for image positions.
+// See [widget.option.underline] for underline options.
+// See [widget.option.compound] for image positions.
 func (n *NoteBook) InsertImageTab(img *image.Image, compound string, index int, text string, underline int, el element.Element) {
 	tk.Get().Eval("%s insert %d %s -text {%s} -underline %d -image %s -compound {%s}", n.GetID(), index, el.GetID(), text, underline, img.GetID(), compound)
 }
