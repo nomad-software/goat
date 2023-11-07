@@ -17,10 +17,15 @@ type Spinbox struct {
 
 // New creates a new spinbox.
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=command
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=data
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=float
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=font
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=range
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=scrollbar -methods=AttachHorizontalScrollbar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=value -methods=SetFloatValue,GetFloatValue,Destroy
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=show
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=width
 func New(parent element.Element) *Spinbox {
 	spinbox := &Spinbox{}
@@ -33,7 +38,7 @@ func New(parent element.Element) *Spinbox {
 
 	spinbox.SetFromValue(math.MinInt8)
 	spinbox.SetToValue(math.MaxInt8)
-	spinbox.SetFloatValue(0)
+	spinbox.SetValue(0)
 
 	return spinbox
 }

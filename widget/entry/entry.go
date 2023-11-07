@@ -26,7 +26,7 @@ import (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=scrollbar -methods=AttachHorizontalScrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=show
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=value -methods=SetStrValue,GetStrValue,Destroy
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=string
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=width
 type Entry struct {
 	widget.Widget

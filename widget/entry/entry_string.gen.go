@@ -12,19 +12,15 @@ import (
 
 
 
-// SetStrValue sets the value.
-func (el *Entry) SetStrValue(val string) {
+// SetValue sets the value.
+func (el *Entry) SetValue(val string) {
 	tk.Get().SetVarStrValue(el.valueVar, val)
 }
 
-// GetStrValue gets the value.
-func (el *Entry) GetStrValue() string {
+// GetValue gets the value.
+func (el *Entry) GetValue() string {
 	return tk.Get().GetVarStrValue(el.valueVar)
 }
-
-
-
-
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once
 // destroyed you cannot refer to this ui element again or you will get a bad

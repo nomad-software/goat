@@ -1,4 +1,4 @@
-package value
+package string_
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
@@ -11,24 +11,14 @@ type stub struct { // IGNORE
 }                             // IGNORE
 func (el stub) GetID() string { return "" } // IGNORE
 
-// SetStrValue sets the value.
-func (el stub) SetStrValue(val string) {
+// SetValue sets the value.
+func (el stub) SetValue(val string) {
 	tk.Get().SetVarStrValue(el.valueVar, val)
 }
 
-// GetStrValue gets the value.
-func (el stub) GetStrValue() string {
+// GetValue gets the value.
+func (el stub) GetValue() string {
 	return tk.Get().GetVarStrValue(el.valueVar)
-}
-
-// SetFloatValue sets the value.
-func (el stub) SetFloatValue(val float64) {
-	tk.Get().SetVarFloatValue(el.valueVar, val)
-}
-
-// GetFloatValue gets the value.
-func (el stub) GetFloatValue() float64 {
-	return tk.Get().GetVarFloatValue(el.valueVar)
 }
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once

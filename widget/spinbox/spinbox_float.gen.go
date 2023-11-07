@@ -12,17 +12,13 @@ import (
 
 
 
-
-
-
-
-// SetFloatValue sets the value.
-func (el *Spinbox) SetFloatValue(val float64) {
+// SetValue sets the value.
+func (el *Spinbox) SetValue(val float64) {
 	tk.Get().SetVarFloatValue(el.valueVar, val)
 }
 
-// GetFloatValue gets the value.
-func (el *Spinbox) GetFloatValue() float64 {
+// GetValue gets the value.
+func (el *Spinbox) GetValue() float64 {
 	return tk.Get().GetVarFloatValue(el.valueVar)
 }
 

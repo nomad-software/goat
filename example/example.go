@@ -44,7 +44,7 @@ func main() {
 	})
 
 	app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
-		timeEntry.SetStrValue(time.Now().Format(time.RFC3339))
+		timeEntry.SetValue(time.Now().Format(time.RFC3339))
 		app.CreateIdleCallback(time.Second, data.Callback)
 	})
 
@@ -119,8 +119,9 @@ func createWidgetPane() *frame.Frame {
 	timeEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
 
 	spinEntry := spinbox.New(entryFrame)
-	spinEntry.SetWidth(5)
+	spinEntry.SetData("$foo", "[bar]", "\"baz\"", "{qux}")
 	spinEntry.SetWrap(true)
+	spinEntry.SetWidth(5)
 	spinEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.North, false)
 
 	rangeFrame := labelframe.New(pane, "Progress & Scale", underline.None)
