@@ -18,6 +18,7 @@ import (
 	"github.com/nomad-software/goat/widget/labelframe"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/notebook"
+	"github.com/nomad-software/goat/widget/spinbox"
 	"github.com/nomad-software/goat/window"
 	"github.com/nomad-software/goat/window/protocol"
 )
@@ -43,7 +44,7 @@ func main() {
 	})
 
 	app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
-		timeEntry.SetValue(time.Now().Format(time.RFC3339))
+		timeEntry.SetStrValue(time.Now().Format(time.RFC3339))
 		app.CreateIdleCallback(time.Second, data.Callback)
 	})
 
@@ -116,6 +117,11 @@ func createWidgetPane() *frame.Frame {
 
 	timeEntry = entry.New(entryFrame)
 	timeEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
+
+	spinEntry := spinbox.New(entryFrame)
+	spinEntry.SetWidth(5)
+	spinEntry.SetWrap(true)
+	spinEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.North, false)
 
 	rangeFrame := labelframe.New(pane, "Progress & Scale", underline.None)
 	rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)

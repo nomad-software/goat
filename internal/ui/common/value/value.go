@@ -11,14 +11,24 @@ type stub struct { // IGNORE
 }                             // IGNORE
 func (el stub) GetID() string { return "" } // IGNORE
 
-// SetValue sets the value.
-func (el stub) SetValue(val string) {
+// SetStrValue sets the value.
+func (el stub) SetStrValue(val string) {
 	tk.Get().SetVarStrValue(el.valueVar, val)
 }
 
-// GetValue gets the value.
-func (el stub) GetValue() string {
+// GetStrValue gets the value.
+func (el stub) GetStrValue() string {
 	return tk.Get().GetVarStrValue(el.valueVar)
+}
+
+// SetFloatValue sets the value.
+func (el stub) SetFloatValue(val float64) {
+	tk.Get().SetVarFloatValue(el.valueVar, val)
+}
+
+// GetFloatValue gets the value.
+func (el stub) GetFloatValue() float64 {
+	return tk.Get().GetVarFloatValue(el.valueVar)
 }
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once

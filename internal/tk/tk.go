@@ -179,6 +179,19 @@ func (tk *Tk) SetVarStrValue(name string, val string) {
 	log.Debug("set variable {%s} <- {%s}", name, val)
 }
 
+// SetVarFloatValue sets the named variable value using a string.
+func (tk *Tk) SetVarFloatValue(name string, val float64) {
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	cval := C.CString(fmt.Sprintf("%v", val))
+	defer C.free(unsafe.Pointer(cval))
+
+	C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
+
+	log.Debug("set variable {%s} <- {%s}", name, val)
+}
+
 // GetVarStrValue gets the named variable value as a string.
 func (tk *Tk) GetVarStrValue(name string) string {
 	cname := C.CString(name)
