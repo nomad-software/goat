@@ -1,9 +1,9 @@
 package entry
 
 import (
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/variable"
+	"github.com/nomad-software/goat/internal/ui/element"
 	"github.com/nomad-software/goat/widget"
 )
 

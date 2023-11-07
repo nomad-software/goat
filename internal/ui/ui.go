@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/ui/element"
 )
 
 // Ele provides a base implementation of an ui element.

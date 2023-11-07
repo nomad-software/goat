@@ -1,8 +1,8 @@
 package scrollbar
 
 import (
-	"github.com/nomad-software/goat/internal/element" // IGNORE
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/ui/element" // IGNORE
 	"github.com/nomad-software/goat/widget/scrollbar"
 )
 

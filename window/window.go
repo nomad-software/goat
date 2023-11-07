@@ -5,11 +5,11 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/internal/element"
-	"github.com/nomad-software/goat/internal/element/ui"
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/internal/ui"
+	"github.com/nomad-software/goat/internal/ui/element"
 )
 
 // Window is the struct representing a window.

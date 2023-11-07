@@ -2,8 +2,8 @@ package notebook
 
 import (
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/ui/element"
 	"github.com/nomad-software/goat/widget"
 )
 

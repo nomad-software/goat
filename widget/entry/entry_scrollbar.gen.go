@@ -2,8 +2,8 @@
 package entry
 
 import (
-
 	"github.com/nomad-software/goat/internal/tk"
+
 	"github.com/nomad-software/goat/widget/scrollbar"
 )
 

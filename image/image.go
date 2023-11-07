@@ -1,8 +1,8 @@
 package image
 
 import (
-	"github.com/nomad-software/goat/internal/element"
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/ui/element"
 )
 
 // Image provides a base implementation of an image.

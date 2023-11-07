@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/nomad-software/goat/image"
-	"github.com/nomad-software/goat/internal/element/hash"
-	"github.com/nomad-software/goat/internal/element/ui"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/tk/variable"
+	"github.com/nomad-software/goat/internal/ui"
+	"github.com/nomad-software/goat/internal/ui/element/hash"
 )
 
 // Menubar is the cascading menu that items are selected from.
