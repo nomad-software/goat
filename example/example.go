@@ -13,13 +13,16 @@ import (
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
+	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/labelframe"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/notebook"
+	"github.com/nomad-software/goat/widget/scrollbar"
 	"github.com/nomad-software/goat/widget/spinbox"
+	"github.com/nomad-software/goat/widget/text"
 	"github.com/nomad-software/goat/window"
 	"github.com/nomad-software/goat/window/protocol"
 )
@@ -115,6 +118,29 @@ func createWidgetPane() *frame.Frame {
 
 	entryFrame := labelframe.New(pane, "Text entry", underline.None)
 	entryFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+
+	textFrame := frame.New(entryFrame, 0, relief.Flat)
+	textFrame.Pack(5, 0, side.Bottom, fill.Both, anchor.Center, true)
+	textFrame.SetGridColumnWeight(0, 1)
+	textFrame.SetGridRowWeight(0, 1)
+
+	hscroll := scrollbar.NewHorizontal(textFrame)
+	hscroll.Grid(0, 1, 0, 0, 1, 1, "esw")
+
+	vscroll := scrollbar.NewVertical(textFrame)
+	vscroll.Grid(1, 0, 0, 0, 1, 1, "nes")
+
+	textEntry := text.New(textFrame)
+	textEntry.Grid(0, 0, 0, 0, 1, 1, "nesw")
+	textEntry.SetWidth(0)
+	textEntry.SetHeight(0)
+	textEntry.SetText("hello")
+	textEntry.SetWrapMode(wrapmode.None)
+	textEntry.AttachHorizontalScrollbar(hscroll)
+	textEntry.AttachVerticalScrollbar(vscroll)
+
+	hscroll.AttachWidget(textEntry)
+	vscroll.AttachWidget(textEntry)
 
 	timeEntry = entry.New(entryFrame)
 	timeEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)

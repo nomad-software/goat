@@ -232,3 +232,30 @@ func (e *Ele) Raise(el element.Element) {
 		tk.Get().Eval("raise %s", e.GetID())
 	}
 }
+
+// EnableGeometryAutoSize sets if the element should change it size when
+// requested to do so by a geometry manager.
+//
+// The geometry manager normally computes how large a master must be to just
+// exactly meet the needs of its slaves, and it sets the requested width and
+// height of the master to these dimensions. This causes geometry information
+// to propagate up through a window hierarchy to a top-level window so that the
+// entire sub-tree sizes itself to fit the needs of the leaf windows. However,
+// this command may be used to turn off propagation for one or more masters. If
+// propagation is disabled then it will not set the requested width and height
+// of the master window. This may be useful if, for example, you wish for a
+// master window to have a fixed size that you specify.
+func (e *Ele) EnableGeometryAutoSize(enable bool) {
+	tk.Get().Eval("pack propagate %s %v", e.GetID(), enable)
+	tk.Get().Eval("grid propagate %s %v", e.GetID(), enable)
+}
+
+// SetGridColumnWeight is used by the grid geometry manager to configure column weights.
+func (e *Ele) SetGridColumnWeight(column, weight int) {
+	tk.Get().Eval("grid columnconfigure %s %d -weight %d", e.GetID(), column, weight)
+}
+
+// SetGridRowWeight is used by the grid geometry manager to configure row weights.
+func (e *Ele) SetGridRowWeight(row, weight int) {
+	tk.Get().Eval("grid rowconfigure %s %d -weight %d", e.GetID(), row, weight)
+}
