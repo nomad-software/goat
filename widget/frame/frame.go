@@ -13,7 +13,6 @@ import (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=borderwidth
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=height
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=padding
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=padding
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=width
 type Frame struct {
 	widget.Widget
