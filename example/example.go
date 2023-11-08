@@ -13,6 +13,7 @@ import (
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
+	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/labelframe"
@@ -123,6 +124,11 @@ func createWidgetPane() *frame.Frame {
 	spinEntry.SetWrap(true)
 	spinEntry.SetWidth(5)
 	spinEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.North, false)
+
+	comboEntry := combobox.New(entryFrame)
+	comboEntry.SetData("Option 1", "Option 2", "Option 3")
+	comboEntry.SetValue("Option 1")
+	comboEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.NorthWest, true)
 
 	rangeFrame := labelframe.New(pane, "Progress & Scale", underline.None)
 	rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
