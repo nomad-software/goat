@@ -3,7 +3,7 @@ package ui
 import (
 	"testing"
 
-	"github.com/nomad-software/goat/element/cursor"
+	"github.com/nomad-software/goat/option/cursor"
 	"github.com/stretchr/testify/assert"
 )
 

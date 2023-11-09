@@ -16,19 +16,19 @@ type Ele struct {
 
 // Update causes operations that are normally deferred, such as display updates
 // and window layout calculations, to be performed immediately.
-func (e *Ele) Update() {
+func (el *Ele) Update() {
 	tk.Get().Eval("update idletasks")
 }
 
 // GetClass gets the ui element class.
 // See [element.class] for class names.
-func (e *Ele) GetClass() string {
-	tk.Get().Eval("%s cget -class ", e.GetID())
+func (el *Ele) GetClass() string {
+	tk.Get().Eval("%s cget -class ", el.GetID())
 
 	result := tk.Get().GetStrResult()
 
 	if result == "" {
-		tk.Get().Eval("winfo class %s", e.GetID())
+		tk.Get().Eval("winfo class %s", el.GetID())
 		result = tk.Get().GetStrResult()
 	}
 
@@ -37,43 +37,43 @@ func (e *Ele) GetClass() string {
 
 // GetStyle gets the ui element class.
 // See [element.style] for style names.
-func (e *Ele) GetStyle() string {
-	tk.Get().Eval("%s cget -style ", e.GetID())
+func (el *Ele) GetStyle() string {
+	tk.Get().Eval("%s cget -style ", el.GetID())
 	return tk.Get().GetStrResult()
 }
 
 // SetCursor sets the cursor of the ui element.
 // See [option.cursor] for cursor names.
-func (e *Ele) SetCursor(cursor string) {
-	tk.Get().Eval("%s configure -cursor {%s}", e.GetID(), cursor)
+func (el *Ele) SetCursor(cursor string) {
+	tk.Get().Eval("%s configure -cursor {%s}", el.GetID(), cursor)
 }
 
 // GetCursor gets the cursor of the ui element.
 // See [option.cursor] for cursor names.
-func (e *Ele) GetCursor() string {
-	tk.Get().Eval("%s cget -cursor", e.GetID())
+func (el *Ele) GetCursor() string {
+	tk.Get().Eval("%s cget -cursor", el.GetID())
 	return tk.Get().GetStrResult()
 }
 
 // SetKeyboadFocus sets that this ui element accepts the focus during keyboard
 // traversal.
-func (e *Ele) SetKeyboadFocus(focus bool) {
-	tk.Get().Eval("%s configure -takefocus %v", e.GetID(), focus)
+func (el *Ele) SetKeyboadFocus(focus bool) {
+	tk.Get().Eval("%s configure -takefocus %v", el.GetID(), focus)
 }
 
 // AcceptsKeyboadFocus returns true if this ui element accepts the focus during
 // keyboard traversal.
-func (e *Ele) AcceptsKeyboadFocus() bool {
-	tk.Get().Eval("%s cget -takefocus", e.GetID())
+func (el *Ele) AcceptsKeyboadFocus() bool {
+	tk.Get().Eval("%s cget -takefocus", el.GetID())
 	return tk.Get().GetBoolResult()
 }
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once
 // destroyed you cannot refer to this ui element again or you will get a bad
 // path name error from the interpreter.
-func (e *Ele) Destroy() {
-	tk.Get().Eval("destroy %s", e.GetID())
-	e.SetType("destroyed")
+func (el *Ele) Destroy() {
+	tk.Get().Eval("destroy %s", el.GetID())
+	el.SetType("destroyed")
 }
 
 // GetWidth gets the width of the ui element.
@@ -81,8 +81,8 @@ func (e *Ele) Destroy() {
 // Returns an int giving a ui element width in pixels. When a ui element is
 // first created its width will be 1 pixel; the width will eventually be
 // changed by a geometry manager to fulfil the window's needs.
-func (e *Ele) GetWidth() int {
-	tk.Get().Eval("winfo width %s", e.GetID())
+func (el *Ele) GetWidth() int {
+	tk.Get().Eval("winfo width %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
@@ -91,8 +91,8 @@ func (e *Ele) GetWidth() int {
 // Returns an int giving a ui element height in pixels. When a ui element
 // is first created its height will be 1 pixel; the height will eventually be
 // changed by a geometry manager to fulfil the window's needs.
-func (e *Ele) GetHeight() int {
-	tk.Get().Eval("winfo height %s", e.GetID())
+func (el *Ele) GetHeight() int {
+	tk.Get().Eval("winfo height %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
@@ -101,8 +101,8 @@ func (e *Ele) GetHeight() int {
 // Returns a low-level platform-specific identifier for a window. On Unix
 // platforms, this is the X window identifier. Under Windows, this is the
 // Windows HWND. On the Macintosh the value has no meaning outside Tk.
-func (e *Ele) GetOSHandle() int64 {
-	tk.Get().Eval("winfo id %s", e.GetID())
+func (el *Ele) GetOSHandle() int64 {
+	tk.Get().Eval("winfo id %s", el.GetID())
 	result := tk.Get().GetStrResult()
 
 	// Remove the 0x prefix.
@@ -126,8 +126,8 @@ func (e *Ele) GetOSHandle() int64 {
 // the screen, the position is computed in the virtual root. If the mouse
 // pointer is not on the same screen as ui element then both of the returned
 // coordinates are -1.
-func (e *Ele) GetCursorPos() []int {
-	tk.Get().Eval("winfo pointerxy %s", e.GetID())
+func (el *Ele) GetCursorPos() []int {
+	tk.Get().Eval("winfo pointerxy %s", el.GetID())
 	result := tk.Get().GetStrResult()
 
 	strs := strings.Split(result, " ")
@@ -151,8 +151,8 @@ func (e *Ele) GetCursorPos() []int {
 // virtual root window is in use on the screen, the position is measured in the
 // virtual root. If the mouse pointer is not on the same screen as ui element
 // then -1 is returned.
-func (e *Ele) GetCursorXPos() int {
-	tk.Get().Eval("winfo pointerx %s", e.GetID())
+func (el *Ele) GetCursorXPos() int {
+	tk.Get().Eval("winfo pointerx %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
@@ -163,31 +163,31 @@ func (e *Ele) GetCursorXPos() int {
 // virtual root window is in use on the screen, the position is measured in the
 // virtual root. If the mouse pointer is not on the same screen as ui element
 // then -1 is returned.
-func (e *Ele) GetCursorYPos() int {
-	tk.Get().Eval("winfo pointery %s", e.GetID())
+func (el *Ele) GetCursorYPos() int {
+	tk.Get().Eval("winfo pointery %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
 // GetScreenWidth gets the width of the screen this ui element is on.
-func (e *Ele) GetScreenWidth() int {
-	tk.Get().Eval("winfo screenwidth %s", e.GetID())
+func (el *Ele) GetScreenWidth() int {
+	tk.Get().Eval("winfo screenwidth %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
 // GetScreenHeight gets the height of the screen this ui element is on.
-func (e *Ele) GetScreenHeight() int {
-	tk.Get().Eval("winfo screenheight %s", e.GetID())
+func (el *Ele) GetScreenHeight() int {
+	tk.Get().Eval("winfo screenheight %s", el.GetID())
 	return tk.Get().GetIntResult()
 }
 
 // GetXPos gets the x position of the ui element.
 // You may need to wait until the ui element has been updated for this to
 // return the correct value.
-func (e *Ele) GetXPos(relativeToParent bool) int {
+func (el *Ele) GetXPos(relativeToParent bool) int {
 	if relativeToParent {
-		tk.Get().Eval("winfo x %s", e.GetID())
+		tk.Get().Eval("winfo x %s", el.GetID())
 	} else {
-		tk.Get().Eval("winfo rootx %s", e.GetID())
+		tk.Get().Eval("winfo rootx %s", el.GetID())
 	}
 	return tk.Get().GetIntResult()
 }
@@ -195,41 +195,41 @@ func (e *Ele) GetXPos(relativeToParent bool) int {
 // GetYPos gets the y position of the ui element.
 // You may need to wait until the ui element has been updated for this to
 // return the correct value.
-func (e *Ele) GetYPos(relativeToParent bool) int {
+func (el *Ele) GetYPos(relativeToParent bool) int {
 	if relativeToParent {
-		tk.Get().Eval("winfo y %s", e.GetID())
+		tk.Get().Eval("winfo y %s", el.GetID())
 	} else {
-		tk.Get().Eval("winfo rooty %s", e.GetID())
+		tk.Get().Eval("winfo rooty %s", el.GetID())
 	}
 	return tk.Get().GetIntResult()
 }
 
 // Focus gives focus to the ui element.
-func (e *Ele) Focus(force bool) {
+func (el *Ele) Focus(force bool) {
 	if force {
-		tk.Get().Eval("focus -force %s", e.GetID())
+		tk.Get().Eval("focus -force %s", el.GetID())
 	} else {
-		tk.Get().Eval("focus %s", e.GetID())
+		tk.Get().Eval("focus %s", el.GetID())
 	}
 }
 
 // Lower lowers a ui element below another if specified or below all of its
 // siblings in the stacking order
-func (e *Ele) Lower(el element.Element) {
-	if el != nil {
-		tk.Get().Eval("lower %s %s", e.GetID(), el.GetID())
+func (el *Ele) Lower(e element.Element) {
+	if e != nil {
+		tk.Get().Eval("lower %s %s", el.GetID(), e.GetID())
 	} else {
-		tk.Get().Eval("lower %s", e.GetID())
+		tk.Get().Eval("lower %s", el.GetID())
 	}
 }
 
 // Raise raises a ui element above another if specified or above all of its
 // siblings in the stacking order.
-func (e *Ele) Raise(el element.Element) {
-	if el != nil {
-		tk.Get().Eval("raise %s %s", e.GetID(), el.GetID())
+func (el *Ele) Raise(e element.Element) {
+	if e != nil {
+		tk.Get().Eval("raise %s %s", el.GetID(), e.GetID())
 	} else {
-		tk.Get().Eval("raise %s", e.GetID())
+		tk.Get().Eval("raise %s", el.GetID())
 	}
 }
 
@@ -245,17 +245,17 @@ func (e *Ele) Raise(el element.Element) {
 // propagation is disabled then it will not set the requested width and height
 // of the master window. This may be useful if, for example, you wish for a
 // master window to have a fixed size that you specify.
-func (e *Ele) EnableGeometryAutoSize(enable bool) {
-	tk.Get().Eval("pack propagate %s %v", e.GetID(), enable)
-	tk.Get().Eval("grid propagate %s %v", e.GetID(), enable)
+func (el *Ele) EnableGeometryAutoSize(enable bool) {
+	tk.Get().Eval("pack propagate %s %v", el.GetID(), enable)
+	tk.Get().Eval("grid propagate %s %v", el.GetID(), enable)
 }
 
 // SetGridColumnWeight is used by the grid geometry manager to configure column weights.
-func (e *Ele) SetGridColumnWeight(column, weight int) {
-	tk.Get().Eval("grid columnconfigure %s %d -weight %d", e.GetID(), column, weight)
+func (el *Ele) SetGridColumnWeight(column, weight int) {
+	tk.Get().Eval("grid columnconfigure %s %d -weight %d", el.GetID(), column, weight)
 }
 
 // SetGridRowWeight is used by the grid geometry manager to configure row weights.
-func (e *Ele) SetGridRowWeight(row, weight int) {
-	tk.Get().Eval("grid rowconfigure %s %d -weight %d", e.GetID(), row, weight)
+func (el *Ele) SetGridRowWeight(row, weight int) {
+	tk.Get().Eval("grid rowconfigure %s %d -weight %d", el.GetID(), row, weight)
 }

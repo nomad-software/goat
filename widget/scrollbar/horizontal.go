@@ -27,10 +27,10 @@ func NewHorizontal(parent element.Element) *HorizontalScrollbar {
 }
 
 // Set the attached widget.
-func (s *HorizontalScrollbar) AttachWidget(el element.Element) {
-	s.attached = el
+func (el *HorizontalScrollbar) AttachWidget(e element.Element) {
+	el.attached = e
 
-	tk.Get().Eval("%s configure -command [list %s xview]", s.GetID(), el.GetID())
+	tk.Get().Eval("%s configure -command [list %s xview]", el.GetID(), e.GetID())
 }
 
 // MoveTo moves the scrollbar so the widget should adjust its view so that the
@@ -38,8 +38,8 @@ func (s *HorizontalScrollbar) AttachWidget(el element.Element) {
 // is 0 it refers to the beginning of the document. 1.0 refers to the end of
 // the document, 0.333 refers to a point one-third of the way through the
 // document, and so on.
-func (s *HorizontalScrollbar) MoveTo(fraction float64) {
-	tk.Get().Eval("%s xview moveto {%v}", s.attached.GetID(), fraction)
+func (el *HorizontalScrollbar) MoveTo(fraction float64) {
+	tk.Get().Eval("%s xview moveto {%v}", el.attached.GetID(), fraction)
 }
 
 // ScrollUnits moves the scrollbar so the widget should adjust its view by
@@ -48,8 +48,8 @@ func (s *HorizontalScrollbar) MoveTo(fraction float64) {
 // which means one unit should scroll off the top or left of the window, or -1,
 // which means that one unit should scroll off the bottom or right of the
 // window.
-func (s *HorizontalScrollbar) ScrollUnits(units int) {
-	tk.Get().Eval("%s xview scroll %d units", s.attached.GetID(), units)
+func (el *HorizontalScrollbar) ScrollUnits(units int) {
+	tk.Get().Eval("%s xview scroll %d units", el.attached.GetID(), units)
 }
 
 // ScrollPages moves the scrollbar so the widget should adjust its view by
@@ -58,6 +58,6 @@ func (s *HorizontalScrollbar) ScrollUnits(units int) {
 // a slight overlap between the old and new views. Number is either 1, which
 // means the next page should become visible, or -1, which means that the
 // previous page should become visible.
-func (s *HorizontalScrollbar) ScrollPages(pages int) {
-	tk.Get().Eval("%s xview scroll %d pages", s.attached.GetID(), pages)
+func (el *HorizontalScrollbar) ScrollPages(pages int) {
+	tk.Get().Eval("%s xview scroll %d pages", el.attached.GetID(), pages)
 }
