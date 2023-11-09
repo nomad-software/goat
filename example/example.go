@@ -14,6 +14,7 @@ import (
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
 	"github.com/nomad-software/goat/option/wrapmode"
+	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
@@ -161,6 +162,13 @@ func createWidgetPane() *frame.Frame {
 
 	buttonFrame := labelframe.New(pane, "Buttons", underline.None)
 	buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	button1 := button.New(buttonFrame, "Text button")
+	button1.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	button2 := button.New(buttonFrame, "Image button")
+	button2.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
+	button2.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
 
 	checkbuttonFrame := labelframe.New(pane, "Check buttons", underline.None)
 	checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)

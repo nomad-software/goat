@@ -1,4 +1,4 @@
-package string_
+package stringvar
 
 import (
 	"github.com/nomad-software/goat/internal/tk"

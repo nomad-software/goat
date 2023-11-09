@@ -10,12 +10,16 @@ import (
 
 
 
-// AttachHorizontalScrollbar sets the horizontal scrollbar.
+// AttachHorizontalScrollbar attaches the horizontal scrollbar to this widget.
+// Once the scrollbar is attached, the widget will also need attaching to the
+// scrollbar to complete the attachment.
 func (el *Text) AttachHorizontalScrollbar(bar *scrollbar.HorizontalScrollbar) {
 	tk.Get().Eval("%s configure -xscrollcommand [list %s set]", el.GetID(), bar.GetID())
 }
 
-// AttachVerticalScrollbar sets the vertical scrollbar.
+// AttachVerticalScrollbar attaches the vertical scrollbar to this widget.
+// Once the scrollbar is attached, the widget will also need attaching to the
+// scrollbar to complete the attachment.
 func (el *Text) AttachVerticalScrollbar(bar *scrollbar.VerticalScrollbar) {
 	tk.Get().Eval("%s configure -yscrollcommand [list %s set]", el.GetID(), bar.GetID())
 }

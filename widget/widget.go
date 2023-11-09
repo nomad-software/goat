@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/ui"
-	"github.com/nomad-software/goat/widget/state"
+	"github.com/nomad-software/goat/internal/widget/ui"
+	"github.com/nomad-software/goat/option/state"
 )
 
 // Widget defines a widget at the lowest level.
@@ -16,26 +16,26 @@ type Widget struct {
 }
 
 // SetState sets the state of the widget.
-// See [widget.state] for state values.
+// See [option.state] for state values.
 func (w *Widget) SetState(state []string) {
 	tk.Get().Eval("%s state {%s}", w.GetID(), strings.Join(state, " "))
 }
 
 // RemoveState removes states from the widget.
-// See [widget.state] for state values.
+// See [option.state] for state values.
 func (w *Widget) RemoveState(state []string) {
 	tk.Get().Eval("%s state {!%s}", w.GetID(), strings.Join(state, " !"))
 }
 
 // InState returns true if the widget is in the passed state.
-// See [widget.state] for state values.
+// See [option.state] for state values.
 func (w *Widget) InState(state string) bool {
 	tk.Get().Eval("%s instate {%s}", w.GetID(), state)
 	return tk.Get().GetBoolResult()
 }
 
 // GetState gets the state of the widget.
-// See [widget.state] for state values.
+// See [option.state] for state values.
 func (w *Widget) GetState() []string {
 	tk.Get().Eval("%s state", w.GetID())
 	result := tk.Get().GetStrResult()
@@ -48,73 +48,73 @@ func (w *Widget) ResetState() {
 }
 
 // Enable enables the widget.
-// See [widget.state.Disabled]
+// See [option.state.Disabled]
 func (w *Widget) Enable() {
 	w.RemoveState([]string{state.Disabled})
 }
 
 // Disable disables the widget.
-// See [widget.state.Disabled]
+// See [option.state.Disabled]
 func (w *Widget) Disable() {
 	w.SetState([]string{state.Disabled})
 }
 
 // Focus sets that the widget has keyboard focus.
-// See [widget.state.Focus]
+// See [option.state.Focus]
 func (w *Widget) Focus() {
 	w.SetState([]string{state.Focus})
 }
 
 // Blur sets that the widget does not have keyboard focus.
-// See [widget.state.Focus]
+// See [option.state.Focus]
 func (w *Widget) Blur() {
 	w.RemoveState([]string{state.Focus})
 }
 
 // Press set the widget to be pressed.
-// See [widget.state.Pressed]
+// See [option.state.Pressed]
 func (w *Widget) Press() {
 	w.SetState([]string{state.Pressed})
 }
 
 // UnPress set the widget to not be pressed.
-// See [widget.state.Pressed]
+// See [option.state.Pressed]
 func (w *Widget) UnPress() {
 	w.RemoveState([]string{state.Pressed})
 }
 
 // Select sets the widget to be selected.
-// See [widget.state.Selected]
+// See [option.state.Selected]
 func (w *Widget) Select() {
 	w.SetState([]string{state.Selected})
 }
 
 // Deselect sets the widget to not be selected.
-// See [widget.state.Selected]
+// See [option.state.Selected]
 func (w *Widget) Deselect() {
 	w.RemoveState([]string{state.Selected})
 }
 
 // ReadOnly sets the widget to be readonly.
-// See [widget.state.Readonly]
+// See [option.state.Readonly]
 func (w *Widget) ReadOnly() {
 	w.SetState([]string{state.Readonly})
 }
 
 // ReadAnWrite sets the widget to be read and write.
-// See [widget.state.Readonly]
+// See [option.state.Readonly]
 func (w *Widget) ReadAndWrite() {
 	w.RemoveState([]string{state.Readonly})
 }
 
 // Invalid sets the widget to be invalid.
-// See [widget.state.Invalid]
+// See [option.state.Invalid]
 func (w *Widget) Invalid() {
 	w.SetState([]string{state.Invalid})
 }
 
 // Valid sets the widget to be valid.
-// See [widget.state.Invalid]
+// See [option.state.Invalid]
 func (w *Widget) Valid() {
 	w.RemoveState([]string{state.Invalid})
 }

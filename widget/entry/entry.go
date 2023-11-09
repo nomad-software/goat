@@ -3,7 +3,7 @@ package entry
 import (
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/variable"
-	"github.com/nomad-software/goat/internal/ui/element"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/widget"
 )
 
@@ -28,7 +28,7 @@ import (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=scrollbar -methods=AttachHorizontalScrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=selection
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=show
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=string
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=stringvar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=width
 type Entry struct {
 	widget.Widget

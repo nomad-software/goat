@@ -8,8 +8,8 @@ import (
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
-	"github.com/nomad-software/goat/internal/ui"
-	"github.com/nomad-software/goat/internal/ui/element"
+	"github.com/nomad-software/goat/internal/widget/ui"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
 // Window is the struct representing a window.

@@ -2,7 +2,7 @@ package menu
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/ui"
+	"github.com/nomad-software/goat/internal/widget/ui"
 	"github.com/nomad-software/goat/window"
 )
 

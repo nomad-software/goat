@@ -1,4 +1,4 @@
-package float_
+package floatvar
 
 import (
 	"github.com/nomad-software/goat/internal/tk"

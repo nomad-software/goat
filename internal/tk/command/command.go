@@ -3,7 +3,7 @@ package command
 import (
 	"fmt"
 
-	"github.com/nomad-software/goat/internal/ui/element/hash"
+	"github.com/nomad-software/goat/internal/widget/ui/element/hash"
 )
 
 // Callback is the main command callback that is specified for a command.

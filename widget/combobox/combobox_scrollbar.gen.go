@@ -10,7 +10,9 @@ import (
 
 
 
-// AttachHorizontalScrollbar sets the horizontal scrollbar.
+// AttachHorizontalScrollbar attaches the horizontal scrollbar to this widget.
+// Once the scrollbar is attached, the widget will also need attaching to the
+// scrollbar to complete the attachment.
 func (el *Combobox) AttachHorizontalScrollbar(bar *scrollbar.HorizontalScrollbar) {
 	tk.Get().Eval("%s configure -xscrollcommand [list %s set]", el.GetID(), bar.GetID())
 }

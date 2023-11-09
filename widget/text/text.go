@@ -2,7 +2,7 @@ package text
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/ui/element"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget"
 )

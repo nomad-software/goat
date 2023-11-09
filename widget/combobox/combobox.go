@@ -4,9 +4,9 @@ import (
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/tk/variable"
-	"github.com/nomad-software/goat/internal/ui/element"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
+	"github.com/nomad-software/goat/option/state"
 	"github.com/nomad-software/goat/widget"
-	"github.com/nomad-software/goat/widget/state"
 )
 
 type Combobox struct {
@@ -27,6 +27,8 @@ type Combobox struct {
 // Virtual events that can also be bound to.
 // <<ComboboxSelected>>
 //
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_combobox.html
+//
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=data
@@ -35,7 +37,7 @@ type Combobox struct {
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=scrollbar -methods=AttachHorizontalScrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=selection
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=string
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=stringvar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=width
 func New(parent element.Element) *Combobox {
 	combo := &Combobox{}

@@ -5,7 +5,7 @@ import (
 
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/variable"
-	"github.com/nomad-software/goat/internal/ui/element"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/widget"
 )
 
@@ -17,10 +17,12 @@ type Spinbox struct {
 
 // New creates a new spinbox.
 //
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_spinbox.html
+//
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=data
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=float
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=floatvar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=font
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=range
