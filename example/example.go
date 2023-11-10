@@ -15,6 +15,7 @@ import (
 	"github.com/nomad-software/goat/option/underline"
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
+	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
@@ -185,6 +186,16 @@ func createWidgetPane() *frame.Frame {
 
 	checkbuttonFrame := labelframe.New(pane, "Check buttons", underline.None)
 	checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	checkbutton1 := checkbutton.New(checkbuttonFrame, "Option 1")
+	checkbutton1.Check()
+	checkbutton1.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	checkbutton2 := checkbutton.New(checkbuttonFrame, "Option 2")
+	checkbutton2.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	checkbutton3 := checkbutton.New(checkbuttonFrame, "Option 3")
+	checkbutton3.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
 
 	radiobuttonFrame := labelframe.New(pane, "Radio buttons", underline.None)
 	radiobuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
