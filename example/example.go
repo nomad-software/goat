@@ -20,6 +20,7 @@ import (
 	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/labelframe"
 	"github.com/nomad-software/goat/widget/menu"
+	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
 	"github.com/nomad-software/goat/widget/scrollbar"
 	"github.com/nomad-software/goat/widget/spinbox"
@@ -38,7 +39,7 @@ func main() {
 	icons := embedded.GetImages("png/tkicon.png")
 
 	app := app.New()
-	// app.SetTheme(theme.Clam)
+
 	main := app.GetMainWindow()
 	main.SetTitle("Goat showcase")
 	main.SetMinSize(600, 600)
@@ -169,6 +170,14 @@ func createWidgetPane() *frame.Frame {
 	button2 := button.New(buttonFrame, "Image button")
 	button2.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
 	button2.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	menu := menu.NewPopUp()
+	menu.AddEntry("Option 1", "", func(*command.CallbackData) {})
+	menu.AddEntry("Option 2", "", func(*command.CallbackData) {})
+	menu.AddEntry("Option 3", "", func(*command.CallbackData) {})
+	button3 := menubutton.New(buttonFrame, "Menu button", menu)
+	button3.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+	button3.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
 
 	checkbuttonFrame := labelframe.New(pane, "Check buttons", underline.None)
 	checkbuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
