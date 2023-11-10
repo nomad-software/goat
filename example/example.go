@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -23,6 +21,7 @@ import (
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
+	"github.com/nomad-software/goat/widget/radiobutton"
 	"github.com/nomad-software/goat/widget/scrollbar"
 	"github.com/nomad-software/goat/widget/sizegrip"
 	"github.com/nomad-software/goat/widget/spinbox"
@@ -51,10 +50,10 @@ func main() {
 		main.Destroy()
 	})
 
-	app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
-		timeEntry.SetValue(time.Now().Format(time.RFC3339))
-		app.CreateIdleCallback(time.Second, data.Callback)
-	})
+	// app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
+	// 	timeEntry.SetValue(time.Now().Format(time.RFC3339))
+	// 	app.CreateIdleCallback(time.Second, data.Callback)
+	// })
 
 	main.BindProtocol(protocol.DeleteWindow, func(*command.CallbackData) {
 		main.Destroy()
@@ -199,6 +198,16 @@ func createWidgetPane() *frame.Frame {
 
 	radiobuttonFrame := labelframe.New(pane, "Radio buttons", underline.None)
 	radiobuttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
+
+	radiobutton1 := radiobutton.New(radiobuttonFrame, "Option 1")
+	radiobutton1.Select()
+	radiobutton1.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	radiobutton2 := radiobutton.New(radiobuttonFrame, "Option 2")
+	radiobutton2.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
+
+	radiobutton3 := radiobutton.New(radiobuttonFrame, "Option 3")
+	radiobutton3.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
 
 	return pane
 }

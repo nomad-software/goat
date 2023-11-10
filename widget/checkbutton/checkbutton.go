@@ -16,6 +16,8 @@ type CheckButton struct {
 
 // New creates a new checkbutton.
 //
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_checkbutton.html
+//
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=image
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=invoke
