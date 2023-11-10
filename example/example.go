@@ -23,6 +23,7 @@ import (
 	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
 	"github.com/nomad-software/goat/widget/scrollbar"
+	"github.com/nomad-software/goat/widget/sizegrip"
 	"github.com/nomad-software/goat/widget/spinbox"
 	"github.com/nomad-software/goat/widget/text"
 	"github.com/nomad-software/goat/window"
@@ -113,6 +114,9 @@ func createNotebook(win *window.Window) {
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
 	note.Pack(0, 0, side.Top, fill.Both, anchor.Center, true)
+
+	sizegrip := sizegrip.New(win)
+	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
 }
 
 func createWidgetPane() *frame.Frame {
