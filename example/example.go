@@ -1,8 +1,6 @@
 package main
 
 import (
-	"time"
-
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -170,7 +168,8 @@ func createWidgetPane() *frame.Frame {
 	rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
 
 	progressBar := progressbar.New(rangeFrame, orientation.Horizontal)
-	progressBar.StartAutoIncrement(60 * time.Millisecond)
+	progressBar.SetMaxValue(10)
+	progressBar.SetValue(3)
 	progressBar.Pack(5, 0, side.Top, fill.Horizontal, anchor.Center, true)
 
 	buttonFrame := labelframe.New(pane, "Buttons", underline.None)
