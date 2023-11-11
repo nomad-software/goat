@@ -64,4 +64,5 @@ func (i *Image) GetHeight() int {
 // the interpreter.
 func (i *Image) Destroy() {
 	tk.Get().Eval("image delete %s", i.GetID())
+	i.SetType("destroyed")
 }
