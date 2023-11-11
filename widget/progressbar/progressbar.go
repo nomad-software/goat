@@ -25,7 +25,7 @@ type ProgressBar struct {
 }
 
 // New creates a new progress bar.
-// See [option.orietation] for orientation strings.
+// See [option.orientation] for orientation strings.
 func New(parent element.Element, orientation string) *ProgressBar {
 	bar := &ProgressBar{}
 	bar.SetParent(parent)
@@ -33,7 +33,7 @@ func New(parent element.Element, orientation string) *ProgressBar {
 
 	bar.valueVar = variable.GenerateName(bar.GetID())
 
-	tk.Get().Eval("ttk::progressbar %s -orient %s -variable %s", bar.GetID(), orientation, bar.valueVar)
+	tk.Get().Eval("ttk::progressbar %s -orient {%s} -variable %s", bar.GetID(), orientation, bar.valueVar)
 
 	return bar
 }

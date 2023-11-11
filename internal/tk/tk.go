@@ -189,7 +189,7 @@ func (tk *Tk) SetVarFloatValue(name string, val float64) {
 
 	C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
 
-	log.Debug("set variable {%s} <- {%s}", name, val)
+	log.Debug("set variable {%s} <- {%v}", name, val)
 }
 
 // GetVarStrValue gets the named variable value as a string.
@@ -334,7 +334,7 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 		data.Event.ScreenY = readIntArg(values, 9)
 
 	} else if argc == 2 {
-		data.Dialog.Font = readStringArg(values, 2)
+		data.Dialog.Font = readStringArg(values, 1)
 	}
 
 	data.Callback(data)

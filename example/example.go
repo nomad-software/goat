@@ -24,6 +24,7 @@ import (
 	"github.com/nomad-software/goat/widget/notebook"
 	"github.com/nomad-software/goat/widget/progressbar"
 	"github.com/nomad-software/goat/widget/radiobutton"
+	"github.com/nomad-software/goat/widget/scale"
 	"github.com/nomad-software/goat/widget/scrollbar"
 	"github.com/nomad-software/goat/widget/sizegrip"
 	"github.com/nomad-software/goat/widget/spinbox"
@@ -169,8 +170,17 @@ func createWidgetPane() *frame.Frame {
 
 	progressBar := progressbar.New(rangeFrame, orientation.Horizontal)
 	progressBar.SetMaxValue(10)
-	progressBar.SetValue(3)
+	progressBar.SetValue(4)
 	progressBar.Pack(5, 0, side.Top, fill.Horizontal, anchor.Center, true)
+
+	scale := scale.New(rangeFrame, orientation.Horizontal)
+	scale.SetFromValue(10)
+	scale.SetToValue(0)
+	scale.SetValue(4)
+	scale.SetCommand(func(*command.CallbackData) {
+		progressBar.SetValue(scale.GetValue())
+	})
+	scale.Pack(5, 0, side.Top, fill.Horizontal, anchor.Center, true)
 
 	buttonFrame := labelframe.New(pane, "Buttons", underline.None)
 	buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
