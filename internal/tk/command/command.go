@@ -44,5 +44,5 @@ func GenerateName(args ...string) string {
 	args = append(args, "command")
 	hash := hash.Generate(args...)
 
-	return fmt.Sprintf("command-%s", hash)
+	return fmt.Sprintf("cmd-%s", hash)
 }

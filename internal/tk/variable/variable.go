@@ -11,5 +11,5 @@ func GenerateName(args ...string) string {
 	args = append(args, "variable")
 	hash := hash.Generate(args...)
 
-	return fmt.Sprintf("variable-%s", hash)
+	return fmt.Sprintf("var-%s", hash)
 }
