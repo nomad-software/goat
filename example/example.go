@@ -1,6 +1,8 @@
 package main
 
 import (
+	"time"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -8,6 +10,7 @@ import (
 	"github.com/nomad-software/goat/option/anchor"
 	"github.com/nomad-software/goat/option/compound"
 	"github.com/nomad-software/goat/option/fill"
+	"github.com/nomad-software/goat/option/orientation"
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
@@ -21,6 +24,7 @@ import (
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
+	"github.com/nomad-software/goat/widget/progressbar"
 	"github.com/nomad-software/goat/widget/radiobutton"
 	"github.com/nomad-software/goat/widget/scrollbar"
 	"github.com/nomad-software/goat/widget/sizegrip"
@@ -164,6 +168,10 @@ func createWidgetPane() *frame.Frame {
 
 	rangeFrame := labelframe.New(pane, "Progress & Scale", underline.None)
 	rangeFrame.Pack(10, 0, side.Bottom, fill.Both, anchor.Center, true)
+
+	progressBar := progressbar.New(rangeFrame, orientation.Horizontal)
+	progressBar.StartAutoIncrement(60 * time.Millisecond)
+	progressBar.Pack(5, 0, side.Top, fill.Horizontal, anchor.Center, true)
 
 	buttonFrame := labelframe.New(pane, "Buttons", underline.None)
 	buttonFrame.Pack(10, 0, side.Left, fill.Both, anchor.Center, true)
