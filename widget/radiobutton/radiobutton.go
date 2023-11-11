@@ -12,6 +12,11 @@ type RadioButton struct {
 
 	textVar  string
 	valueVar string
+
+	// This is the value of the above value variable when this radio button is
+	// selected. This should be different for all radio buttons in the same
+	// group.
+	selectedValue string
 }
 
 // New creates a new radio button.
@@ -41,21 +46,28 @@ func New(parent element.Element, text string) *RadioButton {
 	tk.Get().Eval("ttk::radiobutton %s -textvariable %s -variable %s", button.GetID(), button.textVar, button.valueVar)
 
 	button.SetText(text)
+	button.SetSelectedValue(text)
 
 	return button
 }
 
-// Select selects the radio button.
-func (el *RadioButton) Select() {
-	tk.Get().SetVarStrValue(el.valueVar, "1")
+// GetSelectedValue gets this radio button's selected value.
+func (el *RadioButton) GetSelectedValue() string {
+	return el.selectedValue
 }
 
-// Deselect deselects the radio button.
-func (el *RadioButton) Deselect() {
-	tk.Get().SetVarStrValue(el.valueVar, "0")
+// SetSelectedValue sets this radio button's selected value.
+func (el *RadioButton) SetSelectedValue(value string) {
+	el.selectedValue = value
+	tk.Get().Eval("%s configure -value {%s}", el.GetID(), el.selectedValue)
+}
+
+// Select selects the radio button.
+func (el *RadioButton) Select() {
+	tk.Get().SetVarStrValue(el.valueVar, el.selectedValue)
 }
 
 // IsSelected return true if the radio button is selected.
 func (el *RadioButton) IsSelected() bool {
-	return tk.Get().GetVarBoolValue(el.valueVar)
+	return tk.Get().GetVarStrValue(el.valueVar) == el.selectedValue
 }
