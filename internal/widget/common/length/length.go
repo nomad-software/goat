@@ -2,10 +2,10 @@ package length
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/widget/ui/element" // IGNORE
 )
 
-type stub struct{}            // IGNORE
-func (el stub) GetID() string { return "" } // IGNORE
+type stub struct{ element.Element } // IGNORE
 
 // SetLength sets the length.
 func (el stub) SetLength(l int) {

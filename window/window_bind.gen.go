@@ -7,8 +7,8 @@ import (
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
-)
 
+)
 
 
 
@@ -154,8 +154,8 @@ func (el *Window) Bind(binding string, callback command.Callback) {
 
 	name := command.GenerateName(binding, el.GetID())
 
-	tk.Get().CreateCommand(name, callback)
-	tk.Get().Eval("bind %s {%s} {%s %%W %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
+	tk.Get().CreateCommand(el, name, callback)
+	tk.Get().Eval("bind %s {%s} {%s %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
 }
 
 // UnBind unbinds a command from the passed binding.

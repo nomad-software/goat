@@ -2,10 +2,10 @@ package selection
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/widget/ui/element" // IGNORE
 )
 
-type stub struct{}            // IGNORE
-func (el stub) GetID() string { return "" } // IGNORE
+type stub struct{ element.Element } // IGNORE
 
 // SelectText selects the text according to the passed limits.
 func (el stub) SelectText(start, end int) {

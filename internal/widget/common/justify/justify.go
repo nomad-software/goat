@@ -2,10 +2,10 @@ package justify
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/widget/ui/element" // IGNORE
 )
 
-type stub struct{}            // IGNORE
-func (el stub) GetID() string { return "" } // IGNORE
+type stub struct{ element.Element } // IGNORE
 
 // AlightText aligns the text in different ways.
 // See [option.align]

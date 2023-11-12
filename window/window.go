@@ -134,7 +134,7 @@ func (w *Window) SetMaxSize(width, height int) {
 // See [window.protocol] for protocol names.
 func (w *Window) BindProtocol(protocol string, callback command.Callback) {
 	name := command.GenerateName(protocol)
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(w, name, callback)
 	tk.Get().Eval("wm protocol %s {%s} {%s}", w.GetID(), protocol, name)
 }
 

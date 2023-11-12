@@ -11,7 +11,7 @@ func TestUIElementBind(t *testing.T) {
 	el := stub{}
 
 	el.Bind("<<Modified>>", func(data *command.CallbackData) {
-		assert.Equal(t, ".", data.ElementID)
+		assert.Equal(t, ".", data.Element.GetID())
 	})
 
 	el.GenerateEvent("<<Modified>>")

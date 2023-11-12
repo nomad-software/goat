@@ -33,6 +33,7 @@ import (
 
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
 var (
@@ -274,10 +275,11 @@ func (tk *Tk) DeleteVar(name string) {
 }
 
 // CreateCommand creates a custom command in the interpreter.
-func (tk *Tk) CreateCommand(name string, callback command.Callback) {
+func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)
 
 	data := &command.CallbackData{
+		Element:     el,
 		CommandName: name,
 		Callback:    callback,
 	}
@@ -322,16 +324,15 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 	values := unsafe.Slice(argv, argc)
 	data := cgo.Handle(clientData).Value().(*command.CallbackData)
 
-	if argc == 10 {
-		data.ElementID = readStringArg(values, 1)
-		data.Event.MouseButton = readIntArg(values, 2)
-		data.Event.KeyCode = readIntArg(values, 3)
-		data.Event.X = readIntArg(values, 4)
-		data.Event.Y = readIntArg(values, 5)
-		data.Event.Wheel = readIntArg(values, 6)
-		data.Event.Key = readStringArg(values, 7)
-		data.Event.ScreenX = readIntArg(values, 8)
-		data.Event.ScreenY = readIntArg(values, 9)
+	if argc == 9 {
+		data.Event.MouseButton = readIntArg(values, 1)
+		data.Event.KeyCode = readIntArg(values, 2)
+		data.Event.X = readIntArg(values, 3)
+		data.Event.Y = readIntArg(values, 4)
+		data.Event.Wheel = readIntArg(values, 5)
+		data.Event.Key = readStringArg(values, 6)
+		data.Event.ScreenX = readIntArg(values, 7)
+		data.Event.ScreenY = readIntArg(values, 8)
 
 	} else if argc == 2 {
 		data.Dialog.Font = readStringArg(values, 1)

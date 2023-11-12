@@ -118,7 +118,7 @@ func (w *App) CreateIdleCallback(dur time.Duration, callback command.Callback) {
 	// Create the command with the same name each time so it replaces the
 	// previous one. This will free the older one and clean up its resources.
 	name := command.GenerateName("idle")
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(nil, name, callback)
 	tk.Get().Eval("after idle [list after {%d} {%s}]", dur.Milliseconds(), name)
 }
 

@@ -73,7 +73,7 @@ func (m *Menu) AddMenuEntry(menu *Menu, label string, underline int) {
 // The shortcut will need to be bound using the Bind method.
 func (m *Menu) AddEntry(label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(m, name, callback)
 
 	tk.Get().Eval("%s add command -label {%s} -accelerator {%s} -command {%s}", m.GetID(), label, shortcut, name)
 }
@@ -83,7 +83,7 @@ func (m *Menu) AddEntry(label string, shortcut string, callback command.Callback
 // See [option.compound] for image positions.
 func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(m, name, callback)
 
 	tk.Get().Eval("%s add command -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), label, shortcut, img.GetID(), compound, name)
 }
@@ -95,7 +95,7 @@ func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback comma
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
 	cmdName := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(cmdName, callback)
+	tk.Get().CreateCommand(m, cmdName, callback)
 
 	tk.Get().Eval("%s add checkbutton -variable %s -label {%s} -accelerator {%s} -command {%s}", m.GetID(), varName, label, shortcut, cmdName)
 }
@@ -109,7 +109,7 @@ func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
 	cmdName := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(cmdName, callback)
+	tk.Get().CreateCommand(m, cmdName, callback)
 
 	tk.Get().Eval("%s add checkbutton -variable %s -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), varName, label, shortcut, img.GetID(), compound, cmdName)
 }
@@ -118,7 +118,7 @@ func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label
 // The shortcut will need to be bound using the Bind method.
 func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(m, name, callback)
 
 	tk.Get().Eval("%s add radiobutton -variable %s -label {%s} -accelerator {%s} -command {%s}", m.GetID(), m.radioButtonVar, label, shortcut, name)
 }
@@ -129,7 +129,7 @@ func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback comma
 // See [option.compound] for image positions.
 func (m *Menu) AddImageRadioButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(m, name, callback)
 
 	tk.Get().Eval("%s add radiobutton -variable %s -label {%s} -accelerator {%s} -image %s -compound {%s} -command {%s}", m.GetID(), m.radioButtonVar, label, shortcut, img.GetID(), compound, name)
 }

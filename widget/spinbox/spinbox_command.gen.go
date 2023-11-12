@@ -4,8 +4,8 @@ package spinbox
 import (
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
-)
 
+)
 
 
 
@@ -13,7 +13,7 @@ import (
 func (el *Spinbox) SetCommand(callback command.Callback) {
 	name := command.GenerateName(el.GetID())
 
-	tk.Get().CreateCommand(name, callback)
+	tk.Get().CreateCommand(el, name, callback)
 	tk.Get().Eval("%s configure -command %s", el.GetID(), name)
 }
 

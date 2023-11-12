@@ -3,8 +3,8 @@ package progressbar
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
-)
 
+)
 
 
 

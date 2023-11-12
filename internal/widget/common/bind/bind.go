@@ -6,10 +6,10 @@ import (
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/internal/widget/ui/element" // IGNORE
 )
 
-type stub struct{}            // IGNORE
-func (el stub) GetID() string { return "." } // IGNORE
+type stub struct{ element.Element } // IGNORE
 
 // Bind binds a callback to a specific binding.
 // Once the callback is called, the argument contains information about the
@@ -153,8 +153,8 @@ func (el stub) Bind(binding string, callback command.Callback) {
 
 	name := command.GenerateName(binding, el.GetID())
 
-	tk.Get().CreateCommand(name, callback)
-	tk.Get().Eval("bind %s {%s} {%s %%W %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
+	tk.Get().CreateCommand(el, name, callback)
+	tk.Get().Eval("bind %s {%s} {%s %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
 }
 
 // UnBind unbinds a command from the passed binding.

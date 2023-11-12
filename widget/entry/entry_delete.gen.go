@@ -3,8 +3,8 @@ package entry
 
 import (
 	"github.com/nomad-software/goat/internal/tk"
-)
 
+)
 
 
 

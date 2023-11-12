@@ -3,6 +3,7 @@ package command
 import (
 	"fmt"
 
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/internal/widget/ui/element/hash"
 )
 
@@ -14,7 +15,7 @@ type Callback = func(*CallbackData)
 // relevant with data during the call.
 type CallbackData struct {
 	CommandName string
-	ElementID   string
+	Element     element.Element
 	Callback    Callback
 	Event       Event
 	Dialog      Dialog
