@@ -11,6 +11,10 @@ import (
 	"github.com/nomad-software/goat/internal/widget/ui/element/hash"
 )
 
+const (
+	Type = "menu"
+)
+
 // Menubar is the cascading menu that items are selected from.
 //
 // Virtual events that can also be bound to.
@@ -31,7 +35,7 @@ type Menu struct {
 func New(bar *MenuBar, label string, underline int) *Menu {
 	menu := &Menu{}
 	menu.SetParent(bar)
-	menu.SetType("menu")
+	menu.SetType(Type)
 
 	menu.radioButtonVar = variable.GenerateName(label, menu.GetID())
 

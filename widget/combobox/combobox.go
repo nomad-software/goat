@@ -9,16 +9,13 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
-type Combobox struct {
-	widget.Widget
+const (
+	Type = "combobox"
+)
 
-	valueVar string
-}
-
-// New creates a new combobox.
-//
 // A combobox combines a text field with a pop-down list of values; the user
 // may select the value of the text field from among the values in the list.
+//
 // This widget has two types of values that can be set. First, a list of values
 // can be set to populate the drop-down list which can then be selected via a
 // mouse. Second, the value can be set independently and in addition to the
@@ -39,10 +36,17 @@ type Combobox struct {
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=selection
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=stringvar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=width
+type Combobox struct {
+	widget.Widget
+
+	valueVar string
+}
+
+// New creates a new combobox.
 func New(parent element.Element) *Combobox {
 	combo := &Combobox{}
 	combo.SetParent(parent)
-	combo.SetType("combobox")
+	combo.SetType(Type)
 
 	combo.valueVar = variable.GenerateName(combo.GetID())
 

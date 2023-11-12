@@ -7,6 +7,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "notebook"
+)
+
 // A notebook widget manages a collection of panes and displays a single one at
 // a time. Each pane is associated with a tab, which the user may select to
 // change the currently displayed pane.
@@ -28,7 +32,7 @@ type NoteBook struct {
 func New(parent element.Element) *NoteBook {
 	note := &NoteBook{}
 	note.SetParent(parent)
-	note.SetType("notebook")
+	note.SetType(Type)
 
 	tk.Get().Eval("ttk::notebook %s", note.GetID())
 

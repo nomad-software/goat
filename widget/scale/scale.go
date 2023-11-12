@@ -7,6 +7,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "scale"
+)
+
 // A scale widget is typically used to control the numeric value that varies
 // uniformly over some range. A scale displays a slider that can be moved along
 // over a trough, with the relative position of the slider over the trough
@@ -29,7 +33,7 @@ type Scale struct {
 func New(parent element.Element, orientation string) *Scale {
 	scale := &Scale{}
 	scale.SetParent(parent)
-	scale.SetType("scale")
+	scale.SetType(Type)
 
 	scale.valueVar = variable.GenerateName(scale.GetID())
 

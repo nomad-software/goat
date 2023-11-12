@@ -7,6 +7,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "entry"
+)
+
 // An entry widget displays a one-line text string and allows that string to be
 // edited by the user. Entry widgets support horizontal scrolling.
 //
@@ -40,7 +44,7 @@ type Entry struct {
 func New(parent element.Element) *Entry {
 	entry := &Entry{}
 	entry.SetParent(parent)
-	entry.SetType("entry")
+	entry.SetType(Type)
 
 	entry.valueVar = variable.GenerateName(entry.GetID())
 

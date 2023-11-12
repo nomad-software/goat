@@ -9,6 +9,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "progressbar"
+)
+
 // A progress bar widget shows the status of a long-running operation. They can
 // operate in two modes: determinate mode shows the amount completed relative
 // to the total amount of work to be done, and indeterminate mode provides an
@@ -29,7 +33,7 @@ type ProgressBar struct {
 func New(parent element.Element, orientation string) *ProgressBar {
 	bar := &ProgressBar{}
 	bar.SetParent(parent)
-	bar.SetType("progressbar")
+	bar.SetType(Type)
 
 	bar.valueVar = variable.GenerateName(bar.GetID())
 

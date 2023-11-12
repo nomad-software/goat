@@ -9,13 +9,17 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
-type Spinbox struct {
-	widget.Widget
+const (
+	Type = "spinbox"
+)
 
-	valueVar string
-}
-
-// New creates a new spinbox.
+// A spinbox widget is an entry widget with built-in up and down buttons that
+// are used to either modify a numeric value or to select among a set of
+// values. The widget implements all the features of the entry widget.
+//
+// If a list of string values are set to be controlled by this widget it will
+// override any numeric range or step set. The widget will instead use the
+// values specified beginning with the first value.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_spinbox.html
 //
@@ -29,10 +33,17 @@ type Spinbox struct {
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=scrollbar -methods=AttachHorizontalScrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=show
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=width
+type Spinbox struct {
+	widget.Widget
+
+	valueVar string
+}
+
+// New creates a new spinbox.
 func New(parent element.Element) *Spinbox {
 	spinbox := &Spinbox{}
 	spinbox.SetParent(parent)
-	spinbox.SetType("spinbox")
+	spinbox.SetType(Type)
 
 	spinbox.valueVar = variable.GenerateName(spinbox.GetID())
 

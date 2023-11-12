@@ -8,6 +8,10 @@ import (
 	"github.com/nomad-software/goat/widget/menu"
 )
 
+const (
+	Type = "menubutton"
+)
+
 // A menu button is a widget that displays a menu when clicked.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_menubutton.html
@@ -27,7 +31,7 @@ type MenuButton struct {
 func New(parent element.Element, text string, menu *menu.Menu) *MenuButton {
 	button := &MenuButton{}
 	button.SetParent(parent)
-	button.SetType("menubutton")
+	button.SetType(Type)
 
 	button.textVar = variable.GenerateName(button.GetID())
 

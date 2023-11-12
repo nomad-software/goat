@@ -6,6 +6,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "sizegrip"
+)
+
 // Used as a bottom-right corner resize widget.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_sizegrip.html
@@ -17,7 +21,7 @@ type SizeGrip struct {
 func New(parent element.Element) *SizeGrip {
 	grip := &SizeGrip{}
 	grip.SetParent(parent)
-	grip.SetType("sizegrip")
+	grip.SetType(Type)
 
 	tk.Get().Eval("ttk::sizegrip %s", grip.GetID())
 

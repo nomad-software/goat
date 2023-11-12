@@ -6,6 +6,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	VerticalType = "yscrollbar"
+)
+
 // A vertical scrollbar used to scroll the content of widgets.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_scrollbar.html
@@ -19,7 +23,7 @@ type VerticalScrollbar struct {
 func NewVertical(parent element.Element) *VerticalScrollbar {
 	bar := &VerticalScrollbar{}
 	bar.SetParent(parent)
-	bar.SetType("yscrollbar")
+	bar.SetType(VerticalType)
 
 	tk.Get().Eval("ttk::scrollbar %s -orient vertical", bar.GetID())
 

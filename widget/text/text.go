@@ -7,12 +7,12 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
-type Text struct {
-	widget.Widget
-}
+const (
+	Type = "text"
+)
 
-// New creates a new text widget. A text widget displays one or more lines of
-// text and allows that text to be edited.
+// A text widget displays one or more lines of text and allows that text to be
+// edited.
 //
 // Virtual events that can also be bound to.
 // <<Modified>>
@@ -25,10 +25,15 @@ type Text struct {
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=relief
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=scrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=width
+type Text struct {
+	widget.Widget
+}
+
+// New creates a new text widget.
 func New(parent element.Element) *Text {
 	text := &Text{}
 	text.SetParent(parent)
-	text.SetType("text")
+	text.SetType(Type)
 
 	tk.Get().Eval("text %s -highlightthickness 0", text.GetID())
 

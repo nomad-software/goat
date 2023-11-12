@@ -7,6 +7,27 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "radiobutton"
+)
+
+// Radio button widgets are used in groups to show or change a set of
+// mutually-exclusive options. Radio buttons have an associated selected value;
+// when a radio button is selected, it sets the associated value.
+//
+// To create a group of radio button that work properly in unison, all radio
+// button widgets within the group must share the same immediate parent
+// (usually a frame) and all must have individual selected values set.
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_radiobutton.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=command
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=image
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=invoke
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=stringvar -methods=GetValue,SetValue
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=textvar -methods=GetText,SetText
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=underline
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=width
 type RadioButton struct {
 	widget.Widget
 
@@ -20,20 +41,10 @@ type RadioButton struct {
 }
 
 // New creates a new radio button.
-//
-// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_radiobutton.html
-//
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=command
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=image
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=invoke
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=stringvar -methods=GetValue,SetValue
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=textvar -methods=GetText,SetText
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=underline
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=width
 func New(parent element.Element, text string) *RadioButton {
 	button := &RadioButton{}
 	button.SetParent(parent)
-	button.SetType("radiobutton")
+	button.SetType(Type)
 
 	button.textVar = variable.GenerateName(button.GetID())
 

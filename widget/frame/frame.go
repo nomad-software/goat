@@ -6,6 +6,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "frame"
+)
+
 // A frame widget is a container, used to group other widgets together.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_frame.html
@@ -22,7 +26,7 @@ type Frame struct {
 func New(parent element.Element, borderWidth int, relief string) *Frame {
 	frame := &Frame{}
 	frame.SetParent(parent)
-	frame.SetType("frame")
+	frame.SetType(Type)
 
 	tk.Get().Eval("ttk::frame %s -borderwidth %d -relief {%s}", frame.GetID(), borderWidth, relief)
 

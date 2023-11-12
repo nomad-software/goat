@@ -7,14 +7,13 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
-type CheckButton struct {
-	widget.Widget
+const (
+	Type = "checkbutton"
+)
 
-	textVar  string
-	valueVar string
-}
-
-// New creates a new checkbutton.
+// A checkbutton widget is used to show or change a setting. It has two states,
+// selected and deselected. The state of the checkbutton may be linked to a
+// value.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_checkbutton.html
 //
@@ -25,10 +24,18 @@ type CheckButton struct {
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=textvar -methods=GetText,SetText
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=underline
 //go:generate go run ../../internal/tools/generate/main.go -recv=*CheckButton -pkg=width
+type CheckButton struct {
+	widget.Widget
+
+	textVar  string
+	valueVar string
+}
+
+// New creates a new checkbutton.
 func New(parent element.Element, text string) *CheckButton {
 	button := &CheckButton{}
 	button.SetParent(parent)
-	button.SetType("checkbutton")
+	button.SetType(Type)
 
 	button.textVar = variable.GenerateName("textvar", button.GetID())
 	button.valueVar = variable.GenerateName("valuevar", button.GetID())

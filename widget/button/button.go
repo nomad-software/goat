@@ -7,6 +7,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "button"
+)
+
 // A button is a widget that issues a command when pressed
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_button.html
@@ -28,7 +32,7 @@ type Button struct {
 func New(parent element.Element, text string) *Button {
 	button := &Button{}
 	button.SetParent(parent)
-	button.SetType("button")
+	button.SetType(Type)
 
 	button.textVar = variable.GenerateName(button.GetID())
 

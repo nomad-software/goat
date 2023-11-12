@@ -6,6 +6,10 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+const (
+	Type = "labelframe"
+)
+
 // LabelFrame is a container used to group other widgets together. It has an
 // optional label, which may be a plain text string or another widget.
 //
@@ -24,7 +28,7 @@ type LabelFrame struct {
 func New(parent element.Element, text string, underline int) *LabelFrame {
 	frame := &LabelFrame{}
 	frame.SetParent(parent)
-	frame.SetType("labelframe")
+	frame.SetType(Type)
 
 	tk.Get().Eval("ttk::labelframe %s -text {%s} -underline %d", frame.GetID(), text, underline)
 
