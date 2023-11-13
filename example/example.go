@@ -22,6 +22,7 @@ import (
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
+	"github.com/nomad-software/goat/widget/panedwindow"
 	"github.com/nomad-software/goat/widget/progressbar"
 	"github.com/nomad-software/goat/widget/radiobutton"
 	"github.com/nomad-software/goat/widget/scale"
@@ -231,6 +232,10 @@ func createWidgetPane() *frame.Frame {
 
 func createPanedPane() *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
+
+	panedWindow := panedwindow.New(pane, orientation.Horizontal)
+	panedWindow.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+
 	return pane
 }
 
