@@ -13,6 +13,8 @@ const (
 // A vertical scrollbar used to scroll the content of widgets.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_scrollbar.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*VerticalScrollbar -pkg=bind
 type VerticalScrollbar struct {
 	widget.Widget
 

@@ -15,6 +15,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_button.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Button -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Button -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Button -pkg=default
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Button -pkg=image

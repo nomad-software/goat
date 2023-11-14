@@ -21,6 +21,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_radiobutton.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=image
 //go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=invoke

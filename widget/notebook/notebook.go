@@ -21,6 +21,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_notebook.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=height
 //go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=padding
 //go:generate go run ../../internal/tools/generate/main.go -recv=*NoteBook -pkg=width

@@ -15,6 +15,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_labelframe.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=height
 //go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=padding
 //go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=text

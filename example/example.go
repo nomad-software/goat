@@ -30,6 +30,7 @@ import (
 	"github.com/nomad-software/goat/widget/sizegrip"
 	"github.com/nomad-software/goat/widget/spinbox"
 	"github.com/nomad-software/goat/widget/text"
+	"github.com/nomad-software/goat/widget/treeview"
 	"github.com/nomad-software/goat/window"
 	"github.com/nomad-software/goat/window/protocol"
 )
@@ -235,6 +236,15 @@ func createPanedPane() *frame.Frame {
 
 	panedWindow := panedwindow.New(pane, orientation.Horizontal)
 	panedWindow.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+
+	tree := treeview.New(panedWindow)
+	tree.SetHeading("Directory listing", anchor.West)
+	tree.AddNode(treeview.NewNode("Computer"))
+	tree.GetNode(0).AddNode(treeview.NewNode("Documents"))
+	tree.GetNode(0).GetNode(0).AddNode(treeview.NewNode("Important notes.txt"))
+	tree.GetNode(0).GetNode(0).AddNode(treeview.NewNode("The D Programming Language.pdf"))
+	panedWindow.AddPane(tree)
+	panedWindow.SetPaneWeight(0, 1)
 
 	return pane
 }

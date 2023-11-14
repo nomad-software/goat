@@ -18,6 +18,7 @@ const (
 // <<Modified>>
 // <<Selection>>
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=borderwidth
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=color
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=font

@@ -23,6 +23,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_spinbox.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=data

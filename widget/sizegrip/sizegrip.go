@@ -13,6 +13,8 @@ const (
 // Used as a bottom-right corner resize widget.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_sizegrip.html
+//
+//go:generate go run ../../internal/tools/generate/main.go -recv=*SizeGrip -pkg=bind
 type SizeGrip struct {
 	widget.Widget
 }

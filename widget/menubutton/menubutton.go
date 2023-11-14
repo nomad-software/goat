@@ -16,6 +16,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_menubutton.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuButton -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*MenuButton -pkg=image
 //go:generate go run ../../internal/tools/generate/main.go -recv=*MenuButton -pkg=invoke
 //go:generate go run ../../internal/tools/generate/main.go -recv=*MenuButton -pkg=textvar

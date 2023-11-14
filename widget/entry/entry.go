@@ -25,6 +25,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_entry.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=delete
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Entry -pkg=font

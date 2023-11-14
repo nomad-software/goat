@@ -14,6 +14,7 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_frame.html
 //
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=borderwidth
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=height
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Frame -pkg=padding
