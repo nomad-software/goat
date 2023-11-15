@@ -1,6 +1,8 @@
 package treeview
 
 import (
+	"strings"
+
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/widget"
@@ -36,12 +38,16 @@ const (
 type TreeView struct {
 	widget.Widget
 
-	nodes []*Node
+	reference map[string]*Node
+	nodes     []*Node
 }
 
 // New creates a new tree view.
 func New(parent element.Element) *TreeView {
-	tree := &TreeView{}
+	tree := &TreeView{
+		reference: make(map[string]*Node),
+		nodes:     make([]*Node, 0),
+	}
 	tree.SetParent(parent)
 	tree.SetType(Type)
 
@@ -65,50 +71,93 @@ func (el *TreeView) SetHeading(text, anchor string) {
 	tk.Get().Eval("%s heading #0 -text {%s} -anchor {%s}", el.GetID(), text, anchor)
 }
 
+// AddNode adds a node to the tree view.
+func (el *TreeView) AddNode(text, value string, open bool, tags ...string) *Node {
+	node := &Node{
+		nodes: make([]*Node, 0),
+	}
+
+	node.SetParent(el)
+
+	tagStr := strings.Join(tags, " ")
+	tk.Get().Eval("%s insert {} end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetID(), text, value, open, tagStr)
+
+	nodeID := tk.Get().GetStrResult()
+	node.SetID(nodeID)
+
+	el.reference[nodeID] = node
+	el.nodes = append(el.nodes, node)
+
+	return node
+}
+
+// GetNode gets a node by its index.
 func (el *TreeView) GetNode(index int) *Node {
 	return el.nodes[index]
 }
 
-func (el *TreeView) AddNode(node *Node) {
-	node.SetParent(el)
-	el.nodes = append(el.nodes, node)
+// GetSelectedNode gets the selected node in the tree.
+func (el *TreeView) GetSelectedNode() *Node {
+	tk.Get().Eval("%s selection", el.GetID())
+	nodeID := tk.Get().GetStrResult()
 
-	tk.Get().Eval("%s insert {} end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetID(), node.GetText(), node.GetText(), true, "foo")
+	if node, ok := el.reference[nodeID]; ok {
+		return node
+	}
 
-	node.SetID(tk.Get().GetStrResult())
+	return nil
 }
 
 // Node represents a node in the tree view.
 type Node struct {
 	element.Ele
 
-	text  string
 	nodes []*Node
 }
 
-func NewNode(text string) *Node {
-	node := &Node{
-		text:  text,
-		nodes: make([]*Node, 0),
-	}
-	node.SetType(NodeType)
-
-	return node
-}
-
+// GetText gets the node text.
 func (el *Node) GetText() string {
-	return el.text
+	tk.Get().Eval("%s item %s -text", el.GetParent().GetID(), el.GetID())
+
+	return tk.Get().GetStrResult()
 }
 
+// GetValue gets the node value.
+func (el *Node) GetValue() string {
+	tk.Get().Eval("%s item %s -value", el.GetParent().GetID(), el.GetID())
+
+	return tk.Get().GetStrResult()
+}
+
+// GetValue gets the node tags.
+func (el *Node) GetTags() []string {
+	tk.Get().Eval("%s item %s -tags", el.GetParent().GetID(), el.GetID())
+	tagStr := tk.Get().GetStrResult()
+
+	return strings.Split(tagStr, " ")
+}
+
+// GetNode gets a child node by its index.
 func (el *Node) GetNode(index int) *Node {
 	return el.nodes[index]
 }
 
-func (el *Node) AddNode(node *Node) {
+// AddNode adds a node to this node.
+func (el *Node) AddNode(text, value string, open bool, tags ...string) *Node {
+	node := &Node{
+		nodes: make([]*Node, 0),
+	}
+
 	node.SetParent(el.GetParent())
-	el.nodes = append(el.nodes, node)
 
-	tk.Get().Eval("%s insert %s end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetParent().GetID(), el.GetID(), node.GetText(), node.GetText(), true, "foo")
+	tagStr := strings.Join(tags, " ")
+	tk.Get().Eval("%s insert %s end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetParent().GetID(), el.GetID(), text, value, open, tagStr)
 
-	node.SetID(tk.Get().GetStrResult())
+	nodeID := tk.Get().GetStrResult()
+	node.SetID(nodeID)
+
+	el.GetParent().(*TreeView).reference[nodeID] = node
+	node.nodes = append(node.nodes, node)
+
+	return node
 }

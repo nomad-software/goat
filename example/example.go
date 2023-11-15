@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -234,17 +236,31 @@ func createWidgetPane() *frame.Frame {
 func createPanedPane() *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
 
-	panedWindow := panedwindow.New(pane, orientation.Horizontal)
+	panedWindow := panedwindow.New(pane, orientation.Vertical)
 	panedWindow.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
 
 	tree := treeview.New(panedWindow)
 	tree.SetHeading("Directory listing", anchor.West)
-	tree.AddNode(treeview.NewNode("Computer"))
-	tree.GetNode(0).AddNode(treeview.NewNode("Documents"))
-	tree.GetNode(0).GetNode(0).AddNode(treeview.NewNode("Important notes.txt"))
-	tree.GetNode(0).GetNode(0).AddNode(treeview.NewNode("The D Programming Language.pdf"))
+	root := tree.AddNode("Computer", "1", true, "computer")
+	node := root.AddNode("Documents", "2", true, "folder")
+	node.AddNode("Important notes.txt", "3", true, "file")
+	node.AddNode("The D Programming Language.pdf", "4", true, "pdf")
+	node = root.AddNode("Pictures", "5", true, "folder")
+	node.AddNode("Gary and Tessa.jpg", "6", true, "jpg")
+	node = root.AddNode("Videos", "7", true, "folder")
+	node.AddNode("Carlito's Way (1993).mpg", "8", true, "mpg")
+	node.AddNode("Aliens (1986).mpg", "9", true, "mpg")
+
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
+
+	button := button.New(panedWindow, "Click")
+	button.SetCommand(func(*command.CallbackData) {
+		node := tree.GetSelectedNode()
+		fmt.Printf("text: %v, value: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetTags())
+	})
+	panedWindow.AddPane(button)
+	panedWindow.SetPaneWeight(1, 1)
 
 	return pane
 }

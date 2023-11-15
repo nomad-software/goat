@@ -11,7 +11,7 @@ type stub struct{ element.Element } // IGNORE
 
 // SetData sets the data of a widget.
 func (el stub) SetData(data ...string) {
-	values := strings.Join(data, `} {`)
+	values := strings.Join(data, "} {")
 	tk.Get().Eval("%s configure -values [list {%s}]", el.GetID(), values)
 }
 

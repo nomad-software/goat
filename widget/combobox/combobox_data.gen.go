@@ -12,7 +12,7 @@ import (
 
 // SetData sets the data of a widget.
 func (el *Combobox) SetData(data ...string) {
-	values := strings.Join(data, `} {`)
+	values := strings.Join(data, "} {")
 	tk.Get().Eval("%s configure -values [list {%s}]", el.GetID(), values)
 }
 
