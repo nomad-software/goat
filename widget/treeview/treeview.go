@@ -43,7 +43,8 @@ type TreeView struct {
 }
 
 // New creates a new tree view.
-func New(parent element.Element) *TreeView {
+// See [option.selectionmode] for mode values.
+func New(parent element.Element, selectionMode string) *TreeView {
 	tree := &TreeView{
 		reference: make(map[string]*Node),
 		nodes:     make([]*Node, 0),
@@ -51,9 +52,15 @@ func New(parent element.Element) *TreeView {
 	tree.SetParent(parent)
 	tree.SetType(Type)
 
-	tk.Get().Eval("ttk::treeview %s -selectmode {browse}", tree.GetID())
+	tk.Get().Eval("ttk::treeview %s -selectmode {%s}", tree.GetID(), selectionMode)
 
 	return tree
+}
+
+// SetSelectionMode sets the selection mode of the nodes.
+// See [option.selectionmode] for mode values.
+func (el *TreeView) SetSelectionMode(mode string) {
+	tk.Get().Eval("%s configure -selectmode {%s}", el.GetID(), mode)
 }
 
 // EnableHeading controls showing the heading.
@@ -96,16 +103,34 @@ func (el *TreeView) GetNode(index int) *Node {
 	return el.nodes[index]
 }
 
-// GetSelectedNode gets the selected node in the tree.
-func (el *TreeView) GetSelectedNode() *Node {
-	tk.Get().Eval("%s selection", el.GetID())
-	nodeID := tk.Get().GetStrResult()
+// GetFirstSelectedNode returns the first selected node.
+// This will return nil if nothing is selected.
+func (el *TreeView) GetFirstSelectedNode() *Node {
+	nodes := el.GetSelectedNodes()
 
-	if node, ok := el.reference[nodeID]; ok {
-		return node
+	if len(nodes) > 0 {
+		return nodes[0]
 	}
 
 	return nil
+}
+
+// GetSelectedNodes gets all the selected nodes as an array.
+func (el *TreeView) GetSelectedNodes() []*Node {
+	tk.Get().Eval("%s selection", el.GetID())
+	str := tk.Get().GetStrResult()
+
+	result := make([]*Node, 0)
+
+	if str != "" {
+		for _, id := range strings.Split(str, " ") {
+			if node, ok := el.reference[id]; ok {
+				result = append(result, node)
+			}
+		}
+	}
+
+	return result
 }
 
 // Node represents a node in the tree view.

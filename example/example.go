@@ -12,6 +12,7 @@ import (
 	"github.com/nomad-software/goat/option/fill"
 	"github.com/nomad-software/goat/option/orientation"
 	"github.com/nomad-software/goat/option/relief"
+	"github.com/nomad-software/goat/option/selectionmode"
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
 	"github.com/nomad-software/goat/option/wrapmode"
@@ -239,25 +240,27 @@ func createPanedPane() *frame.Frame {
 	panedWindow := panedwindow.New(pane, orientation.Vertical)
 	panedWindow.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
 
-	tree := treeview.New(panedWindow)
+	tree := treeview.New(panedWindow, selectionmode.Browse)
 	tree.SetHeading("Directory listing", anchor.West)
-	root := tree.AddNode("Computer", "1", true, "computer")
+	root := tree.AddNode("Home", "1", true, "home")
 	node := root.AddNode("Documents", "2", true, "folder")
-	node.AddNode("Important notes.txt", "3", true, "file")
-	node.AddNode("The D Programming Language.pdf", "4", true, "pdf")
+	node.AddNode("important_notes.txt", "3", true, "file")
+	node.AddNode("the_go_programming_language.pdf", "4", true, "pdf")
 	node = root.AddNode("Pictures", "5", true, "folder")
-	node.AddNode("Gary and Tessa.jpg", "6", true, "jpg")
+	node.AddNode("beautiful_sky.jpg", "6", true, "jpg")
 	node = root.AddNode("Videos", "7", true, "folder")
-	node.AddNode("Carlito's Way (1993).mpg", "8", true, "mpg")
-	node.AddNode("Aliens (1986).mpg", "9", true, "mpg")
+	node.AddNode("carlito's_way_(1993).mpg", "8", true, "mpg")
+	node.AddNode("aliens_(1986).mpg", "9", true, "mpg")
 
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
 
 	button := button.New(panedWindow, "Click")
 	button.SetCommand(func(*command.CallbackData) {
-		node := tree.GetSelectedNode()
-		fmt.Printf("text: %v, value: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetTags())
+		node := tree.GetFirstSelectedNode()
+		if node != nil {
+			fmt.Printf("text: %v, value: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetTags())
+		}
 	})
 	panedWindow.AddPane(button)
 	panedWindow.SetPaneWeight(1, 1)
