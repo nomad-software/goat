@@ -3,14 +3,14 @@ package treeview
 import (
 	"strings"
 
+	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/widget"
 )
 
 const (
-	Type     = "treeview"
-	NodeType = "treeviewnode"
+	Type = "treeview"
 )
 
 // The treeview widget displays a hierarchical collection of items. Each item
@@ -78,6 +78,34 @@ func (el *TreeView) SetHeading(text, anchor string) {
 	tk.Get().Eval("%s heading #0 -text {%s} -anchor {%s}", el.GetID(), text, anchor)
 }
 
+// SetHeadingImage sets the heading image to display at the right of the
+// heading.
+func (el *TreeView) SetHeadingImage(img *image.Image) {
+	tk.Get().Eval("%s heading #0 -image %s", el.GetID(), img.GetID())
+}
+
+// SetMinWidth sets the width of the tree view.
+func (el *TreeView) SetWidth(width int) {
+	tk.Get().Eval("%s column #0 -width %d", el.GetID(), width)
+}
+
+// SetMinWidth sets the minimum width of the tree view.
+func (el *TreeView) SetMinWidth(width int) {
+	tk.Get().Eval("%s column #0 -minwidth %d", el.GetID(), width)
+}
+
+// SetStretch sets if the tree view stretches or not.
+func (el *TreeView) SetStretch(stretch bool) {
+	tk.Get().Eval("%s column #0 -stretch %v", el.GetID(), stretch)
+}
+
+// RegisterTag registers a tag to be used by nodes in the tree.
+// See [option.color] for color names. Use color.Default for no color.
+// A hexadecimal string can be used too. e.g. #FFFFFF.
+func (el *TreeView) RegisterTag(name string, img *image.Image, foregroundColor, backgroundColor string) {
+	tk.Get().Eval("%s tag configure {%s} -image %s -foreground {%s} -background {%s}", el.GetID(), name, img.GetID(), foregroundColor, backgroundColor)
+}
+
 // AddNode adds a node to the tree view.
 func (el *TreeView) AddNode(text, value string, open bool, tags ...string) *Node {
 	node := &Node{
@@ -133,56 +161,11 @@ func (el *TreeView) GetSelectedNodes() []*Node {
 	return result
 }
 
-// Node represents a node in the tree view.
-type Node struct {
-	element.Ele
+// Clear clears the tree view.
+func (el *TreeView) Clear() {
+	tk.Get().Eval("%s children {}", el.GetID())
+	tk.Get().Eval("%s delete [list %s]", el.GetID(), tk.Get().GetStrResult())
 
-	nodes []*Node
-}
-
-// GetText gets the node text.
-func (el *Node) GetText() string {
-	tk.Get().Eval("%s item %s -text", el.GetParent().GetID(), el.GetID())
-
-	return tk.Get().GetStrResult()
-}
-
-// GetValue gets the node value.
-func (el *Node) GetValue() string {
-	tk.Get().Eval("%s item %s -value", el.GetParent().GetID(), el.GetID())
-
-	return tk.Get().GetStrResult()
-}
-
-// GetValue gets the node tags.
-func (el *Node) GetTags() []string {
-	tk.Get().Eval("%s item %s -tags", el.GetParent().GetID(), el.GetID())
-	tagStr := tk.Get().GetStrResult()
-
-	return strings.Split(tagStr, " ")
-}
-
-// GetNode gets a child node by its index.
-func (el *Node) GetNode(index int) *Node {
-	return el.nodes[index]
-}
-
-// AddNode adds a node to this node.
-func (el *Node) AddNode(text, value string, open bool, tags ...string) *Node {
-	node := &Node{
-		nodes: make([]*Node, 0),
-	}
-
-	node.SetParent(el.GetParent())
-
-	tagStr := strings.Join(tags, " ")
-	tk.Get().Eval("%s insert %s end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetParent().GetID(), el.GetID(), text, value, open, tagStr)
-
-	nodeID := tk.Get().GetStrResult()
-	node.SetID(nodeID)
-
-	el.GetParent().(*TreeView).reference[nodeID] = node
-	node.nodes = append(node.nodes, node)
-
-	return node
+	clear(el.reference)
+	clear(el.nodes)
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/option/anchor"
+	"github.com/nomad-software/goat/option/color"
 	"github.com/nomad-software/goat/option/compound"
 	"github.com/nomad-software/goat/option/fill"
 	"github.com/nomad-software/goat/option/orientation"
@@ -242,6 +243,14 @@ func createPanedPane() *frame.Frame {
 
 	tree := treeview.New(panedWindow, selectionmode.Browse)
 	tree.SetHeading("Directory listing", anchor.West)
+	tree.SetHeadingImage(embedded.GetImage("png/computer.png"))
+	tree.RegisterTag("home", embedded.GetImage("png/computer.png"), color.Default, color.Default)
+	tree.RegisterTag("folder", embedded.GetImage("png/folder.png"), color.Default, color.Default)
+	tree.RegisterTag("file", embedded.GetImage("png/page.png"), color.Default, color.Default)
+	tree.RegisterTag("pdf", embedded.GetImage("png/page_white_acrobat.png"), color.Default, color.Default)
+	tree.RegisterTag("mpg", embedded.GetImage("png/film.png"), color.Default, color.Default)
+	tree.RegisterTag("jpg", embedded.GetImage("png/images.png"), color.Default, color.Default)
+
 	root := tree.AddNode("Home", "1", true, "home")
 	node := root.AddNode("Documents", "2", true, "folder")
 	node.AddNode("important_notes.txt", "3", true, "file")
@@ -255,15 +264,12 @@ func createPanedPane() *frame.Frame {
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
 
-	button := button.New(panedWindow, "Click")
-	button.SetCommand(func(*command.CallbackData) {
+	tree.Bind("<Button-1>", func(data *command.CallbackData) {
 		node := tree.GetFirstSelectedNode()
 		if node != nil {
-			fmt.Printf("text: %v, value: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetTags())
+			fmt.Printf("text: %v, value: %v, open: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetOpen(), node.GetTags())
 		}
 	})
-	panedWindow.AddPane(button)
-	panedWindow.SetPaneWeight(1, 1)
 
 	return pane
 }
