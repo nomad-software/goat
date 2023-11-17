@@ -23,6 +23,7 @@ import (
 	"github.com/nomad-software/goat/widget/entry"
 	"github.com/nomad-software/goat/widget/frame"
 	"github.com/nomad-software/goat/widget/labelframe"
+	"github.com/nomad-software/goat/widget/listview"
 	"github.com/nomad-software/goat/widget/menu"
 	"github.com/nomad-software/goat/widget/menubutton"
 	"github.com/nomad-software/goat/widget/notebook"
@@ -243,7 +244,6 @@ func createPanedPane() *frame.Frame {
 
 	tree := treeview.New(panedWindow, selectionmode.Browse)
 	tree.SetHeading("Directory listing", anchor.West)
-	tree.SetHeadingImage(embedded.GetImage("png/computer.png"))
 	tree.RegisterTag("home", embedded.GetImage("png/computer.png"), color.Default, color.Default)
 	tree.RegisterTag("folder", embedded.GetImage("png/folder.png"), color.Default, color.Default)
 	tree.RegisterTag("file", embedded.GetImage("png/page.png"), color.Default, color.Default)
@@ -264,12 +264,34 @@ func createPanedPane() *frame.Frame {
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
 
-	tree.Bind("<Button-1>", func(data *command.CallbackData) {
-		node := tree.GetFirstSelectedNode()
-		if node != nil {
-			fmt.Printf("text: %v, value: %v, open: %v, tags: %v\n", node.GetText(), node.GetValue(), node.GetOpen(), node.GetTags())
-		}
-	})
+	list := listview.New(panedWindow, 3, selectionmode.Browse)
+	list.GetColumn(0).SetHeading("Film", anchor.West)
+	list.GetColumn(0).SetStretch(true)
+
+	list.GetColumn(1).SetHeading("Year", anchor.West)
+	list.GetColumn(1).SetStretch(false)
+	list.GetColumn(1).SetWidth(150)
+
+	list.GetColumn(2).SetHeading("IMDB ranking", anchor.West)
+	list.GetColumn(2).SetStretch(false)
+	list.GetColumn(2).SetWidth(150)
+
+	list.AddRow("{The Shawshank Redemption}", "1994", "1")
+	list.AddRow("The Godfather", "1972", "2")
+	list.AddRow("The Godfather: Part II", "1974", "3")
+	list.AddRow("The Dark Knight", "2008", "4")
+	list.AddRow("Pulp Fiction", "1994", "5")
+	list.AddRow("The Good, the Bad and the Ugly", "1966", "6")
+	list.AddRow("Schindler's List", "1993", "7")
+	list.AddRow("Angry Men", "1957", "8")
+	list.AddRow("The Lord of the Rings: The Return of the King", "2003", "9")
+	list.AddRow("Fight Club", "1999", "10")
+
+	values := list.GetRow(0).GetValues()
+	fmt.Printf("values: %#v\n", values)
+
+	panedWindow.AddPane(list)
+	panedWindow.SetPaneWeight(1, 1)
 
 	return pane
 }

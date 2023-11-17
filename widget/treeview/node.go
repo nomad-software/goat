@@ -62,7 +62,7 @@ func (el *Node) AddNode(text, value string, open bool, tags ...string) *Node {
 	nodeID := tk.Get().GetStrResult()
 	node.SetID(nodeID)
 
-	el.GetParent().(*TreeView).reference[nodeID] = node
+	el.GetParent().(*TreeView).nodeRef[nodeID] = node
 	node.nodes = append(node.nodes, node)
 
 	return node

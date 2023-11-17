@@ -18,7 +18,7 @@ const (
 //
 // There are two varieties of columns. The first is the main tree view column
 // that is present all the time. The second are data columns that can be added
-// when needed.
+// when needed. This widget only uses the tree view column.
 //
 // Each tree item has a list of tags, which can be used to associate event
 // bindings and control their appearance. Treeview widgets support horizontal
@@ -38,16 +38,16 @@ const (
 type TreeView struct {
 	widget.Widget
 
-	reference map[string]*Node
-	nodes     []*Node
+	nodeRef map[string]*Node
+	nodes   []*Node
 }
 
 // New creates a new tree view.
 // See [option.selectionmode] for mode values.
 func New(parent element.Element, selectionMode string) *TreeView {
 	tree := &TreeView{
-		reference: make(map[string]*Node),
-		nodes:     make([]*Node, 0),
+		nodeRef: make(map[string]*Node),
+		nodes:   make([]*Node, 0),
 	}
 	tree.SetParent(parent)
 	tree.SetType(Type)
@@ -120,7 +120,7 @@ func (el *TreeView) AddNode(text, value string, open bool, tags ...string) *Node
 	nodeID := tk.Get().GetStrResult()
 	node.SetID(nodeID)
 
-	el.reference[nodeID] = node
+	el.nodeRef[nodeID] = node
 	el.nodes = append(el.nodes, node)
 
 	return node
@@ -152,7 +152,7 @@ func (el *TreeView) GetSelectedNodes() []*Node {
 
 	if str != "" {
 		for _, id := range strings.Split(str, " ") {
-			if node, ok := el.reference[id]; ok {
+			if node, ok := el.nodeRef[id]; ok {
 				result = append(result, node)
 			}
 		}
@@ -166,6 +166,6 @@ func (el *TreeView) Clear() {
 	tk.Get().Eval("%s children {}", el.GetID())
 	tk.Get().Eval("%s delete [list %s]", el.GetID(), tk.Get().GetStrResult())
 
-	clear(el.reference)
+	clear(el.nodeRef)
 	clear(el.nodes)
 }
