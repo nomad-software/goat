@@ -29,6 +29,7 @@ import (
 	"regexp"
 	"runtime/cgo"
 	"strconv"
+	"strings"
 	"unsafe"
 
 	"github.com/nomad-software/goat/internal/log"
@@ -165,6 +166,15 @@ func (tk *Tk) GetBoolResult() bool {
 	}
 
 	return b
+}
+
+func (tk *Tk) GetStrSliceResult() []string {
+	result := C.Tcl_GetStringResult(tk.interpreter)
+	str := C.GoString(result)
+
+	log.Debug("interpreter result: %v", str)
+
+	return parseTclList(str)
 }
 
 // SetVarStrValue sets the named variable value using a string.
@@ -376,4 +386,41 @@ func readStringArg(argv []*C.char, index int) string {
 		return ""
 	}
 	return val
+}
+
+// parseTclList parses a tcl list from the interpreter result and tried to
+// correctly handle any curly brackets that may be emmited for escaping
+// purposes.
+func parseTclList(str string) []string {
+	result := make([]string, 0)
+
+	var out string
+	var count int
+
+	for _, r := range str {
+		if r == '{' {
+			count += 1
+		}
+		if r == '}' {
+			count -= 1
+		}
+		if r == ' ' && count == 0 {
+			result = append(result, out)
+			out = ""
+			continue
+		}
+		out += string(r)
+	}
+
+	if out != "" {
+		result = append(result, out)
+	}
+
+	for i, str := range result {
+		if strings.HasPrefix(str, "{") && strings.HasSuffix(str, "}") {
+			result[i] = str[1 : len(str)-1]
+		}
+	}
+
+	return result
 }

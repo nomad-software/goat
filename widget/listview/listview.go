@@ -27,10 +27,10 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_treeview.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=padding
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=scrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=padding
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=scrollbar
 type ListView struct {
 	widget.Widget
 
@@ -91,8 +91,8 @@ func (el *ListView) AddRow(values ...string) *Row {
 	row := &Row{}
 	row.SetParent(el)
 
-	valStr := strings.Join(values, "\" \"")
-	tk.Get().Eval("%s insert {} end -values [list \"%s\"]", el.GetID(), valStr)
+	valStr := strings.Join(values, "} {")
+	tk.Get().Eval("%s insert {} end -values [list {%s}]", el.GetID(), valStr)
 
 	rowID := tk.Get().GetStrResult()
 	row.SetID(rowID)

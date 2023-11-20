@@ -10,6 +10,7 @@ import (
 )
 
 type stub struct{ element.Element } // IGNORE
+func (el stub) GetID() string       { return "." } // IGNORE
 
 // Bind binds a callback to a specific binding.
 // Once the callback is called, the argument contains information about the

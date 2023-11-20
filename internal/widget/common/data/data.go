@@ -19,15 +19,5 @@ func (el stub) SetData(data ...string) {
 // If no data has been set, this will return empty.
 func (el stub) GetData() []string {
 	tk.Get().Eval("%s cget -values", el.GetID())
-	data := make([]string, 0)
-
-	result := tk.Get().GetStrResult()
-	if result != "" {
-		values := strings.Split(result, " ")
-		for _, val := range values {
-			data = append(data, val[1:len(val)-1])
-		}
-	}
-
-	return data
+	return tk.Get().GetStrSliceResult()
 }

@@ -277,9 +277,9 @@ func createPanedPane() *frame.Frame {
 	list.GetColumn(2).SetWidth(150)
 
 	list.AddRow("{The Shawshank Redemption}", "1994", "1")
-	list.AddRow("The Godfather", "1972", "2")
-	list.AddRow("The Godfather: Part II", "1974", "3")
-	list.AddRow("The Dark Knight", "2008", "4")
+	list.AddRow("\"The Godfather\"", "1972", "2")
+	list.AddRow("[The Godfather: Part II]", "1974", "3")
+	list.AddRow("$The Dark Knight", "2008", "4")
 	list.AddRow("Pulp Fiction", "1994", "5")
 	list.AddRow("The Good, the Bad and the Ugly", "1966", "6")
 	list.AddRow("Schindler's List", "1993", "7")
@@ -287,8 +287,14 @@ func createPanedPane() *frame.Frame {
 	list.AddRow("The Lord of the Rings: The Return of the King", "2003", "9")
 	list.AddRow("Fight Club", "1999", "10")
 
-	values := list.GetRow(0).GetValues()
-	fmt.Printf("values: %#v\n", values)
+	list.AddRow("{Fight}", "1999", "10")
+	list.AddRow("[Fight]", "1999", "10")
+	list.AddRow("\"Fight\"", "1999", "10")
+	list.AddRow("$Fight", "1999", "10")
+
+	for i := 0; i < 14; i++ {
+		fmt.Printf("values: %#v\n", list.GetRow(i).GetValues())
+	}
 
 	panedWindow.AddPane(list)
 	panedWindow.SetPaneWeight(1, 1)
