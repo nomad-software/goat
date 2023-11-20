@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -286,15 +284,6 @@ func createPanedPane() *frame.Frame {
 	list.AddRow("Angry Men", "1957", "8")
 	list.AddRow("The Lord of the Rings: The Return of the King", "2003", "9")
 	list.AddRow("Fight Club", "1999", "10")
-
-	list.AddRow("{Fight}", "1999", "10")
-	list.AddRow("[Fight]", "1999", "10")
-	list.AddRow("\"Fight\"", "1999", "10")
-	list.AddRow("$Fight", "1999", "10")
-
-	for i := 0; i < 14; i++ {
-		fmt.Printf("values: %#v\n", list.GetRow(i).GetValues())
-	}
 
 	panedWindow.AddPane(list)
 	panedWindow.SetPaneWeight(1, 1)
