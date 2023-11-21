@@ -127,13 +127,19 @@ func (el *TreeView) AddNode(text, value string, open bool, tags ...string) *Node
 }
 
 // GetNode gets a node by its index.
+// This will return nil if index is out of bounds.
 func (el *TreeView) GetNode(index int) *Node {
-	return el.nodes[index]
+	if index < len(el.nodes) {
+		return el.nodes[index]
+	}
+
+	return nil
+
 }
 
-// GetFirstSelectedNode returns the first selected node.
+// GetSelectedNode returns the first selected node.
 // This will return nil if nothing is selected.
-func (el *TreeView) GetFirstSelectedNode() *Node {
+func (el *TreeView) GetSelectedNode() *Node {
 	nodes := el.GetSelectedNodes()
 
 	if len(nodes) > 0 {
@@ -143,18 +149,16 @@ func (el *TreeView) GetFirstSelectedNode() *Node {
 	return nil
 }
 
-// GetSelectedNodes gets all the selected nodes as an array.
+// GetSelectedNodes gets all the selected nodes as an slice.
 func (el *TreeView) GetSelectedNodes() []*Node {
 	tk.Get().Eval("%s selection", el.GetID())
-	str := tk.Get().GetStrResult()
+	ids := tk.Get().GetStrSliceResult()
 
 	result := make([]*Node, 0)
 
-	if str != "" {
-		for _, id := range strings.Split(str, " ") {
-			if node, ok := el.nodeRef[id]; ok {
-				result = append(result, node)
-			}
+	for _, id := range ids {
+		if node, ok := el.nodeRef[id]; ok {
+			result = append(result, node)
 		}
 	}
 

@@ -3,6 +3,7 @@ package listview
 import (
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
@@ -21,6 +22,22 @@ func (el *Column) SetHeading(text, anchor string) {
 // heading.
 func (el *Column) SetHeadingImage(img *image.Image) {
 	tk.Get().Eval("%s heading %s -image %s", el.GetParent().GetID(), el.GetID(), img.GetID())
+}
+
+// SetHeadingCommand sets the heading command.
+func (el *Column) SetHeadingCommand(callback command.Callback) {
+	name := command.GenerateName(el.GetParent().GetID(), el.GetID())
+	tk.Get().CreateCommand(el, name, callback)
+
+	tk.Get().Eval("%s heading %s -command %s", el.GetParent().GetID(), el.GetID(), name)
+}
+
+// DeleteHeadingCommand deletes the heading command.
+func (el *Column) DeleteHeadingCommand() {
+	tk.Get().Eval("%s heading %s -command {}", el.GetParent().GetID(), el.GetID())
+
+	name := command.GenerateName(el.GetParent().GetID(), el.GetID())
+	tk.Get().DeleteCommand(name)
 }
 
 // SetMinWidth sets the width of the column.

@@ -104,6 +104,8 @@ func createMenu(win *window.Window) {
 
 func createNotebook(win *window.Window) {
 	note := notebook.New(win)
+	note.Pack(0, 0, side.Top, fill.Both, anchor.Center, true)
+
 	widgetPane := createWidgetPane()
 	panedPane := createPanedPane()
 	canvasPane := createCanvasPane()
@@ -121,7 +123,7 @@ func createNotebook(win *window.Window) {
 	img = embedded.GetImage("png/application_double.png")
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
-	note.Pack(0, 0, side.Top, fill.Both, anchor.Center, true)
+	note.SelectTab(1)
 
 	sizegrip := sizegrip.New(win)
 	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
@@ -262,7 +264,7 @@ func createPanedPane() *frame.Frame {
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
 
-	list := listview.New(panedWindow, 3, selectionmode.Browse)
+	list := listview.New(panedWindow, 3, selectionmode.Extended)
 	list.GetColumn(0).SetHeading("Film", anchor.West)
 	list.GetColumn(0).SetStretch(true)
 
@@ -274,16 +276,18 @@ func createPanedPane() *frame.Frame {
 	list.GetColumn(2).SetStretch(false)
 	list.GetColumn(2).SetWidth(150)
 
+	list.RegisterTag("hightlight", color.Default, "#E8E8E8")
+
 	list.AddRow("The Shawshank Redemption", "1994", "1")
-	list.AddRow("The Godfather", "1972", "2")
+	list.AddRow("The Godfather", "1972", "2").SetTags("hightlight")
 	list.AddRow("The Godfather: Part II", "1974", "3")
-	list.AddRow("The Dark Knight", "2008", "4")
+	list.AddRow("The Dark Knight", "2008", "4").SetTags("hightlight")
 	list.AddRow("Pulp Fiction", "1994", "5")
-	list.AddRow("The Good, the Bad and the Ugly", "1966", "6")
+	list.AddRow("The Good, the Bad and the Ugly", "1966", "6").SetTags("hightlight")
 	list.AddRow("Schindler's List", "1993", "7")
-	list.AddRow("Angry Men", "1957", "8")
+	list.AddRow("Angry Men", "1957", "8").SetTags("hightlight")
 	list.AddRow("The Lord of the Rings: The Return of the King", "2003", "9")
-	list.AddRow("Fight Club", "1999", "10")
+	list.AddRow("Fight Club", "1999", "10").SetTags("hightlight")
 
 	panedWindow.AddPane(list)
 	panedWindow.SetPaneWeight(1, 1)

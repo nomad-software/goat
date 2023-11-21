@@ -43,6 +43,12 @@ func (el *Node) GetTags() []string {
 	return strings.Split(tagStr, " ")
 }
 
+// SetTags sets tags for this node.
+func (el *Node) SetTags(tags ...string) {
+	valStr := strings.Join(tags, " ")
+	tk.Get().Eval("%s item %s -tags [list %s]", el.GetParent().GetID(), el.GetID(), valStr)
+}
+
 // GetNode gets a child node by its index.
 func (el *Node) GetNode(index int) *Node {
 	return el.nodes[index]

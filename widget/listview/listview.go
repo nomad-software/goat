@@ -82,8 +82,20 @@ func (el *ListView) EnableHeadings(enable bool) {
 }
 
 // GetColumn gets a column by its index.
+// This will return nil if index is out of bounds.
 func (el *ListView) GetColumn(index int) *Column {
-	return el.columns[index]
+	if index < len(el.columns) {
+		return el.columns[index]
+	}
+
+	return nil
+}
+
+// RegisterTag registers a tag to be used by rows.
+// See [option.color] for color names. Use color.Default for no color.
+// A hexadecimal string can be used too. e.g. #FFFFFF.
+func (el *ListView) RegisterTag(name string, foregroundColor, backgroundColor string) {
+	tk.Get().Eval("%s tag configure {%s} -foreground {%s} -background {%s}", el.GetID(), name, foregroundColor, backgroundColor)
 }
 
 // AddValues adds values to the list view.
@@ -104,6 +116,49 @@ func (el *ListView) AddRow(values ...string) *Row {
 }
 
 // GetRow gets a row by its index.
+// This will return nil if index is out of bounds.
 func (el *ListView) GetRow(index int) *Row {
-	return el.rows[index]
+	if index < len(el.rows) {
+		return el.rows[index]
+	}
+
+	return nil
+}
+
+// GetSelectedRow returns the first selected row.
+// This will return nil if nothing is selected.
+func (el *ListView) GetSelectedRow() *Row {
+	rows := el.GetSelectedRows()
+
+	if len(rows) > 0 {
+		return rows[0]
+	}
+
+	return nil
+}
+
+// GetSelectedRows gets all the selected rows as an slice.
+func (el *ListView) GetSelectedRows() []*Row {
+	tk.Get().Eval("%s selection", el.GetID())
+	ids := tk.Get().GetStrSliceResult()
+
+	result := make([]*Row, 0)
+
+	for _, id := range ids {
+		if row, ok := el.rowRef[id]; ok {
+			result = append(result, row)
+		}
+	}
+
+	return result
+}
+
+// Clear clears the list view.
+func (el *ListView) Clear() {
+	tk.Get().Eval("%s children {}", el.GetID())
+	tk.Get().Eval("%s delete [list %s]", el.GetID(), tk.Get().GetStrResult())
+
+	clear(el.rowRef)
+	clear(el.rows)
+	clear(el.columns)
 }
