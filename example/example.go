@@ -264,7 +264,7 @@ func createPanedPane() *frame.Frame {
 	panedWindow.AddPane(tree)
 	panedWindow.SetPaneWeight(0, 1)
 
-	list := listview.New(panedWindow, 3, selectionmode.Extended)
+	list := listview.New(panedWindow, 3, selectionmode.Browse)
 	list.GetColumn(0).SetHeading("Film", anchor.West)
 	list.GetColumn(0).SetStretch(true)
 
