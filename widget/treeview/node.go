@@ -28,13 +28,6 @@ func (el *Node) GetOpen() bool {
 	return tk.Get().GetBoolResult()
 }
 
-// GetValue gets the node value.
-func (el *Node) GetValue() string {
-	tk.Get().Eval("%s item %s -value", el.GetParent().GetID(), el.GetID())
-
-	return tk.Get().GetStrResult()
-}
-
 // GetValue gets the node tags.
 func (el *Node) GetTags() []string {
 	tk.Get().Eval("%s item %s -tags", el.GetParent().GetID(), el.GetID())
@@ -55,7 +48,7 @@ func (el *Node) GetNode(index int) *Node {
 }
 
 // AddNode adds a node to this node.
-func (el *Node) AddNode(text, value string, open bool, tags ...string) *Node {
+func (el *Node) AddNode(text string, open bool, tags ...string) *Node {
 	node := &Node{
 		nodes: make([]*Node, 0),
 	}
@@ -63,7 +56,7 @@ func (el *Node) AddNode(text, value string, open bool, tags ...string) *Node {
 	node.SetParent(el.GetParent())
 
 	tagStr := strings.Join(tags, " ")
-	tk.Get().Eval("%s insert %s end -text {%s} -values {%s} -open %v -tags [list %s]", el.GetParent().GetID(), el.GetID(), text, value, open, tagStr)
+	tk.Get().Eval("%s insert %s end -text {%s} -open %v -tags [list %s]", el.GetParent().GetID(), el.GetID(), text, open, tagStr)
 
 	nodeID := tk.Get().GetStrResult()
 	node.SetID(nodeID)
