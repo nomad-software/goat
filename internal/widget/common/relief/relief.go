@@ -8,7 +8,7 @@ import (
 type stub struct{ element.Element } // IGNORE
 
 // SetRelief sets the relief effect.
-// See [option.relief]
+// See [option.relief] for relief values.
 func (el stub) SetRelief(r string) {
 	tk.Get().Eval("%s configure -relief {%s}", el.GetID(), r)
 }

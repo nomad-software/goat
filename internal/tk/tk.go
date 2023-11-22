@@ -118,7 +118,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 
 	if result == C.TCL_ERROR {
 		err := tk.getTclError("evaluation error")
-		log.Panic(err, "cannot continue")
+		log.Error(err)
 	}
 }
 

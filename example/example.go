@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/nomad-software/goat/app"
+	"github.com/nomad-software/goat/dialog/messagedialog"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/internal/tk/command"
@@ -67,6 +68,8 @@ func main() {
 		main.Destroy()
 	})
 
+	main.Bind("<Key-F1>", showAbout(main))
+
 	createMenu(main)
 	createNotebook(main)
 
@@ -99,7 +102,7 @@ func createMenu(win *window.Window) {
 
 	help := menu.New(bar, "Help", underline.None)
 	img = embedded.GetImage("png/help.png")
-	help.AddImageEntry(img, compound.Left, "About...", "F1", func(*command.CallbackData) {})
+	help.AddImageEntry(img, compound.Left, "About...", "F1", showAbout(win))
 }
 
 func createNotebook(win *window.Window) {
@@ -123,7 +126,7 @@ func createNotebook(win *window.Window) {
 	img = embedded.GetImage("png/application_double.png")
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
-	note.SelectTab(1)
+	note.SelectTab(3)
 
 	sizegrip := sizegrip.New(win)
 	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
@@ -302,5 +305,65 @@ func createCanvasPane() *frame.Frame {
 
 func createDialogPane() *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
+
+	modalFrame := labelframe.New(pane, "Modal", underline.None)
+	modalFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+	modalFrame.SetGridColumnWeight(1, 1)
+
+	colorButton := button.New(modalFrame, "Choose color...")
+	colorButton.SetImage(embedded.GetImage("png/color_swatch.png"), compound.Left)
+	colorButton.SetWidth(18)
+	colorButton.Grid(0, 0, 10, 0, 1, 1, "w")
+	colorEntry := entry.New(modalFrame)
+	colorEntry.Grid(1, 0, 10, 0, 1, 1, "ew")
+
+	dirButton := button.New(modalFrame, "Choose directory...")
+	dirButton.SetImage(embedded.GetImage("png/chart_organisation.png"), compound.Left)
+	dirButton.SetWidth(18)
+	dirButton.Grid(0, 1, 10, 0, 1, 1, "w")
+	dirEntry := entry.New(modalFrame)
+	dirEntry.Grid(1, 1, 10, 0, 1, 1, "ew")
+
+	openButton := button.New(modalFrame, "Open file...")
+	openButton.SetImage(embedded.GetImage("png/folder_page.png"), compound.Left)
+	openButton.SetWidth(18)
+	openButton.Grid(0, 2, 10, 0, 1, 1, "w")
+	openEntry := entry.New(modalFrame)
+	openEntry.Grid(1, 2, 10, 0, 1, 1, "ew")
+
+	saveButton := button.New(modalFrame, "Save file...")
+	saveButton.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
+	saveButton.SetWidth(18)
+	saveButton.Grid(0, 3, 10, 0, 1, 1, "w")
+	saveEntry := entry.New(modalFrame)
+	saveEntry.Grid(1, 3, 10, 0, 1, 1, "ew")
+
+	messageButton := button.New(modalFrame, "Show message...")
+	messageButton.SetImage(embedded.GetImage("png/comment.png"), compound.Left)
+	messageButton.SetWidth(18)
+	messageButton.Grid(0, 4, 10, 0, 1, 1, "w")
+	messageEntry := entry.New(modalFrame)
+	messageEntry.Grid(1, 4, 10, 0, 1, 1, "ew")
+
+	nonModalFrame := labelframe.New(pane, "Non Modal", underline.None)
+	nonModalFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+	nonModalFrame.SetGridColumnWeight(1, 1)
+
+	fontButton := button.New(nonModalFrame, "Choose font...")
+	fontButton.SetImage(embedded.GetImage("png/style.png"), compound.Left)
+	fontButton.SetWidth(18)
+	fontButton.Grid(0, 0, 10, 0, 1, 1, "w")
+	fontEntry := entry.New(nonModalFrame)
+	fontEntry.Grid(1, 0, 10, 0, 1, 1, "ew")
+
 	return pane
+}
+
+func showAbout(win *window.Window) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := messagedialog.New(win, "About")
+		dialog.SetMessage("Goat Showcase")
+		dialog.SetDetail("A showcase Goat application demonstrating menus, widgets and dialogs.\n\nThe possiblities are endless!")
+		dialog.Show()
+	}
 }
