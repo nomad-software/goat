@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/dialog/messagedialog"
+	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
 	"github.com/nomad-software/goat/internal/tk/command"
@@ -109,10 +110,10 @@ func createNotebook(win *window.Window) {
 	note := notebook.New(win)
 	note.Pack(0, 0, side.Top, fill.Both, anchor.Center, true)
 
-	widgetPane := createWidgetPane()
-	panedPane := createPanedPane()
-	canvasPane := createCanvasPane()
-	dialogPane := createDialogPane()
+	widgetPane := createWidgetPane(win)
+	panedPane := createPanedPane(win)
+	canvasPane := createCanvasPane(win)
+	dialogPane := createDialogPane(win)
 
 	img := embedded.GetImage("png/layout_content.png")
 	note.AddImageTab(img, compound.Left, "Widgets", underline.None, widgetPane)
@@ -132,7 +133,7 @@ func createNotebook(win *window.Window) {
 	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
 }
 
-func createWidgetPane() *frame.Frame {
+func createWidgetPane(win *window.Window) *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
 
 	entryFrame := labelframe.New(pane, "Text entry", underline.None)
@@ -239,7 +240,7 @@ func createWidgetPane() *frame.Frame {
 	return pane
 }
 
-func createPanedPane() *frame.Frame {
+func createPanedPane(win *window.Window) *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
 
 	panedWindow := panedwindow.New(pane, orientation.Vertical)
@@ -298,12 +299,12 @@ func createPanedPane() *frame.Frame {
 	return pane
 }
 
-func createCanvasPane() *frame.Frame {
+func createCanvasPane(win *window.Window) *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
 	return pane
 }
 
-func createDialogPane() *frame.Frame {
+func createDialogPane(win *window.Window) *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
 
 	modalFrame := labelframe.New(pane, "Modal", underline.None)
@@ -344,6 +345,7 @@ func createDialogPane() *frame.Frame {
 	messageButton.Grid(0, 4, 10, 0, 1, 1, "w")
 	messageEntry := entry.New(modalFrame)
 	messageEntry.Grid(1, 4, 10, 0, 1, 1, "ew")
+	messageButton.SetCommand(showMessage(win, messageEntry))
 
 	nonModalFrame := labelframe.New(pane, "Non Modal", underline.None)
 	nonModalFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
@@ -365,5 +367,16 @@ func showAbout(win *window.Window) command.Callback {
 		dialog.SetMessage("Goat Showcase")
 		dialog.SetDetail("A showcase Goat application demonstrating menus, widgets and dialogs.\n\nThe possiblities are endless!")
 		dialog.Show()
+	}
+}
+
+func showMessage(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := messagedialog.New(win, "Information")
+		dialog.SetMessage("Lorem ipsum dolor sit amet")
+		dialog.SetDetail("Nunc at aliquam arcu. Sed eget tellus ligula.\nSed egestas est et tempus cursus.")
+		dialog.SetDialogType(dtype.OkCancel)
+		dialog.Show()
+		entry.SetValue(dialog.GetValue())
 	}
 }

@@ -92,6 +92,8 @@ func (el *MessageDialog) SetDefaultButton(button string) {
 }
 
 // Show creates and shows the dialog.
+// This method call will block until the dialog is closed. Then the value can
+// be read.
 func (el *MessageDialog) Show() {
 	tk.Get().Eval(
 		"tk_messageBox -parent %s -title {%s} -message {%s} -detail {%s} -type {%s} -icon {%s} -default {%s}",
