@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/dialog/colordialog"
+	"github.com/nomad-software/goat/dialog/directorydialog"
 	"github.com/nomad-software/goat/dialog/messagedialog"
 	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/example/image"
@@ -326,6 +327,7 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	dirButton.Grid(0, 1, 10, 0, 1, 1, "w")
 	dirEntry := entry.New(modalFrame)
 	dirEntry.Grid(1, 1, 10, 0, 1, 1, "ew")
+	dirButton.SetCommand(showDirectory(win, dirEntry))
 
 	openButton := button.New(modalFrame, "Open file...")
 	openButton.SetImage(embedded.GetImage("png/folder_page.png"), compound.Left)
@@ -378,6 +380,14 @@ func showColor(win *window.Window, entry *entry.Entry) command.Callback {
 		dialog.SetInitialColor(color.Beige)
 		dialog.Show()
 		entry.SetForegroundColor(dialog.GetValue())
+		entry.SetValue(dialog.GetValue())
+	}
+}
+
+func showDirectory(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := directorydialog.New(win, "Choose directory")
+		dialog.Show()
 		entry.SetValue(dialog.GetValue())
 	}
 }
