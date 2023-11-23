@@ -13,6 +13,8 @@ const (
 )
 
 // MessageDialog is a dialog box with a user defined message and buttons.
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/messageBox.html
 type MessageDialog struct {
 	element.Ele
 

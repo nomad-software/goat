@@ -5,6 +5,8 @@ import (
 	"github.com/nomad-software/goat/dialog/colordialog"
 	"github.com/nomad-software/goat/dialog/directorydialog"
 	"github.com/nomad-software/goat/dialog/messagedialog"
+	"github.com/nomad-software/goat/dialog/openfiledialog"
+	"github.com/nomad-software/goat/dialog/savefiledialog"
 	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
@@ -335,6 +337,7 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	openButton.Grid(0, 2, 10, 0, 1, 1, "w")
 	openEntry := entry.New(modalFrame)
 	openEntry.Grid(1, 2, 10, 0, 1, 1, "ew")
+	openButton.SetCommand(showOpenFile(win, openEntry))
 
 	saveButton := button.New(modalFrame, "Save file...")
 	saveButton.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
@@ -342,6 +345,7 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	saveButton.Grid(0, 3, 10, 0, 1, 1, "w")
 	saveEntry := entry.New(modalFrame)
 	saveEntry.Grid(1, 3, 10, 0, 1, 1, "ew")
+	saveButton.SetCommand(showSaveFile(win, saveEntry))
 
 	messageButton := button.New(modalFrame, "Show message...")
 	messageButton.SetImage(embedded.GetImage("png/comment.png"), compound.Left)
@@ -387,6 +391,22 @@ func showColor(win *window.Window, entry *entry.Entry) command.Callback {
 func showDirectory(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CallbackData) {
 		dialog := directorydialog.New(win, "Choose directory")
+		dialog.Show()
+		entry.SetValue(dialog.GetValue())
+	}
+}
+
+func showOpenFile(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := openfiledialog.New(win, "Open file")
+		dialog.Show()
+		entry.SetValue(dialog.GetValue())
+	}
+}
+
+func showSaveFile(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := savefiledialog.New(win, "Save file")
 		dialog.Show()
 		entry.SetValue(dialog.GetValue())
 	}

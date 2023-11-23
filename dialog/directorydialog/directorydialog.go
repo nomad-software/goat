@@ -10,6 +10,8 @@ const (
 )
 
 // DirectoryDialog is a dialog box used to choose a directory.
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/chooseDirectory.html
 type DirectoryDialog struct {
 	element.Ele
 

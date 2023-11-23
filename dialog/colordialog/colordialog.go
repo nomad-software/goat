@@ -11,6 +11,8 @@ const (
 )
 
 // ColorDialog is a dialog box used to choose a color.
+//
+// Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/chooseColor.html
 type ColorDialog struct {
 	element.Ele
 
