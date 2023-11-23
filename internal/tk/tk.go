@@ -345,6 +345,7 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 		data.Event.ScreenY = readIntArg(values, 8)
 
 	} else if argc == 2 {
+		data.CommandName = readStringArg(values, 0)
 		data.Dialog.Font = readStringArg(values, 1)
 	}
 

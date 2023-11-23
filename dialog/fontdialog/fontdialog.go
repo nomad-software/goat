@@ -57,7 +57,7 @@ func (el *FontDialog) Show() {
 
 // SetCommand sets the command to execute on interaction with the dialog.
 func (el *FontDialog) SetCommand(callback command.Callback) {
-	name := command.GenerateName("fontchooser", "command")
+	name := command.GenerateName("fontchooser")
 
 	tk.Get().CreateCommand(el, name, callback)
 	tk.Get().Eval("tk fontchooser configure -command %s", name)
@@ -67,6 +67,6 @@ func (el *FontDialog) SetCommand(callback command.Callback) {
 func (el *FontDialog) DeleteCommand() {
 	tk.Get().Eval("tk fontchooser configure -command {}")
 
-	name := command.GenerateName("fontchooser", "command")
+	name := command.GenerateName("fontchooser")
 	tk.Get().DeleteCommand(name)
 }
