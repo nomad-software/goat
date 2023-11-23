@@ -1,4 +1,4 @@
-package dialogbutton
+package button
 
 const (
 	Abort  = "abort"

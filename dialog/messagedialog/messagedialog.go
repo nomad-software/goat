@@ -1,9 +1,9 @@
 package messagedialog
 
 import (
-	"github.com/nomad-software/goat/dialog/dialogbutton"
-	"github.com/nomad-software/goat/dialog/dialogicon"
-	"github.com/nomad-software/goat/dialog/dialogtype"
+	"github.com/nomad-software/goat/dialog/button"
+	"github.com/nomad-software/goat/dialog/icon"
+	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
@@ -34,9 +34,9 @@ func New(parent element.Element, title string) *MessageDialog {
 	dialog.SetType(Type)
 
 	dialog.SetTitle(title)
-	dialog.SetDialogType(dialogtype.Ok)
-	dialog.SetIcon(dialogicon.Info)
-	dialog.SetDefaultButton(dialogbutton.Ok)
+	dialog.SetDialogType(dtype.Ok)
+	dialog.SetIcon(icon.Info)
+	dialog.SetDefaultButton(button.Ok)
 
 	return dialog
 }
@@ -60,20 +60,20 @@ func (el *MessageDialog) SetDetail(detail string) {
 // See [dialog.dialogtype] for dialog type values.
 func (el *MessageDialog) SetDialogType(typ string) {
 	switch typ {
-	case dialogtype.AbortRetryIgnore:
-		el.defaultButton = dialogbutton.Abort
+	case dtype.AbortRetryIgnore:
+		el.defaultButton = button.Abort
 
-	case dialogtype.RetryCancel:
-		el.defaultButton = dialogbutton.Retry
+	case dtype.RetryCancel:
+		el.defaultButton = button.Retry
 
-	case dialogtype.YesNo:
-		el.defaultButton = dialogbutton.Yes
+	case dtype.YesNo:
+		el.defaultButton = button.Yes
 
-	case dialogtype.YesNoCancel:
-		el.defaultButton = dialogbutton.Yes
+	case dtype.YesNoCancel:
+		el.defaultButton = button.Yes
 
 	default:
-		el.defaultButton = dialogbutton.Ok
+		el.defaultButton = button.Ok
 	}
 
 	el.dialogType = typ

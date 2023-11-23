@@ -1,4 +1,4 @@
-package dialogicon
+package icon
 
 const (
 	Error    = "error"

@@ -1,4 +1,4 @@
-package dialogtype
+package type_
 
 const (
 	AbortRetryIgnore = "abortretryignore"
