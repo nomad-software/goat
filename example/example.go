@@ -4,6 +4,7 @@ import (
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/dialog/colordialog"
 	"github.com/nomad-software/goat/dialog/directorydialog"
+	"github.com/nomad-software/goat/dialog/fontdialog"
 	"github.com/nomad-software/goat/dialog/messagedialog"
 	"github.com/nomad-software/goat/dialog/openfiledialog"
 	"github.com/nomad-software/goat/dialog/savefiledialog"
@@ -365,6 +366,7 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	fontButton.Grid(0, 0, 10, 0, 1, 1, "w")
 	fontEntry := entry.New(nonModalFrame)
 	fontEntry.Grid(1, 0, 10, 0, 1, 1, "ew")
+	fontButton.SetCommand(showFont(win, fontEntry))
 
 	return pane
 }
@@ -420,5 +422,15 @@ func showMessage(win *window.Window, entry *entry.Entry) command.Callback {
 		dialog.SetDialogType(dtype.OkCancel)
 		dialog.Show()
 		entry.SetValue(dialog.GetValue())
+	}
+}
+
+func showFont(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := fontdialog.New(win, "Choose font")
+		dialog.SetCommand(func(data *command.CallbackData) {
+			entry.SetValue(data.Dialog.Font)
+		})
+		dialog.Show()
 	}
 }
