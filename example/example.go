@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/nomad-software/goat/app"
+	"github.com/nomad-software/goat/dialog/colordialog"
 	"github.com/nomad-software/goat/dialog/messagedialog"
 	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/example/image"
@@ -317,6 +318,7 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	colorButton.Grid(0, 0, 10, 0, 1, 1, "w")
 	colorEntry := entry.New(modalFrame)
 	colorEntry.Grid(1, 0, 10, 0, 1, 1, "ew")
+	colorButton.SetCommand(showColor(win, colorEntry))
 
 	dirButton := button.New(modalFrame, "Choose directory...")
 	dirButton.SetImage(embedded.GetImage("png/chart_organisation.png"), compound.Left)
@@ -367,6 +369,16 @@ func showAbout(win *window.Window) command.Callback {
 		dialog.SetMessage("Goat Showcase")
 		dialog.SetDetail("A showcase Goat application demonstrating menus, widgets and dialogs.\n\nThe possiblities are endless!")
 		dialog.Show()
+	}
+}
+
+func showColor(win *window.Window, entry *entry.Entry) command.Callback {
+	return func(*command.CallbackData) {
+		dialog := colordialog.New(win, "Choose color")
+		dialog.SetInitialColor(color.Beige)
+		dialog.Show()
+		entry.SetForegroundColor(dialog.GetValue())
+		entry.SetValue(dialog.GetValue())
 	}
 }
 
