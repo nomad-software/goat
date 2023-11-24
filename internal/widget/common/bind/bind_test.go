@@ -10,7 +10,7 @@ import (
 func TestUIElementBind(t *testing.T) {
 	el := stub{}
 
-	el.Bind("<<Modified>>", func(data *command.CallbackData) {
+	el.Bind("<<Modified>>", func(data *command.BindData) {
 		assert.Equal(t, ".", data.Element.GetID())
 	})
 
@@ -20,7 +20,7 @@ func TestUIElementBind(t *testing.T) {
 func TestUIElementUnBind(t *testing.T) {
 	el := stub{}
 
-	el.Bind("<<Modified>>", func(data *command.CallbackData) {
+	el.Bind("<<Modified>>", func(data *command.BindData) {
 		assert.Fail(t, "this should have been unbound")
 	})
 

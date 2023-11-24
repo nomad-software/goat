@@ -11,7 +11,7 @@ import (
 
 func TestAppStart(t *testing.T) {
 	app := New()
-	app.CreateIdleCallback(time.Millisecond, func(data *command.CallbackData) {
+	app.CreateIdleCallback(time.Millisecond, func(data *command.CommandData) {
 		app.Exit()
 	})
 
@@ -38,11 +38,11 @@ func TestAppCreateVirtualEvent(t *testing.T) {
 	app.CreateVirtualEvent("<<quit-app>>", "<Control-Q>")
 
 	main := app.GetMainWindow()
-	main.Bind("<<quit-app>>", func(data *command.CallbackData) {
+	main.Bind("<<quit-app>>", func(data *command.BindData) {
 		app.Exit()
 	})
 
-	app.CreateIdleCallback(time.Millisecond, func(data *command.CallbackData) {
+	app.CreateIdleCallback(time.Millisecond, func(data *command.CommandData) {
 		main.GenerateEvent("<Control-Q>")
 	})
 
@@ -55,16 +55,16 @@ func TestAppDeleteVirtualEvent(t *testing.T) {
 	app.CreateVirtualEvent("<<bad-event>>", "<Control-B>")
 
 	main := app.GetMainWindow()
-	main.Bind("<<quit-app>>", func(data *command.CallbackData) {
+	main.Bind("<<quit-app>>", func(data *command.BindData) {
 		app.Exit()
 	})
-	main.Bind("<<bad-event>>", func(data *command.CallbackData) {
+	main.Bind("<<bad-event>>", func(data *command.BindData) {
 		t.Error("<<bad-event>> was not deleted")
 	})
 
 	app.DeleteVirtualEvent("<<bad-event>>", "<Control-B>")
 
-	app.CreateIdleCallback(time.Millisecond, func(data *command.CallbackData) {
+	app.CreateIdleCallback(time.Millisecond, func(data *command.CommandData) {
 		main.GenerateEvent("<Control-B>")
 		main.GenerateEvent("<Control-Q>")
 	})

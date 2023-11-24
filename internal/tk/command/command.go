@@ -7,18 +7,24 @@ import (
 	"github.com/nomad-software/goat/internal/widget/ui/element/hash"
 )
 
-// Callback is the main command callback that is specified for a command.
-type Callback = func(*CallbackData)
+// BindCallback is the callback that is specified for a binding.
+type CommandCallback = func(*CommandData)
+type BindCallback = func(*BindData)
+type FontDialogCallback = func(*FontData)
 
-// CallbackData is the data which is pass to the callback when invoked.
-// This is automatically loaded with data before the call and is populated
-// relevant with data during the call.
-type CallbackData struct {
+// CommandData is data which is passed to a command callback when invoked.
+type CommandData struct {
 	CommandName string
 	Element     element.Element
-	Callback    Callback
+	Callback    CommandCallback
+}
+
+// BindData is data which is passed to a bind callback when invoked.
+type BindData struct {
+	CommandName string
+	Element     element.Element
+	Callback    BindCallback
 	Event       Event
-	Dialog      Dialog
 }
 
 // Event is the part of the callback data that contains information about any
@@ -34,9 +40,17 @@ type Event struct {
 	ScreenY     int
 }
 
-// Dialog is the part of the callback data that contain information about
+// FontData is data which is passed to a font dialog callback when invoked.
+type FontData struct {
+	CommandName string
+	Element     element.Element
+	Callback    FontDialogCallback
+	Font        Font
+}
+
+// Font is the part of the callback data that contain information about
 // dialog interaction.
-type Dialog struct {
+type Font struct {
 	Font string
 }
 

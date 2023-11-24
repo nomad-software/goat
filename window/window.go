@@ -127,12 +127,12 @@ func (w *Window) SetMaxSize(width, height int) {
 	tk.Get().Eval("wm maxsize %s %d %d", w.GetID(), width, height)
 }
 
-// BindProtocol binds a callback to be called when the specified protocol
+// SetProtocolCommand binds a callback to be called when the specified protocol
 // is triggered. A window manager protocol is a class of messages sent from a
 // window manager to a Tk application outside of the normal event processing
 // system.
 // See [window.protocol] for protocol names.
-func (w *Window) BindProtocol(protocol string, callback command.Callback) {
+func (w *Window) SetProtocolCommand(protocol string, callback command.CommandCallback) {
 	name := command.GenerateName(protocol)
 	tk.Get().CreateCommand(w, name, callback)
 	tk.Get().Eval("wm protocol %s {%s} {%s}", w.GetID(), protocol, name)

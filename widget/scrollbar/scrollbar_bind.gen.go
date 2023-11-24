@@ -147,7 +147,7 @@ import (
 // <Control-comma> is equivalent to <Control-KeyPress-comma>.
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/bind.html
-func (el *VerticalScrollbar) Bind(binding string, callback command.Callback) {
+func (el *VerticalScrollbar) Bind(binding string, callback command.BindCallback) {
 	if ok := tk.Binding.MatchString(binding); !ok {
 		log.Error(fmt.Errorf("invalid binding: %s", binding))
 		return
@@ -155,7 +155,7 @@ func (el *VerticalScrollbar) Bind(binding string, callback command.Callback) {
 
 	name := command.GenerateName(binding, el.GetID())
 
-	tk.Get().CreateCommand(el, name, callback)
+	tk.Get().CreateBindCommand(el, name, callback)
 	tk.Get().Eval("bind %s {%s} {%s %%b %%k %%x %%y %%D %%K %%X %%Y}", el.GetID(), binding, name)
 }
 

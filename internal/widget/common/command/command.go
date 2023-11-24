@@ -9,7 +9,7 @@ import (
 type stub struct{ element.Element } // IGNORE
 
 // SetCommand set the command to execute on interaction with the widget.
-func (el stub) SetCommand(callback command.Callback) {
+func (el stub) SetCommand(callback command.CommandCallback) {
 	name := command.GenerateName(el.GetID())
 
 	tk.Get().CreateCommand(el, name, callback)

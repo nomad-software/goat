@@ -61,8 +61,12 @@ func main() {
 	main.SetMinSize(600, 600)
 	main.SetIcon(icons, true)
 
-	main.Bind("<Control-Key-q>", func(*command.CallbackData) {
+	main.Bind("<Control-Key-q>", func(*command.BindData) {
 		main.Destroy()
+	})
+
+	main.Bind("<Key-F1>", func(*command.BindData) {
+		showAbout(main)
 	})
 
 	// app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
@@ -70,11 +74,9 @@ func main() {
 	// 	app.CreateIdleCallback(time.Second, data.Callback)
 	// })
 
-	main.BindProtocol(protocol.DeleteWindow, func(*command.CallbackData) {
+	main.SetProtocolCommand(protocol.DeleteWindow, func(*command.CommandData) {
 		main.Destroy()
 	})
-
-	main.Bind("<Key-F1>", showAbout(main))
 
 	createMenu(main)
 	createNotebook(main)
@@ -86,15 +88,15 @@ func createMenu(win *window.Window) {
 	bar := menu.NewBar(win)
 
 	checkSubMenu := menu.NewPopUp()
-	checkSubMenu.AddCheckButtonEntry("Option 1", "", func(*command.CallbackData) {})
-	checkSubMenu.AddCheckButtonEntry("Option 2", "", func(*command.CallbackData) {})
-	checkSubMenu.AddCheckButtonEntry("Option 3", "", func(*command.CallbackData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 1", "", func(*command.CommandData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 2", "", func(*command.CommandData) {})
+	checkSubMenu.AddCheckButtonEntry("Option 3", "", func(*command.CommandData) {})
 	checkSubMenu.SetCheckButtonEntry(0, true)
 
 	radioSubMenu := menu.NewPopUp()
-	radioSubMenu.AddRadioButtonEntry("Option 1", "", func(*command.CallbackData) {})
-	radioSubMenu.AddRadioButtonEntry("Option 2", "", func(*command.CallbackData) {})
-	radioSubMenu.AddRadioButtonEntry("Option 3", "", func(*command.CallbackData) {})
+	radioSubMenu.AddRadioButtonEntry("Option 1", "", func(*command.CommandData) {})
+	radioSubMenu.AddRadioButtonEntry("Option 2", "", func(*command.CommandData) {})
+	radioSubMenu.AddRadioButtonEntry("Option 3", "", func(*command.CommandData) {})
 	radioSubMenu.SelectRadioButtonEntry(0)
 
 	file := menu.New(bar, "File", underline.None)
@@ -102,13 +104,15 @@ func createMenu(win *window.Window) {
 	file.AddMenuEntry(radioSubMenu, "Radio button submenu", underline.None)
 	file.AddSeparator()
 	img := embedded.GetImage("png/cancel.png")
-	file.AddImageEntry(img, compound.Left, "Quit", "Ctrl-Q", func(*command.CallbackData) {
+	file.AddImageEntry(img, compound.Left, "Quit", "Ctrl-Q", func(*command.CommandData) {
 		win.Destroy()
 	})
 
 	help := menu.New(bar, "Help", underline.None)
 	img = embedded.GetImage("png/help.png")
-	help.AddImageEntry(img, compound.Left, "About...", "F1", showAbout(win))
+	help.AddImageEntry(img, compound.Left, "About...", "F1", func(*command.CommandData) {
+		showAbout(win)
+	})
 }
 
 func createNotebook(win *window.Window) {
@@ -193,7 +197,7 @@ func createWidgetPane(win *window.Window) *frame.Frame {
 	scale.SetFromValue(10)
 	scale.SetToValue(0)
 	scale.SetValue(4)
-	scale.SetCommand(func(*command.CallbackData) {
+	scale.SetCommand(func(*command.CommandData) {
 		progressBar.SetValue(scale.GetValue())
 	})
 	scale.Pack(5, 0, side.Top, fill.Horizontal, anchor.Center, true)
@@ -209,9 +213,9 @@ func createWidgetPane(win *window.Window) *frame.Frame {
 	button2.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
 
 	menu := menu.NewPopUp()
-	menu.AddEntry("Option 1", "", func(*command.CallbackData) {})
-	menu.AddEntry("Option 2", "", func(*command.CallbackData) {})
-	menu.AddEntry("Option 3", "", func(*command.CallbackData) {})
+	menu.AddEntry("Option 1", "", func(*command.CommandData) {})
+	menu.AddEntry("Option 2", "", func(*command.CommandData) {})
+	menu.AddEntry("Option 3", "", func(*command.CommandData) {})
 	button3 := menubutton.New(buttonFrame, "Menu button", menu)
 	button3.Pack(5, 0, side.Top, fill.None, anchor.Center, false)
 	button3.SetImage(embedded.GetImage("png/disk.png"), compound.Left)
@@ -371,17 +375,15 @@ func createDialogPane(win *window.Window) *frame.Frame {
 	return pane
 }
 
-func showAbout(win *window.Window) command.Callback {
-	return func(*command.CallbackData) {
-		dialog := messagedialog.New(win, "About")
-		dialog.SetMessage("Goat Showcase")
-		dialog.SetDetail("A showcase Goat application demonstrating menus, widgets and dialogs.\n\nThe possiblities are endless!")
-		dialog.Show()
-	}
+func showAbout(win *window.Window) {
+	dialog := messagedialog.New(win, "About")
+	dialog.SetMessage("Goat Showcase")
+	dialog.SetDetail("A showcase Goat application demonstrating menus, widgets and dialogs.\n\nThe possiblities are endless!")
+	dialog.Show()
 }
 
-func showColor(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showColor(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := colordialog.New(win, "Choose color")
 		dialog.SetInitialColor(color.Beige)
 		dialog.Show()
@@ -390,32 +392,32 @@ func showColor(win *window.Window, entry *entry.Entry) command.Callback {
 	}
 }
 
-func showDirectory(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showDirectory(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := directorydialog.New(win, "Choose directory")
 		dialog.Show()
 		entry.SetValue(dialog.GetValue())
 	}
 }
 
-func showOpenFile(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showOpenFile(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := openfiledialog.New(win, "Open file")
 		dialog.Show()
 		entry.SetValue(dialog.GetValue())
 	}
 }
 
-func showSaveFile(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showSaveFile(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := savefiledialog.New(win, "Save file")
 		dialog.Show()
 		entry.SetValue(dialog.GetValue())
 	}
 }
 
-func showMessage(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showMessage(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := messagedialog.New(win, "Information")
 		dialog.SetMessage("Lorem ipsum dolor sit amet")
 		dialog.SetDetail("Nunc at aliquam arcu. Sed eget tellus ligula.\nSed egestas est et tempus cursus.")
@@ -425,11 +427,11 @@ func showMessage(win *window.Window, entry *entry.Entry) command.Callback {
 	}
 }
 
-func showFont(win *window.Window, entry *entry.Entry) command.Callback {
-	return func(*command.CallbackData) {
+func showFont(win *window.Window, entry *entry.Entry) command.CommandCallback {
+	return func(*command.CommandData) {
 		dialog := fontdialog.New(win, "Choose font")
-		dialog.SetCommand(func(data *command.CallbackData) {
-			entry.SetValue(data.Dialog.Font)
+		dialog.SetCommand(func(data *command.FontData) {
+			entry.SetValue(data.Font.Font)
 		})
 		dialog.Show()
 	}

@@ -10,7 +10,7 @@ import (
 
 
 // SetCommand set the command to execute on interaction with the widget.
-func (el *Spinbox) SetCommand(callback command.Callback) {
+func (el *Spinbox) SetCommand(callback command.CommandCallback) {
 	name := command.GenerateName(el.GetID())
 
 	tk.Get().CreateCommand(el, name, callback)

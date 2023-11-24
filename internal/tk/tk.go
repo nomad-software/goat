@@ -285,10 +285,50 @@ func (tk *Tk) DeleteVar(name string) {
 }
 
 // CreateCommand creates a custom command in the interpreter.
-func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Callback) {
+func (tk *Tk) CreateCommand(el element.Element, name string, callback command.CommandCallback) {
 	log.Debug("create command {%s}", name)
 
-	data := &command.CallbackData{
+	data := &command.CommandData{
+		Element:     el,
+		CommandName: name,
+		Callback:    callback,
+	}
+
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+	cdata := C.uintptr_t(cgo.NewHandle(data))
+
+	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+}
+
+// CreateBindCommand creates a custom command in the interpreter.
+func (tk *Tk) CreateBindCommand(el element.Element, name string, callback command.BindCallback) {
+	log.Debug("create bind command {%s}", name)
+
+	data := &command.BindData{
+		Element:     el,
+		CommandName: name,
+		Callback:    callback,
+	}
+
+	cname := C.CString(name)
+	defer C.free(unsafe.Pointer(cname))
+
+	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+	cdata := C.uintptr_t(cgo.NewHandle(data))
+
+	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+}
+
+// CreateFontDialogCommand creates a custom command in the interpreter.
+func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback command.FontDialogCallback) {
+	log.Debug("create font dialog command {%s}", name)
+
+	data := &command.FontData{
 		Element:     el,
 		CommandName: name,
 		Callback:    callback,
@@ -332,9 +372,13 @@ func (tk *Tk) getTclError(format string, a ...any) error {
 //export procWrapper
 func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, argv **C.char) C.int {
 	values := unsafe.Slice(argv, argc)
-	data := cgo.Handle(clientData).Value().(*command.CallbackData)
 
-	if argc == 9 {
+	switch data := cgo.Handle(clientData).Value().(type) {
+	case *command.CommandData:
+		log.Debug("command data: %#v", data)
+		data.Callback(data)
+
+	case *command.BindData:
 		data.Event.MouseButton = readIntArg(values, 1)
 		data.Event.KeyCode = readIntArg(values, 2)
 		data.Event.X = readIntArg(values, 3)
@@ -343,13 +387,14 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 		data.Event.Key = readStringArg(values, 6)
 		data.Event.ScreenX = readIntArg(values, 7)
 		data.Event.ScreenY = readIntArg(values, 8)
+		log.Debug("bind data: %#v", data)
+		data.Callback(data)
 
-	} else if argc == 2 {
-		data.CommandName = readStringArg(values, 0)
-		data.Dialog.Font = readStringArg(values, 1)
+	case *command.FontData:
+		data.Font.Font = readStringArg(values, 1)
+		log.Debug("font data: %#v", data)
+		data.Callback(data)
 	}
-
-	data.Callback(data)
 
 	return C.TCL_OK
 }

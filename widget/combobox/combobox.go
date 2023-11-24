@@ -53,7 +53,7 @@ func New(parent element.Element) *Combobox {
 	tk.Get().Eval("ttk::combobox %s -textvariable %s", combo.GetID(), combo.valueVar)
 
 	combo.SetState([]string{state.Readonly})
-	combo.Bind("<<ComboboxSelected>>", func(*command.CallbackData) {
+	combo.Bind("<<ComboboxSelected>>", func(*command.BindData) {
 		combo.DeselectText()
 	})
 
