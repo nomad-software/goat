@@ -132,7 +132,7 @@ func (w *Window) SetMaxSize(width, height int) {
 // window manager to a Tk application outside of the normal event processing
 // system.
 // See [window.protocol] for protocol names.
-func (w *Window) SetProtocolCommand(protocol string, callback command.CommandCallback) {
+func (w *Window) SetProtocolCommand(protocol string, callback command.Callback) {
 	name := command.GenerateName(protocol)
 	tk.Get().CreateCommand(w, name, callback)
 	tk.Get().Eval("wm protocol %s {%s} {%s}", w.GetID(), protocol, name)

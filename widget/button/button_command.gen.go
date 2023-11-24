@@ -10,7 +10,7 @@ import (
 
 
 // SetCommand set the command to execute on interaction with the widget.
-func (el *Button) SetCommand(callback command.CommandCallback) {
+func (el *Button) SetCommand(callback command.Callback) {
 	name := command.GenerateName(el.GetID())
 
 	tk.Get().CreateCommand(el, name, callback)

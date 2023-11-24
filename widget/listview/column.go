@@ -25,7 +25,7 @@ func (el *Column) SetHeadingImage(img *image.Image) {
 }
 
 // SetHeadingCommand sets the heading command.
-func (el *Column) SetHeadingCommand(callback command.CommandCallback) {
+func (el *Column) SetHeadingCommand(callback command.Callback) {
 	name := command.GenerateName(el.GetParent().GetID(), el.GetID())
 	tk.Get().CreateCommand(el, name, callback)
 

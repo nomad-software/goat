@@ -8,7 +8,7 @@ import (
 )
 
 // BindCallback is the callback that is specified for a binding.
-type CommandCallback = func(*CommandData)
+type Callback = func(*CommandData)
 type BindCallback = func(*BindData)
 type FontDialogCallback = func(*FontData)
 
@@ -16,7 +16,7 @@ type FontDialogCallback = func(*FontData)
 type CommandData struct {
 	CommandName string
 	Element     element.Element
-	Callback    CommandCallback
+	Callback    Callback
 }
 
 // BindData is data which is passed to a bind callback when invoked.
@@ -51,7 +51,9 @@ type FontData struct {
 // Font is the part of the callback data that contain information about
 // dialog interaction.
 type Font struct {
-	Font string
+	Name      string
+	Size      string
+	Modifiers []string
 }
 
 // GenerateName generates a custom command name.

@@ -71,7 +71,7 @@ func (m *Menu) AddMenuEntry(menu *Menu, label string, underline int) {
 // AddEntry adds a menu entry with an optional cosmetic shortcut and a callback
 // to execute when selected.
 // The shortcut will need to be bound using the Bind method.
-func (m *Menu) AddEntry(label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddEntry(label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(m, name, callback)
 
@@ -81,7 +81,7 @@ func (m *Menu) AddEntry(label string, shortcut string, callback command.CommandC
 // AddImageEntry is the same as AddEntry but also displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [option.compound] for image positions.
-func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(m, name, callback)
 
@@ -90,7 +90,7 @@ func (m *Menu) AddImageEntry(img *image.Image, compound string, label string, sh
 
 // AddCheckButtonEntry adds an item to the menu that acts as a check button.
 // The shortcut will need to be bound using the Bind method.
-func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback command.Callback) {
 	varName := variable.GenerateName(label, m.GetID())
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
@@ -104,7 +104,7 @@ func (m *Menu) AddCheckButtonEntry(label string, shortcut string, callback comma
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [option.compound] for image positions.
-func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	varName := variable.GenerateName(label, m.GetID())
 	m.checkButtonVars = append(m.checkButtonVars, varName)
 
@@ -116,7 +116,7 @@ func (m *Menu) AddImageCheckButtonEntry(img *image.Image, compound string, label
 
 // AddRadioButtonEntry adds an item to the menu that acts as a radio button.
 // The shortcut will need to be bound using the Bind method.
-func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(m, name, callback)
 
@@ -127,7 +127,7 @@ func (m *Menu) AddRadioButtonEntry(label string, shortcut string, callback comma
 // displays an image.
 // The shortcut will need to be bound using the Bind method.
 // See [option.compound] for image positions.
-func (m *Menu) AddImageRadioButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.CommandCallback) {
+func (m *Menu) AddImageRadioButtonEntry(img *image.Image, compound string, label string, shortcut string, callback command.Callback) {
 	name := command.GenerateName(label, m.GetID())
 	tk.Get().CreateCommand(m, name, callback)
 

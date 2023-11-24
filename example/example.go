@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/dialog/colordialog"
 	"github.com/nomad-software/goat/dialog/directorydialog"
@@ -382,7 +384,7 @@ func showAbout(win *window.Window) {
 	dialog.Show()
 }
 
-func showColor(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showColor(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := colordialog.New(win, "Choose color")
 		dialog.SetInitialColor(color.Beige)
@@ -392,7 +394,7 @@ func showColor(win *window.Window, entry *entry.Entry) command.CommandCallback {
 	}
 }
 
-func showDirectory(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showDirectory(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := directorydialog.New(win, "Choose directory")
 		dialog.Show()
@@ -400,7 +402,7 @@ func showDirectory(win *window.Window, entry *entry.Entry) command.CommandCallba
 	}
 }
 
-func showOpenFile(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showOpenFile(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := openfiledialog.New(win, "Open file")
 		dialog.Show()
@@ -408,7 +410,7 @@ func showOpenFile(win *window.Window, entry *entry.Entry) command.CommandCallbac
 	}
 }
 
-func showSaveFile(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showSaveFile(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := savefiledialog.New(win, "Save file")
 		dialog.Show()
@@ -416,7 +418,7 @@ func showSaveFile(win *window.Window, entry *entry.Entry) command.CommandCallbac
 	}
 }
 
-func showMessage(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showMessage(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := messagedialog.New(win, "Information")
 		dialog.SetMessage("Lorem ipsum dolor sit amet")
@@ -427,11 +429,13 @@ func showMessage(win *window.Window, entry *entry.Entry) command.CommandCallback
 	}
 }
 
-func showFont(win *window.Window, entry *entry.Entry) command.CommandCallback {
+func showFont(win *window.Window, entry *entry.Entry) command.Callback {
 	return func(*command.CommandData) {
 		dialog := fontdialog.New(win, "Choose font")
 		dialog.SetCommand(func(data *command.FontData) {
-			entry.SetValue(data.Font.Font)
+			val := fmt.Sprintf("%s, %s, %v", data.Font.Name, data.Font.Size, data.Font.Modifiers)
+			entry.SetFont(data.Font.Name, data.Font.Size, data.Font.Modifiers...)
+			entry.SetValue(val)
 		})
 		dialog.Show()
 	}

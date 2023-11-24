@@ -114,7 +114,7 @@ func (w *App) DeleteVirtualEvent(event, binding string) {
 // monitoring something or to schedule a future action. The callback executed
 // by this method is not asynchronous and could halt the app from processing
 // events if it takes a long time to finish.
-func (w *App) CreateIdleCallback(dur time.Duration, callback command.CommandCallback) {
+func (w *App) CreateIdleCallback(dur time.Duration, callback command.Callback) {
 	// Create the command with the same name each time so it replaces the
 	// previous one. This will free the older one and clean up its resources.
 	name := command.GenerateName("idle")

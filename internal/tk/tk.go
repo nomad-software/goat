@@ -285,7 +285,7 @@ func (tk *Tk) DeleteVar(name string) {
 }
 
 // CreateCommand creates a custom command in the interpreter.
-func (tk *Tk) CreateCommand(el element.Element, name string, callback command.CommandCallback) {
+func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Callback) {
 	log.Debug("create command {%s}", name)
 
 	data := &command.CommandData{
@@ -391,7 +391,8 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 		data.Callback(data)
 
 	case *command.FontData:
-		data.Font.Font = readStringArg(values, 1)
+		data.Font = parseFontDialogResult(readStringArg(values, 1))
+
 		log.Debug("font data: %#v", data)
 		data.Callback(data)
 	}
@@ -469,4 +470,24 @@ func parseTclList(str string) []string {
 	}
 
 	return result
+}
+
+func parseFontDialogResult(str string) command.Font {
+	font := command.Font{}
+
+	details := parseTclList(str)
+
+	if len(details) > 0 {
+		font.Name = details[0]
+	}
+
+	if len(details) > 1 {
+		font.Size = details[1]
+	}
+
+	if len(details) > 2 {
+		font.Modifiers = details[2:]
+	}
+
+	return font
 }
