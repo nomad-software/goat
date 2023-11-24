@@ -17,6 +17,7 @@ import (
 	"github.com/nomad-software/goat/option/anchor"
 	"github.com/nomad-software/goat/option/color"
 	"github.com/nomad-software/goat/option/compound"
+	"github.com/nomad-software/goat/option/cursor"
 	"github.com/nomad-software/goat/option/fill"
 	"github.com/nomad-software/goat/option/orientation"
 	"github.com/nomad-software/goat/option/relief"
@@ -25,6 +26,7 @@ import (
 	"github.com/nomad-software/goat/option/underline"
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
+	"github.com/nomad-software/goat/widget/canvas"
 	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
@@ -71,7 +73,7 @@ func main() {
 		showAbout(main)
 	})
 
-	// app.CreateIdleCallback(time.Second, func(data *command.CallbackData) {
+	// app.CreateIdleCallback(time.Second, func(data *command.CommandData) {
 	// 	timeEntry.SetValue(time.Now().Format(time.RFC3339))
 	// 	app.CreateIdleCallback(time.Second, data.Callback)
 	// })
@@ -138,7 +140,7 @@ func createNotebook(win *window.Window) {
 	img = embedded.GetImage("png/application_double.png")
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
 
-	note.SelectTab(3)
+	note.SelectTab(2)
 
 	sizegrip := sizegrip.New(win)
 	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
@@ -313,6 +315,36 @@ func createPanedPane(win *window.Window) *frame.Frame {
 
 func createCanvasPane(win *window.Window) *frame.Frame {
 	pane := frame.New(nil, 0, relief.Flat)
+
+	canvasFrame := frame.New(pane, 0, relief.Flat)
+	canvasFrame.Pack(10, 0, side.Top, fill.Both, anchor.Center, true)
+	canvasFrame.SetGridColumnWeight(0, 1)
+	canvasFrame.SetGridRowWeight(0, 1)
+
+	hscroll := scrollbar.NewHorizontal(canvasFrame)
+	hscroll.Grid(0, 1, 0, 0, 1, 1, "esw")
+
+	vscroll := scrollbar.NewVertical(canvasFrame)
+	vscroll.Grid(1, 0, 0, 0, 1, 1, "nes")
+
+	canvas := canvas.New(canvasFrame)
+	canvas.Grid(0, 0, 0, 0, 1, 1, "nesw")
+	canvas.SetCursor(cursor.Hand1)
+	canvas.AttachHorizontalScrollbar(hscroll)
+	canvas.AttachVerticalScrollbar(vscroll)
+	canvas.SetScrollRegion(-500, -500, 500, 500)
+	canvas.Bind("<ButtonPress-1>", func(data *command.BindData) {
+		canvas.SetScanMark(data.Event.X, data.Event.Y)
+	})
+	canvas.Bind("<Button1-Motion>", func(data *command.BindData) {
+		canvas.ScanDragTo(data.Event.X, data.Event.Y, 2)
+	})
+
+	hscroll.AttachWidget(canvas)
+	hscroll.MoveTo(0.22)
+	vscroll.AttachWidget(canvas)
+	vscroll.MoveTo(0.25)
+
 	return pane
 }
 
