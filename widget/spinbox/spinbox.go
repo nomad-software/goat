@@ -4,8 +4,10 @@ import (
 	"math"
 
 	"github.com/nomad-software/goat/internal/tk"
+	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/tk/variable"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
+	"github.com/nomad-software/goat/option/state"
 	"github.com/nomad-software/goat/widget"
 )
 
@@ -21,18 +23,24 @@ const (
 // override any numeric range or step set. The widget will instead use the
 // values specified beginning with the first value.
 //
+// Virtual events that can also be bound to.
+// <<Increment>>
+// <<Decrement>>
+//
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_spinbox.html
 //
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=bind
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=color -methods=SetForegroundColor
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=command
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=data
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=floatvar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=delete
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=font
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=justify
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=range
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=scrollbar -methods=AttachHorizontalScrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=selection
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=show
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=stringvar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=width
 type Spinbox struct {
 	widget.Widget
@@ -50,9 +58,18 @@ func New(parent element.Element) *Spinbox {
 
 	tk.Get().Eval("ttk::spinbox %s -textvariable %s", spinbox.GetID(), spinbox.valueVar)
 
+	spinbox.SetState([]string{state.Readonly})
 	spinbox.SetFromValue(math.MinInt8)
 	spinbox.SetToValue(math.MaxInt8)
-	spinbox.SetValue(0)
+	spinbox.SetValue("0")
+
+	spinbox.Bind("<<Increment>>", func(*command.BindData) {
+		spinbox.DeselectText() // This doesn't seem to work.
+	})
+
+	spinbox.Bind("<<Decrement>>", func(*command.BindData) {
+		spinbox.DeselectText() // This doesn't seem to work.
+	})
 
 	return spinbox
 }

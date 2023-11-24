@@ -178,6 +178,7 @@ func createWidgetPane(win *window.Window) *frame.Frame {
 
 	spinEntry := spinbox.New(entryFrame)
 	spinEntry.SetData("$foo", "[bar]", "\"baz\"", "{qux}")
+	spinEntry.SetValue("$foo")
 	spinEntry.SetWrap(true)
 	spinEntry.SetWidth(5)
 	spinEntry.Pack(5, 0, side.Left, fill.Horizontal, anchor.North, false)

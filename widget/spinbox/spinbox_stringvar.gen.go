@@ -13,13 +13,13 @@ import (
 
 
 // SetValue sets the value.
-func (el *Spinbox) SetValue(val float64) {
-	tk.Get().SetVarFloatValue(el.valueVar, val)
+func (el *Spinbox) SetValue(val string) {
+	tk.Get().SetVarStrValue(el.valueVar, val)
 }
 
 // GetValue gets the value.
-func (el *Spinbox) GetValue() float64 {
-	return tk.Get().GetVarFloatValue(el.valueVar)
+func (el *Spinbox) GetValue() string {
+	return tk.Get().GetVarStrValue(el.valueVar)
 }
 
 // Destroy removes the ui element from the UI and cleans up its resources. Once
