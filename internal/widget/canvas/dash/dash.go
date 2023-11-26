@@ -10,10 +10,36 @@ import (
 type stub struct{ element.Element } // IGNORE
 
 // SetDash sets the outline dash.
-func (el stub) SetDash(one, two int, rest ...int) {
-	str := ""
-	for _, i := range rest {
-		str += fmt.Sprintf(" %d", i)
+// Each element represents the number of pixels of a line segment. Only the odd
+// segments are drawn using the “outline” color. The other segments are drawn
+// transparent.
+func (el stub) SetOutlineDash(first, second float64, others ...float64) {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
 	}
-	tk.Get().Eval("%s itemconfigure %s -dash [list %d %d %s]", el.GetParent().GetID(), el.GetID(), one, two, str)
+	tk.Get().Eval("%s itemconfigure %s -dash [list %v %v %s]", el.GetParent().GetID(), el.GetID(), first, second, otherStr)
+}
+
+// SetActiveDash sets the active outline dash.
+func (el stub) SetOutlineActiveDash(first, second float64, others ...float64) {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
+	}
+	tk.Get().Eval("%s itemconfigure %s -activedash [list %v %v %s]", el.GetParent().GetID(), el.GetID(), first, second, otherStr)
+}
+
+// SetDisabledDash sets the disabled outline dash.
+func (el stub) SetOutlineDisabledDash(first, second float64, others ...float64) {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
+	}
+	tk.Get().Eval("%s itemconfigure %s -disableddash [list %v %v %s]", el.GetParent().GetID(), el.GetID(), first, second, otherStr)
+}
+
+// SetDashOffset sets the starting offset in pixels.
+func (el stub) SetOutlineDashOffset(offset float64) {
+	tk.Get().Eval("%s itemconfigure %s -dashoffset %v", el.GetParent().GetID(), el.GetID(), offset)
 }

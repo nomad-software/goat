@@ -330,6 +330,7 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 
 	canvas := canvas.New(canvasFrame)
 	canvas.Grid(0, 0, 0, 0, 1, 1, "nesw")
+	canvas.SetBackgroundColor(color.Bisque)
 	canvas.SetCursor(cursor.Hand1)
 	canvas.AttachHorizontalScrollbar(hscroll)
 	canvas.AttachVerticalScrollbar(vscroll)
@@ -348,7 +349,8 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 
 	arc := canvas.AddArc(10, 110, 110, 210, 0, 90)
 	arc.SetStyle(style.Pie)
-	arc.SetDash(8, 4)
+	arc.SetOutlineDash(4, 4)
+	arc.SetFillColor(color.PaleGreen)
 
 	return pane
 }
