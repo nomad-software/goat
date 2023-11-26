@@ -31,10 +31,10 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_treeview.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=padding
-//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=scrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=common/padding
+//go:generate go run ../../internal/tools/generate/main.go -recv=*TreeView -pkg=common/scrollbar
 type TreeView struct {
 	widget.Widget
 

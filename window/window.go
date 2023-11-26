@@ -16,12 +16,12 @@ import (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/toplevel.html
 //
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=bind
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=borderwidth
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=color -methods=SetBackgroundColor
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=height
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=relief
-//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=width
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/bind
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/borderwidth
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/color -methods=SetBackgroundColor
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/height
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/relief
+//go:generate go run ../internal/tools/generate/main.go -recv=*Window -pkg=common/width
 type Window struct {
 	ui.Ele
 }

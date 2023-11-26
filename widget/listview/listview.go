@@ -27,10 +27,10 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_treeview.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=padding
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=scrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=common/padding
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ListView -pkg=common/scrollbar
 type ListView struct {
 	widget.Widget
 

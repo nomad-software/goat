@@ -42,7 +42,7 @@ func main() {
 
 	fmt.Printf("generating: %s => %s\n", env.GoFile, opt.PkgName)
 
-	path := filepath.Join(env.ProjectDir, env.CommonDir, opt.PkgName, opt.PkgName+".go")
+	path := filepath.Join(env.ProjectDir, env.CommonDir, opt.PkgName, opt.PkgFileName+".go")
 	contents, err := os.ReadFile(path)
 	if err != nil {
 		log.Panic(err, "cannot read file")
@@ -66,9 +66,9 @@ func main() {
 	contents = ReceiverRegex.ReplaceAll(contents, []byte("el "+opt.Receiver))
 
 	if opt.FileName != "" {
-		path = filepath.Join(env.PkgDir, opt.FileName+"_"+opt.PkgName+".gen.go")
+		path = filepath.Join(env.PkgDir, opt.FileName+"_"+opt.PkgFileName+".gen.go")
 	} else {
-		path = filepath.Join(env.PkgDir, env.GoPackage+"_"+opt.PkgName+".gen.go")
+		path = filepath.Join(env.PkgDir, env.GoPackage+"_"+opt.PkgFileName+".gen.go")
 	}
 
 	err = os.WriteFile(path, contents, 0666)

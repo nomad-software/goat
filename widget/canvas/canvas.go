@@ -20,13 +20,13 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/canvas.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=borderwidth
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=color
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=relief
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=scrollbar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/borderwidth
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/color
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/relief
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/scrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/width
 type Canvas struct {
 	widget.Widget
 }

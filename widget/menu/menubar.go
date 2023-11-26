@@ -10,7 +10,7 @@ import (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -pkg=bind -out=menubar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -pkg=common/bind -out=menubar
 type MenuBar struct {
 	ui.Ele
 }

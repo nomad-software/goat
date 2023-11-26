@@ -15,12 +15,12 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_labelframe.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=padding
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=text
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=underline
-//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/padding
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/text
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/underline
+//go:generate go run ../../internal/tools/generate/main.go -recv=*LabelFrame -pkg=common/width
 type LabelFrame struct {
 	widget.Widget
 }

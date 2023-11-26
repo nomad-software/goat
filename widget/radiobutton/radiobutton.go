@@ -21,14 +21,14 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_radiobutton.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=command
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=image
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=invoke
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=stringvar -methods=GetValue,SetValue
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=textvar -methods=GetText,SetText
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=underline
-//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/command
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/image
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/invoke
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/stringvar -methods=GetValue,SetValue
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/textvar -methods=GetText,SetText
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/underline
+//go:generate go run ../../internal/tools/generate/main.go -recv=*RadioButton -pkg=common/width
 type RadioButton struct {
 	widget.Widget
 

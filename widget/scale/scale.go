@@ -18,11 +18,11 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_scale.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=command
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=floatvar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=length
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=range
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=common/command
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=common/floatvar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=common/length
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Scale -pkg=common/range
 type Scale struct {
 	widget.Widget
 

@@ -3,6 +3,7 @@ package cli
 import (
 	"errors"
 	"flag"
+	"strings"
 )
 
 // Options contain the command line options passed to the program.
@@ -11,6 +12,8 @@ type Options struct {
 	Methods  string
 	Receiver string
 	FileName string
+
+	PkgFileName string
 }
 
 // Parse parses the command line options.
@@ -36,6 +39,9 @@ func (opt *Options) Valid() error {
 	if opt.Receiver == "" {
 		return errors.New("receiver cannot be empty")
 	}
+
+	bits := strings.Split(opt.PkgName, "/")
+	opt.PkgFileName = bits[1]
 
 	return nil
 }

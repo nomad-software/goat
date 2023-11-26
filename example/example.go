@@ -348,6 +348,7 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 
 	arc := canvas.AddArc(10, 110, 110, 210, 0, 90)
 	arc.SetStyle(style.Pie)
+	arc.SetDash(8, 4)
 
 	return pane
 }

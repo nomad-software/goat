@@ -29,19 +29,19 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_spinbox.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=color -methods=SetForegroundColor
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=command
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=data
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=delete
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=font
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=justify
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=range
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=scrollbar -methods=AttachHorizontalScrollbar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=selection
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=show
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=stringvar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/color -methods=SetForegroundColor
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/command
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/data
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/delete
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/font
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/justify
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/range
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/scrollbar -methods=AttachHorizontalScrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/selection
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/show
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/stringvar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Spinbox -pkg=common/width
 type Spinbox struct {
 	widget.Widget
 

@@ -18,14 +18,14 @@ const (
 // <<Modified>>
 // <<Selection>>
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=borderwidth
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=color
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=font
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=relief
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=scrollbar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/borderwidth
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/color
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/font
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/relief
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/scrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Text -pkg=common/width
 type Text struct {
 	widget.Widget
 }

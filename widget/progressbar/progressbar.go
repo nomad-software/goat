@@ -20,9 +20,9 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_progressbar.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=floatvar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=length
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=common/floatvar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*ProgressBar -pkg=common/length
 type ProgressBar struct {
 	widget.Widget
 

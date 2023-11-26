@@ -6,6 +6,8 @@ import (
 )
 
 // Arc represents an arc in the canvas.
+//
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Arc -pkg=canvas/dash
 type Arc struct {
 	element.Ele
 }

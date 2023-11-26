@@ -10,7 +10,7 @@ import (
 const (
 	RepoName    = "github.com/nomad-software/goat"
 	ProjectName = "goat"
-	CommonDir   = "internal/widget/common"
+	CommonDir   = "internal/widget"
 )
 
 // Env holds parsed environment variables.

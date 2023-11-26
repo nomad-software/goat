@@ -26,16 +26,16 @@ const (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/ttk_combobox.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=bind
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=color -methods=SetForegroundColor
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=data
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=font
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=height
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=justify
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=scrollbar -methods=AttachHorizontalScrollbar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=selection
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=stringvar
-//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=width
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/color -methods=SetForegroundColor
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/data
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/font
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/height
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/justify
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/scrollbar -methods=AttachHorizontalScrollbar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/selection
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/stringvar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Combobox -pkg=common/width
 type Combobox struct {
 	widget.Widget
 
