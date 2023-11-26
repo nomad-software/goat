@@ -5,6 +5,7 @@ import (
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/widget"
+	"github.com/nomad-software/goat/widget/canvas/arc"
 )
 
 const (
@@ -71,15 +72,20 @@ func (el *Canvas) SetScrollStep(step float64) {
 	tk.Get().Eval("%s configure -xscrollincrement %v -yscrollincrement %v", el.GetID(), step, step)
 }
 
-// GetPosFromScreenPos gets the canvas position from the screen position.
-func (el *Canvas) GetPosFromScreenPos(x, y, grid int) (int, int) {
+// GetXPosFromScreenXPos gets the x canvas position from the screen position.
+func (el *Canvas) GetXPosFromScreenXPos(x, grid int) int {
 	tk.Get().Eval("%s canvasx %d %d", el.GetID(), x, grid)
 	xPos := tk.Get().GetFloatResult()
 
+	return int(xPos)
+}
+
+// GetYPosFromScreenYPos gets the y canvas position from the screen position.
+func (el *Canvas) GetYPosFromScreenYPos(y, grid int) int {
 	tk.Get().Eval("%s canvasy %d %d", el.GetID(), y, grid)
 	yPos := tk.Get().GetFloatResult()
 
-	return int(xPos), int(yPos)
+	return int(yPos)
 }
 
 // SetScanMark sets the scan mark.
@@ -100,4 +106,26 @@ func (el *Canvas) SetScanMark(x, y int) {
 // value is an empty string.
 func (el *Canvas) ScanDragTo(x, y, gain int) {
 	tk.Get().Eval("%s scan dragto %d %d %d", el.GetID(), x, y, gain)
+}
+
+// AddArc adds an arc to the canvas.
+// The first four coordinates specify the oval that this arc is drawn on.
+//
+// The start argument specifies the beginning of the angular range occupied by
+// the arc. Degrees is given in units of degrees measured counter-clockwise
+// from the 3-o'clock position; it may be either positive or negative.
+//
+// The extent argument specifies the size of the angular range occupied by the
+// arc. The arc's range extends for degrees degrees counter-clockwise from the
+// starting angle. Degrees may be negative. If it is greater than 360 or less
+// than -360, then degrees modulo 360 is used as the extent.
+func (el *Canvas) AddArc(x1, y1, x2, y2, start, extent float64) *arc.Arc {
+	tk.Get().Eval("%s create arc %v %v %v %v -start %v -extent %v", el.GetID(), x1, y1, x2, y2, start, extent)
+	id := tk.Get().GetStrResult()
+
+	arc := &arc.Arc{}
+	arc.SetParent(el)
+	arc.SetID(id)
+
+	return arc
 }

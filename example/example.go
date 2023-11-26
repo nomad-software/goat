@@ -27,6 +27,7 @@ import (
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/canvas"
+	"github.com/nomad-software/goat/widget/canvas/arc/style"
 	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
@@ -337,13 +338,16 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 		canvas.SetScanMark(data.Event.X, data.Event.Y)
 	})
 	canvas.Bind("<Button1-Motion>", func(data *command.BindData) {
-		canvas.ScanDragTo(data.Event.X, data.Event.Y, 2)
+		canvas.ScanDragTo(data.Event.X, data.Event.Y, 1)
 	})
 
 	hscroll.AttachWidget(canvas)
 	hscroll.MoveTo(0.22)
 	vscroll.AttachWidget(canvas)
 	vscroll.MoveTo(0.25)
+
+	arc := canvas.AddArc(10, 110, 110, 210, 0, 90)
+	arc.SetStyle(style.Pie)
 
 	return pane
 }

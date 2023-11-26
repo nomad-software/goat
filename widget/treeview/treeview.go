@@ -108,16 +108,15 @@ func (el *TreeView) RegisterTag(name string, img *image.Image, foregroundColor, 
 
 // AddNode adds a node to the tree view.
 func (el *TreeView) AddNode(text string, open bool, tags ...string) *Node {
+	tagStr := strings.Join(tags, " ")
+	tk.Get().Eval("%s insert {} end -text {%s} -open %v -tags [list %s]", el.GetID(), text, open, tagStr)
+	nodeID := tk.Get().GetStrResult()
+
 	node := &Node{
 		nodes: make([]*Node, 0),
 	}
 
 	node.SetParent(el)
-
-	tagStr := strings.Join(tags, " ")
-	tk.Get().Eval("%s insert {} end -text {%s} -open %v -tags [list %s]", el.GetID(), text, open, tagStr)
-
-	nodeID := tk.Get().GetStrResult()
 	node.SetID(nodeID)
 
 	el.nodeRef[nodeID] = node
