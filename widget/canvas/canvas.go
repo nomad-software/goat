@@ -6,6 +6,7 @@ import (
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/widget"
 	"github.com/nomad-software/goat/widget/canvas/arc"
+	"github.com/nomad-software/goat/widget/canvas/arc/style"
 )
 
 const (
@@ -29,11 +30,15 @@ const (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/width
 type Canvas struct {
 	widget.Widget
+
+	itemRef map[string]element.Element
 }
 
 // New creates a new button.
 func New(parent element.Element) *Canvas {
-	canvas := &Canvas{}
+	canvas := &Canvas{
+		itemRef: make(map[string]element.Element),
+	}
 	canvas.SetParent(parent)
 	canvas.SetType(Type)
 
@@ -120,12 +125,19 @@ func (el *Canvas) ScanDragTo(x, y, gain int) {
 // starting angle. Degrees may be negative. If it is greater than 360 or less
 // than -360, then degrees modulo 360 is used as the extent.
 func (el *Canvas) AddArc(x1, y1, x2, y2, start, extent float64) *arc.Arc {
-	tk.Get().Eval("%s create arc %v %v %v %v -start %v -extent %v", el.GetID(), x1, y1, x2, y2, start, extent)
+	tk.Get().Eval("%s create arc %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	arc := &arc.Arc{}
-	arc.SetParent(el)
-	arc.SetID(id)
+	a := &arc.Arc{}
+	a.SetParent(el)
+	a.SetType(arc.Type)
+	a.SetID(id)
 
-	return arc
+	a.SetStart(start)
+	a.SetExtent(extent)
+	a.SetStyle(style.Pie)
+
+	el.itemRef[id] = a
+
+	return a
 }

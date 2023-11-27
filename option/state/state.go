@@ -1,6 +1,7 @@
 package state
 
 const (
+	Normal     = "normal"
 	Active     = "active"
 	Disabled   = "disabled"
 	Focus      = "focus"

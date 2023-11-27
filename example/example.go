@@ -27,7 +27,6 @@ import (
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/canvas"
-	"github.com/nomad-software/goat/widget/canvas/arc/style"
 	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
@@ -348,8 +347,8 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	vscroll.MoveTo(0.25)
 
 	arc := canvas.AddArc(10, 110, 110, 210, 0, 90)
-	arc.SetStyle(style.Pie)
-	arc.SetOutlineDash(4, 4)
+	arc.SetOutlineDash(8, 4)
+	arc.SetOutlineWidth(2)
 	arc.SetFillColor(color.PaleGreen)
 
 	return pane
