@@ -346,9 +346,11 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	vscroll.AttachWidget(canvas)
 	vscroll.MoveTo(0.25)
 
-	arc := canvas.AddArc(10, 110, 110, 210, 0, 90)
-	arc.SetOutlineDash(8, 4)
+	arc := canvas.AddArc(10, 110, 110, 210)
+	arc.SetStart(45)
+	arc.SetExtent(90)
 	arc.SetOutlineWidth(2)
+	arc.SetOutlineDash(8, 4)
 	arc.SetFillColor(color.PaleGreen)
 
 	return pane

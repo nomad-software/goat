@@ -124,7 +124,7 @@ func (el *Canvas) ScanDragTo(x, y, gain int) {
 // arc. The arc's range extends for degrees degrees counter-clockwise from the
 // starting angle. Degrees may be negative. If it is greater than 360 or less
 // than -360, then degrees modulo 360 is used as the extent.
-func (el *Canvas) AddArc(x1, y1, x2, y2, start, extent float64) *arc.Arc {
+func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	tk.Get().Eval("%s create arc %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
@@ -133,8 +133,8 @@ func (el *Canvas) AddArc(x1, y1, x2, y2, start, extent float64) *arc.Arc {
 	a.SetType(arc.Type)
 	a.SetID(id)
 
-	a.SetStart(start)
-	a.SetExtent(extent)
+	// a.SetStart(start)
+	// a.SetExtent(extent)
 	a.SetStyle(style.Pie)
 
 	el.itemRef[id] = a
