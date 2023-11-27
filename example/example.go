@@ -333,7 +333,7 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	canvas.SetCursor(cursor.Hand1)
 	canvas.AttachHorizontalScrollbar(hscroll)
 	canvas.AttachVerticalScrollbar(vscroll)
-	canvas.SetScrollRegion(-500, -500, 500, 500)
+	canvas.SetScrollRegion(-300, -250, 610, 500)
 	canvas.Bind("<ButtonPress-1>", func(data *command.BindData) {
 		canvas.SetScanMark(data.Event.X, data.Event.Y)
 	})
@@ -352,6 +352,9 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	arc.SetOutlineWidth(2)
 	arc.SetOutlineDash(8, 4)
 	arc.SetFillColor(color.PaleGreen)
+
+	canvas.AddImage(embedded.GetImage("png/thumbnail.png"), 210, 10)
+	canvas.AddImage(embedded.GetImage("gif/thumbnail.gif"), 260, 10)
 
 	return pane
 }
