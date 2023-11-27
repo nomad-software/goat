@@ -1,12 +1,14 @@
 package canvas
 
 import (
+	img "github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/relief"
 	"github.com/nomad-software/goat/widget"
 	"github.com/nomad-software/goat/widget/canvas/arc"
 	"github.com/nomad-software/goat/widget/canvas/arc/style"
+	"github.com/nomad-software/goat/widget/canvas/image"
 )
 
 const (
@@ -115,15 +117,6 @@ func (el *Canvas) ScanDragTo(x, y, gain int) {
 
 // AddArc adds an arc to the canvas.
 // The first four coordinates specify the oval that this arc is drawn on.
-//
-// The start argument specifies the beginning of the angular range occupied by
-// the arc. Degrees is given in units of degrees measured counter-clockwise
-// from the 3-o'clock position; it may be either positive or negative.
-//
-// The extent argument specifies the size of the angular range occupied by the
-// arc. The arc's range extends for degrees degrees counter-clockwise from the
-// starting angle. Degrees may be negative. If it is greater than 360 or less
-// than -360, then degrees modulo 360 is used as the extent.
 func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	tk.Get().Eval("%s create arc %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
@@ -133,11 +126,24 @@ func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	a.SetType(arc.Type)
 	a.SetID(id)
 
-	// a.SetStart(start)
-	// a.SetExtent(extent)
 	a.SetStyle(style.Pie)
 
 	el.itemRef[id] = a
 
 	return a
+}
+
+// AddImage adds an image to the canvas.
+func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
+	tk.Get().Eval("%s create image %v %v -image %s", el.GetID(), x, y, img.GetID())
+	id := tk.Get().GetStrResult()
+
+	i := &image.Image{}
+	i.SetParent(el)
+	i.SetType(image.Type)
+	i.SetID(id)
+
+	el.itemRef[id] = i
+
+	return i
 }

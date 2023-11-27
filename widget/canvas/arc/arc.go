@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	Type = "arc"
+	Type = "canvasarc"
 )
 
 // Arc represents an arc in the canvas.
