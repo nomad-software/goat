@@ -1,10 +1,14 @@
-package listview
+package row
 
 import (
 	"strings"
 
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
+)
+
+const (
+	Type = "row"
 )
 
 // Row represents a row in the list view.

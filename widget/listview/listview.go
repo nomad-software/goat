@@ -6,6 +6,8 @@ import (
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/widget"
+	"github.com/nomad-software/goat/widget/listview/column"
+	"github.com/nomad-software/goat/widget/listview/row"
 )
 
 const (
@@ -34,17 +36,17 @@ const (
 type ListView struct {
 	widget.Widget
 
-	rowRef  map[string]*Row
-	rows    []*Row
-	columns []*Column
+	rowRef  map[string]*row.Row
+	rows    []*row.Row
+	columns []*column.Column
 }
 
 // New creates a new tree view.
 // See [option.selectionmode] for mode values.
 func New(parent element.Element, numberOfColumns int, selectionMode string) *ListView {
 	list := &ListView{
-		rowRef:  make(map[string]*Row),
-		columns: make([]*Column, 0),
+		rowRef:  make(map[string]*row.Row),
+		columns: make([]*column.Column, 0),
 	}
 
 	list.SetParent(parent)
@@ -53,8 +55,8 @@ func New(parent element.Element, numberOfColumns int, selectionMode string) *Lis
 	ids := make([]string, 0)
 
 	for i := 0; i < numberOfColumns; i++ {
-		col := &Column{}
-		col.SetType("column")
+		col := &column.Column{}
+		col.SetType(column.Type)
 
 		// Override the id, not using the parent.
 		col.SetID(col.GetID())
@@ -83,7 +85,7 @@ func (el *ListView) EnableHeadings(enable bool) {
 
 // GetColumn gets a column by its index.
 // This will return nil if index is out of bounds.
-func (el *ListView) GetColumn(index int) *Column {
+func (el *ListView) GetColumn(index int) *column.Column {
 	if index < len(el.columns) {
 		return el.columns[index]
 	}
@@ -99,25 +101,26 @@ func (el *ListView) RegisterTag(name string, foregroundColor, backgroundColor st
 }
 
 // AddValues adds values to the list view.
-func (el *ListView) AddRow(values ...string) *Row {
-	row := &Row{}
-	row.SetParent(el)
+func (el *ListView) AddRow(values ...string) *row.Row {
+	r := &row.Row{}
+	r.SetParent(el)
+	r.SetType(row.Type)
 
 	valStr := strings.Join(values, "} {")
 	tk.Get().Eval("%s insert {} end -values [list {%s}]", el.GetID(), valStr)
 
 	rowID := tk.Get().GetStrResult()
-	row.SetID(rowID)
+	r.SetID(rowID)
 
-	el.rowRef[rowID] = row
-	el.rows = append(el.rows, row)
+	el.rowRef[rowID] = r
+	el.rows = append(el.rows, r)
 
-	return row
+	return r
 }
 
 // GetRow gets a row by its index.
 // This will return nil if index is out of bounds.
-func (el *ListView) GetRow(index int) *Row {
+func (el *ListView) GetRow(index int) *row.Row {
 	if index < len(el.rows) {
 		return el.rows[index]
 	}
@@ -127,7 +130,7 @@ func (el *ListView) GetRow(index int) *Row {
 
 // GetSelectedRow returns the first selected row.
 // This will return nil if nothing is selected.
-func (el *ListView) GetSelectedRow() *Row {
+func (el *ListView) GetSelectedRow() *row.Row {
 	rows := el.GetSelectedRows()
 
 	if len(rows) > 0 {
@@ -138,11 +141,11 @@ func (el *ListView) GetSelectedRow() *Row {
 }
 
 // GetSelectedRows gets all the selected rows as an slice.
-func (el *ListView) GetSelectedRows() []*Row {
+func (el *ListView) GetSelectedRows() []*row.Row {
 	tk.Get().Eval("%s selection", el.GetID())
 	ids := tk.Get().GetStrSliceResult()
 
-	result := make([]*Row, 0)
+	result := make([]*row.Row, 0)
 
 	for _, id := range ids {
 		if row, ok := el.rowRef[id]; ok {

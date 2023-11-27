@@ -1,10 +1,14 @@
-package listview
+package column
 
 import (
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
+)
+
+const (
+	Type = "column"
 )
 
 // Column represents a column in the list view.
