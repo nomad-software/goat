@@ -350,7 +350,6 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	arc := canvas.AddArc(10, 110, 110, 210)
 	arc.SetStart(45)
 	arc.SetExtent(90)
-	arc.SetOutlineWidth(2)
 	arc.SetOutlineDash(8, 4)
 	arc.SetFillColor(color.PaleGreen)
 
@@ -358,13 +357,15 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	canvas.AddImage(embedded.GetImage("gif/thumbnail.gif"), 260, 10)
 
 	line := canvas.AddLine(120, 110, 200, 110, 200, 160)
-	line.SetOutlineWidth(2)
 	line.SetArrow(arrow.Last)
-	line.SetArrowShape(-15, 3, 10)
+	line.SetArrowShape(-15, 2, 5)
 
 	oval := canvas.AddOval(10, 170, 200, 245)
-	oval.SetOutlineWidth(2)
 	oval.SetFillColor(color.RosyBrown3)
+
+	poly := canvas.AddPolygon(220, 80, 320, 80, 300, 120, 240, 120)
+	poly.SetOutlineColor(color.Black)
+	poly.SetFillColor(color.MediumPurple)
 
 	return pane
 }

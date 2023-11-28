@@ -13,6 +13,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/image"
 	"github.com/nomad-software/goat/widget/canvas/line"
 	"github.com/nomad-software/goat/widget/canvas/oval"
+	"github.com/nomad-software/goat/widget/canvas/polygon"
 )
 
 const (
@@ -179,12 +180,33 @@ func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
 	tk.Get().Eval("%s create oval %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	a := &oval.Oval{}
-	a.SetParent(el)
-	a.SetType(oval.Type)
-	a.SetID(id)
+	ov := &oval.Oval{}
+	ov.SetParent(el)
+	ov.SetType(oval.Type)
+	ov.SetID(id)
 
-	el.itemRef[id] = a
+	el.itemRef[id] = ov
 
-	return a
+	return ov
+}
+
+// AddPolygon adds a polygon to the canvas.
+// The arguments give the coordinates for a series of three or more points that
+// describe a series of connected polygon vertices.
+func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) *polygon.Polygon {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
+	}
+	tk.Get().Eval("%s create polygon [list %v %v %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, x3, y3, otherStr)
+	id := tk.Get().GetStrResult()
+
+	poly := &polygon.Polygon{}
+	poly.SetParent(el)
+	poly.SetType(polygon.Type)
+	poly.SetID(id)
+
+	el.itemRef[id] = poly
+
+	return poly
 }
