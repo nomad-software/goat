@@ -367,6 +367,9 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	poly.SetOutlineColor(color.Black)
 	poly.SetFillColor(color.MediumPurple)
 
+	rect := canvas.AddRectangle(10, 10, 200, 100)
+	rect.SetTags("tagged")
+
 	return pane
 }
 

@@ -14,6 +14,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/line"
 	"github.com/nomad-software/goat/widget/canvas/oval"
 	"github.com/nomad-software/goat/widget/canvas/polygon"
+	"github.com/nomad-software/goat/widget/canvas/rectangle"
 )
 
 const (
@@ -209,4 +210,20 @@ func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) 
 	el.itemRef[id] = poly
 
 	return poly
+}
+
+// AddRectangle adds a rectangle to the canvas.
+// The four coordinates specify the rectangle.
+func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
+	tk.Get().Eval("%s create rectangle %v %v %v %v", el.GetID(), x1, y1, x2, y2)
+	id := tk.Get().GetStrResult()
+
+	rect := &rectangle.Rectangle{}
+	rect.SetParent(el)
+	rect.SetType(rectangle.Type)
+	rect.SetID(id)
+
+	el.itemRef[id] = rect
+
+	return rect
 }
