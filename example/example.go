@@ -27,6 +27,7 @@ import (
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/canvas"
+	"github.com/nomad-software/goat/widget/canvas/line/arrow"
 	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
@@ -355,6 +356,11 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 
 	canvas.AddImage(embedded.GetImage("png/thumbnail.png"), 210, 10)
 	canvas.AddImage(embedded.GetImage("gif/thumbnail.gif"), 260, 10)
+
+	line := canvas.AddLine(120, 110, 200, 110, 200, 160)
+	line.SetOutlineWidth(2)
+	line.SetArrow(arrow.Last)
+	line.SetArrowShape(-15, 3, 10)
 
 	return pane
 }

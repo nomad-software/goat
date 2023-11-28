@@ -1,6 +1,8 @@
 package canvas
 
 import (
+	"fmt"
+
 	img "github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
@@ -9,6 +11,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/arc"
 	"github.com/nomad-software/goat/widget/canvas/arc/style"
 	"github.com/nomad-software/goat/widget/canvas/image"
+	"github.com/nomad-software/goat/widget/canvas/line"
 )
 
 const (
@@ -146,4 +149,25 @@ func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
 	el.itemRef[id] = i
 
 	return i
+}
+
+// AddLine adds a line to the canvas.
+// The arguments give the coordinates for a series of two or more points that
+// describe a series of connected line segments.
+func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
+	}
+	tk.Get().Eval("%s create line [list %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, otherStr)
+	id := tk.Get().GetStrResult()
+
+	ln := &line.Line{}
+	ln.SetParent(el)
+	ln.SetType(line.Type)
+	ln.SetID(id)
+
+	el.itemRef[id] = ln
+
+	return ln
 }
