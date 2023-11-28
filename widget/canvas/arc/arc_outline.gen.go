@@ -25,18 +25,3 @@ func (el *Arc) SetHoverOutlineColor(color string) {
 func (el *Arc) SetDisabledOutlineColor(color string) {
 	tk.Get().Eval("%s itemconfigure %s -disabledoutline {%s}", el.GetParent().GetID(), el.GetID(), color)
 }
-
-// SetOutlineWidth sets the outline width.
-func (el *Arc) SetOutlineWidth(width float64) {
-	tk.Get().Eval("%s itemconfigure %s -width %v", el.GetParent().GetID(), el.GetID(), width)
-}
-
-// SetOutlineWidth sets the hover outline width.
-func (el *Arc) SetHoverOutlineWidth(width float64) {
-	tk.Get().Eval("%s itemconfigure %s -activewidth %v", el.GetParent().GetID(), el.GetID(), width)
-}
-
-// SetOutlineWidth sets the disabled outline width.
-func (el *Arc) SetDisabledOutlineWidth(width float64) {
-	tk.Get().Eval("%s itemconfigure %s -disabledwidth %v", el.GetParent().GetID(), el.GetID(), width)
-}
