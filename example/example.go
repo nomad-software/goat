@@ -362,6 +362,10 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	line.SetArrow(arrow.Last)
 	line.SetArrowShape(-15, 3, 10)
 
+	oval := canvas.AddOval(10, 170, 200, 245)
+	oval.SetOutlineWidth(2)
+	oval.SetFillColor(color.RosyBrown3)
+
 	return pane
 }
 

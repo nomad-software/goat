@@ -12,6 +12,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/arc/style"
 	"github.com/nomad-software/goat/widget/canvas/image"
 	"github.com/nomad-software/goat/widget/canvas/line"
+	"github.com/nomad-software/goat/widget/canvas/oval"
 )
 
 const (
@@ -170,4 +171,20 @@ func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line 
 	el.itemRef[id] = ln
 
 	return ln
+}
+
+// AddArc adds an oval to the canvas.
+// The four coordinates specify the oval.
+func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
+	tk.Get().Eval("%s create oval %v %v %v %v", el.GetID(), x1, y1, x2, y2)
+	id := tk.Get().GetStrResult()
+
+	a := &oval.Oval{}
+	a.SetParent(el)
+	a.SetType(arc.Type)
+	a.SetID(id)
+
+	el.itemRef[id] = a
+
+	return a
 }
