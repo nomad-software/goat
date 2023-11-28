@@ -181,7 +181,7 @@ func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
 
 	a := &oval.Oval{}
 	a.SetParent(el)
-	a.SetType(arc.Type)
+	a.SetType(oval.Type)
 	a.SetID(id)
 
 	el.itemRef[id] = a
