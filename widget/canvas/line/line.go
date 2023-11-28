@@ -9,7 +9,7 @@ const (
 	Type = "canvasline"
 )
 
-// Image represents an image in the canvas.
+// Line represents a line in the canvas.
 //
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/fill
