@@ -15,6 +15,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/oval"
 	"github.com/nomad-software/goat/widget/canvas/polygon"
 	"github.com/nomad-software/goat/widget/canvas/rectangle"
+	"github.com/nomad-software/goat/widget/canvas/text"
 )
 
 const (
@@ -226,4 +227,19 @@ func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
 	el.itemRef[id] = rect
 
 	return rect
+}
+
+// AddText adds text to the canvas.
+func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
+	tk.Get().Eval("%s create text %v %v -text {%s}", el.GetID(), x, y, txt)
+	id := tk.Get().GetStrResult()
+
+	t := &text.Text{}
+	t.SetParent(el)
+	t.SetType(text.Type)
+	t.SetID(id)
+
+	el.itemRef[id] = t
+
+	return t
 }

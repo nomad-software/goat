@@ -370,6 +370,11 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	rect := canvas.AddRectangle(10, 10, 200, 100)
 	rect.SetTags("tagged")
 
+	text := canvas.AddText("Goat Canvas", 35, 192)
+	text.SetAnchor(anchor.NorthWest)
+	text.SetFont("Arial", "18", "bold")
+	text.SetFillColor(color.White)
+
 	return pane
 }
 
