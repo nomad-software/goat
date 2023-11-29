@@ -8,7 +8,8 @@ import (
 
 
 
-// SetPadding sets the padding.
+// SetUnderline sets the character which is underlined.
+// See [option.underline] for options.
 func (el *MenuButton) SetUnderline(index int) {
 	tk.Get().Eval("%s configure -underline %d", el.GetID(), index)
 }
