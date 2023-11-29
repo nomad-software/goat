@@ -7,7 +7,7 @@ import (
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/relief"
-	"github.com/nomad-software/goat/widget"
+	wid "github.com/nomad-software/goat/widget"
 	"github.com/nomad-software/goat/widget/canvas/arc"
 	"github.com/nomad-software/goat/widget/canvas/arc/style"
 	"github.com/nomad-software/goat/widget/canvas/image"
@@ -16,6 +16,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/polygon"
 	"github.com/nomad-software/goat/widget/canvas/rectangle"
 	"github.com/nomad-software/goat/widget/canvas/text"
+	"github.com/nomad-software/goat/widget/canvas/widget"
 )
 
 const (
@@ -38,7 +39,7 @@ const (
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/scrollbar
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Canvas -pkg=common/width
 type Canvas struct {
-	widget.Widget
+	wid.Widget
 
 	itemRef map[string]element.Element
 }
@@ -242,4 +243,19 @@ func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
 	el.itemRef[id] = t
 
 	return t
+}
+
+// AddWidget adds a widget to the canvas.
+func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
+	tk.Get().Eval("%s create window %v %v -window %s", el.GetID(), x, y, e.GetID())
+	id := tk.Get().GetStrResult()
+
+	w := &widget.Widget{}
+	w.SetParent(el)
+	w.SetType(widget.Type)
+	w.SetID(id)
+
+	el.itemRef[id] = w
+
+	return w
 }

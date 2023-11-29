@@ -375,6 +375,13 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	text.SetFont("Arial", "18", "bold")
 	text.SetFillColor(color.White)
 
+	button := button.New(nil, "Embedded\nButton")
+	button.SetImage(embedded.GetImage("png/error.png"), compound.Top)
+	widget := canvas.AddWidget(button, 220, 140)
+	widget.SetAnchor(anchor.NorthWest)
+	widget.SetWidth(100)
+	widget.SetHeight(100)
+
 	return pane
 }
 
