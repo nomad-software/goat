@@ -19,3 +19,12 @@ const (
 type Oval struct {
 	element.Ele
 }
+
+// Creates a new oval.
+func New(parent element.Element) *Oval {
+	oval := &Oval{}
+	oval.SetParent(parent)
+	oval.SetType(Type)
+
+	return oval
+}

@@ -21,6 +21,15 @@ type Arc struct {
 	element.Ele
 }
 
+// Creates a new arc.
+func New(parent element.Element) *Arc {
+	arc := &Arc{}
+	arc.SetParent(parent)
+	arc.SetType(Type)
+
+	return arc
+}
+
 // SetStart sets the start argument specifies the beginning of the angular
 // range occupied by the arc. Degrees is given in units of degrees measured
 // counter-clockwise from the 3-o'clock position; it may be either positive or

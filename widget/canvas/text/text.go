@@ -21,6 +21,15 @@ type Text struct {
 	element.Ele
 }
 
+// Creates a new text item.
+func New(parent element.Element) *Text {
+	text := &Text{}
+	text.SetParent(parent)
+	text.SetType(Type)
+
+	return text
+}
+
 // SetAngle sets the angle.
 func (el *Text) SetAngle(angle float64) {
 	tk.Get().Eval("%s itemconfigure %s -angle %v", el.GetParent().GetID(), el.GetID(), angle)

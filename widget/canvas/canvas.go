@@ -67,11 +67,8 @@ func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	tk.Get().Eval("%s create arc %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	a := &arc.Arc{}
-	a.SetParent(el)
-	a.SetType(arc.Type)
+	a := arc.New(el)
 	a.SetID(id)
-
 	a.SetStyle(style.Pie)
 
 	el.itemRef[id] = a
@@ -84,9 +81,7 @@ func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
 	tk.Get().Eval("%s create image %v %v -image %s", el.GetID(), x, y, img.GetID())
 	id := tk.Get().GetStrResult()
 
-	i := &image.Image{}
-	i.SetParent(el)
-	i.SetType(image.Type)
+	i := image.New(el)
 	i.SetID(id)
 
 	el.itemRef[id] = i
@@ -105,9 +100,7 @@ func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line 
 	tk.Get().Eval("%s create line [list %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, otherStr)
 	id := tk.Get().GetStrResult()
 
-	ln := &line.Line{}
-	ln.SetParent(el)
-	ln.SetType(line.Type)
+	ln := line.New(el)
 	ln.SetID(id)
 
 	el.itemRef[id] = ln
@@ -121,9 +114,7 @@ func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
 	tk.Get().Eval("%s create oval %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	ov := &oval.Oval{}
-	ov.SetParent(el)
-	ov.SetType(oval.Type)
+	ov := oval.New(el)
 	ov.SetID(id)
 
 	el.itemRef[id] = ov
@@ -142,9 +133,7 @@ func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) 
 	tk.Get().Eval("%s create polygon [list %v %v %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, x3, y3, otherStr)
 	id := tk.Get().GetStrResult()
 
-	poly := &polygon.Polygon{}
-	poly.SetParent(el)
-	poly.SetType(polygon.Type)
+	poly := polygon.New(el)
 	poly.SetID(id)
 
 	el.itemRef[id] = poly
@@ -158,9 +147,7 @@ func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
 	tk.Get().Eval("%s create rectangle %v %v %v %v", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	rect := &rectangle.Rectangle{}
-	rect.SetParent(el)
-	rect.SetType(rectangle.Type)
+	rect := rectangle.New(el)
 	rect.SetID(id)
 
 	el.itemRef[id] = rect
@@ -173,9 +160,7 @@ func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
 	tk.Get().Eval("%s create text %v %v -text {%s}", el.GetID(), x, y, txt)
 	id := tk.Get().GetStrResult()
 
-	t := &text.Text{}
-	t.SetParent(el)
-	t.SetType(text.Type)
+	t := text.New(el)
 	t.SetID(id)
 
 	el.itemRef[id] = t
@@ -188,9 +173,7 @@ func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
 	tk.Get().Eval("%s create window %v %v -window %s", el.GetID(), x, y, e.GetID())
 	id := tk.Get().GetStrResult()
 
-	w := &widget.Widget{}
-	w.SetParent(el)
-	w.SetType(widget.Type)
+	w := widget.New(el)
 	w.SetID(id)
 
 	el.itemRef[id] = w
@@ -199,10 +182,9 @@ func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
 }
 
 // GetTag gets a tag from the canvas in order to modify its properties.
+// Tags exist once they've been added to a canvas item.
 func (el *Canvas) GetTag(name string) *tag.Tag {
-	t := &tag.Tag{}
-	t.SetParent(el)
-	t.SetType(tag.Type)
+	t := tag.New(el)
 	t.SetID(name)
 
 	return t

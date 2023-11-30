@@ -21,6 +21,15 @@ type Polygon struct {
 	element.Ele
 }
 
+// Creates a new polygon.
+func New(parent element.Element) *Polygon {
+	poly := &Polygon{}
+	poly.SetParent(parent)
+	poly.SetType(Type)
+
+	return poly
+}
+
 // SetJoinStyle specifies the ways in which joints are to be drawn at the
 // vertices of the line. If this option is not specified then it defaults to
 // round. If the line only contains two points then this option is irrelevant.

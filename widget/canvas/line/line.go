@@ -20,6 +20,15 @@ type Line struct {
 	element.Ele
 }
 
+// Creates a new line.
+func New(parent element.Element) *Line {
+	line := &Line{}
+	line.SetParent(parent)
+	line.SetType(Type)
+
+	return line
+}
+
 // SetArrow sets the arrows.
 // See [widget.canvas.line.arrow] for arrow options.
 func (el *Line) SetArrow(arrow string) {

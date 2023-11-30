@@ -18,6 +18,15 @@ type Widget struct {
 	element.Ele
 }
 
+// Creates a new widget.
+func New(parent element.Element) *Widget {
+	widget := &Widget{}
+	widget.SetParent(parent)
+	widget.SetType(Type)
+
+	return widget
+}
+
 // SetWidth sets the width
 func (el *Widget) SetWidth(width float64) {
 	tk.Get().Eval("%s itemconfigure %s -width %v", el.GetParent().GetID(), el.GetID(), width)

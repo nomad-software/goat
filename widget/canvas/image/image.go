@@ -19,6 +19,15 @@ type Image struct {
 	element.Ele
 }
 
+// Creates a new image.
+func New(parent element.Element) *Image {
+	img := &Image{}
+	img.SetParent(parent)
+	img.SetType(Type)
+
+	return img
+}
+
 // SetImage sets the image.
 func (el *Image) SetImage(img *image.Image) {
 	tk.Get().Eval("%s itemconfigure %s -image %v", el.GetParent().GetID(), el.GetID(), img.GetID())

@@ -19,3 +19,12 @@ const (
 type Tag struct {
 	element.Ele
 }
+
+// Creates a new tag.
+func New(parent element.Element) *Tag {
+	tag := &Tag{}
+	tag.SetParent(parent)
+	tag.SetType(Type)
+
+	return tag
+}

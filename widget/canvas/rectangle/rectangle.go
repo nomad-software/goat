@@ -8,7 +8,7 @@ const (
 	Type = "canvasrectangle"
 )
 
-// Rect represents a rectangle in the canvas.
+// Rectangle represents a rectangle in the canvas.
 //
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/fill
@@ -18,4 +18,13 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/width
 type Rectangle struct {
 	element.Ele
+}
+
+// Creates a new rectangle.
+func New(parent element.Element) *Rectangle {
+	rect := &Rectangle{}
+	rect.SetParent(parent)
+	rect.SetType(Type)
+
+	return rect
 }
