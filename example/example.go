@@ -368,7 +368,7 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	poly.SetFillColor(color.MediumPurple)
 
 	rect := canvas.AddRectangle(10, 10, 200, 100)
-	rect.SetTags("tagged")
+	rect.SetTags("tag")
 
 	text := canvas.AddText("Goat Canvas", 35, 192)
 	text.SetAnchor(anchor.NorthWest)
@@ -381,6 +381,8 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	widget.SetAnchor(anchor.NorthWest)
 	widget.SetWidth(100)
 	widget.SetHeight(100)
+
+	canvas.GetTag("tag").SetFillColor(color.Salmon)
 
 	return pane
 }

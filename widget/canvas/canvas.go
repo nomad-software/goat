@@ -15,6 +15,7 @@ import (
 	"github.com/nomad-software/goat/widget/canvas/oval"
 	"github.com/nomad-software/goat/widget/canvas/polygon"
 	"github.com/nomad-software/goat/widget/canvas/rectangle"
+	"github.com/nomad-software/goat/widget/canvas/tag"
 	"github.com/nomad-software/goat/widget/canvas/text"
 	"github.com/nomad-software/goat/widget/canvas/widget"
 )
@@ -58,69 +59,6 @@ func New(parent element.Element) *Canvas {
 	canvas.SetRelief(relief.Sunken)
 
 	return canvas
-}
-
-// SetSelectionTolerance sets the selection tolerance.
-// Specifies a floating-point value indicating how close the mouse cursor must
-// be to an item before it is considered to be “inside” the item. Defaults to
-// 1.0.
-func (el *Canvas) SetSelectionTolerance(tolerance float64) {
-	tk.Get().Eval("%s configure -closeenough %v", el.GetID(), tolerance)
-}
-
-// SetConfineScrollRegion sets if the scroll region should be confined.
-func (el *Canvas) SetConfineScrollRegion(confine bool) {
-	tk.Get().Eval("%s configure -confine %v", el.GetID(), confine)
-}
-
-// SetScrollRegion sets the scroll region.
-// Specifies a list with four coordinates describing the left, top, right, and
-// bottom coordinates of a rectangular region. This region is used for
-// scrolling purposes and is considered to be the boundary of the information
-// in the canvas.
-func (el *Canvas) SetScrollRegion(left, top, right, bottom float64) {
-	tk.Get().Eval("%s configure -scrollregion [list %v %v %v %v]", el.GetID(), left, top, right, bottom)
-}
-
-// SetScrollStep sets the scroll step which specifies an increment for scrolling.
-func (el *Canvas) SetScrollStep(step float64) {
-	tk.Get().Eval("%s configure -xscrollincrement %v -yscrollincrement %v", el.GetID(), step, step)
-}
-
-// GetXPosFromScreenXPos gets the x canvas position from the screen position.
-func (el *Canvas) GetXPosFromScreenXPos(x, grid int) int {
-	tk.Get().Eval("%s canvasx %d %d", el.GetID(), x, grid)
-	xPos := tk.Get().GetFloatResult()
-
-	return int(xPos)
-}
-
-// GetYPosFromScreenYPos gets the y canvas position from the screen position.
-func (el *Canvas) GetYPosFromScreenYPos(y, grid int) int {
-	tk.Get().Eval("%s canvasy %d %d", el.GetID(), y, grid)
-	yPos := tk.Get().GetFloatResult()
-
-	return int(yPos)
-}
-
-// SetScanMark sets the scan mark.
-// Records x and y and the canvas's current view; used in conjunction with
-// later scan dragto commands. Typically this command is associated with a
-// mouse button press in the widget and x and y are the coordinates of the
-// mouse.
-func (el *Canvas) SetScanMark(x, y int) {
-	tk.Get().Eval("%s scan mark %d %d", el.GetID(), x, y)
-}
-
-// ScanDragTo computes the difference between its x and y arguments (which are
-// typically mouse coordinates) and the x and y arguments to the last scan mark
-// command for the widget. It then adjusts the view by gain times the
-// difference in coordinates, where gain defaults to 10. This command is
-// typically associated with mouse motion events in the widget, to produce the
-// effect of dragging the canvas at high speed through its window. The return
-// value is an empty string.
-func (el *Canvas) ScanDragTo(x, y, gain int) {
-	tk.Get().Eval("%s scan dragto %d %d %d", el.GetID(), x, y, gain)
 }
 
 // AddArc adds an arc to the canvas.
@@ -258,4 +196,77 @@ func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
 	el.itemRef[id] = w
 
 	return w
+}
+
+// GetTag gets a tag from the canvas in order to modify its properties.
+func (el *Canvas) GetTag(name string) *tag.Tag {
+	t := &tag.Tag{}
+	t.SetParent(el)
+	t.SetType(tag.Type)
+	t.SetID(name)
+
+	return t
+}
+
+// SetSelectionTolerance sets the selection tolerance.
+// Specifies a floating-point value indicating how close the mouse cursor must
+// be to an item before it is considered to be “inside” the item. Defaults to
+// 1.0.
+func (el *Canvas) SetSelectionTolerance(tolerance float64) {
+	tk.Get().Eval("%s configure -closeenough %v", el.GetID(), tolerance)
+}
+
+// SetConfineScrollRegion sets if the scroll region should be confined.
+func (el *Canvas) SetConfineScrollRegion(confine bool) {
+	tk.Get().Eval("%s configure -confine %v", el.GetID(), confine)
+}
+
+// SetScrollRegion sets the scroll region.
+// Specifies a list with four coordinates describing the left, top, right, and
+// bottom coordinates of a rectangular region. This region is used for
+// scrolling purposes and is considered to be the boundary of the information
+// in the canvas.
+func (el *Canvas) SetScrollRegion(left, top, right, bottom float64) {
+	tk.Get().Eval("%s configure -scrollregion [list %v %v %v %v]", el.GetID(), left, top, right, bottom)
+}
+
+// SetScrollStep sets the scroll step which specifies an increment for scrolling.
+func (el *Canvas) SetScrollStep(step float64) {
+	tk.Get().Eval("%s configure -xscrollincrement %v -yscrollincrement %v", el.GetID(), step, step)
+}
+
+// GetXPosFromScreenXPos gets the x canvas position from the screen position.
+func (el *Canvas) GetXPosFromScreenXPos(x, grid int) int {
+	tk.Get().Eval("%s canvasx %d %d", el.GetID(), x, grid)
+	xPos := tk.Get().GetFloatResult()
+
+	return int(xPos)
+}
+
+// GetYPosFromScreenYPos gets the y canvas position from the screen position.
+func (el *Canvas) GetYPosFromScreenYPos(y, grid int) int {
+	tk.Get().Eval("%s canvasy %d %d", el.GetID(), y, grid)
+	yPos := tk.Get().GetFloatResult()
+
+	return int(yPos)
+}
+
+// SetScanMark sets the scan mark.
+// Records x and y and the canvas's current view; used in conjunction with
+// later scan dragto commands. Typically this command is associated with a
+// mouse button press in the widget and x and y are the coordinates of the
+// mouse.
+func (el *Canvas) SetScanMark(x, y int) {
+	tk.Get().Eval("%s scan mark %d %d", el.GetID(), x, y)
+}
+
+// ScanDragTo computes the difference between its x and y arguments (which are
+// typically mouse coordinates) and the x and y arguments to the last scan mark
+// command for the widget. It then adjusts the view by gain times the
+// difference in coordinates, where gain defaults to 10. This command is
+// typically associated with mouse motion events in the widget, to produce the
+// effect of dragging the canvas at high speed through its window. The return
+// value is an empty string.
+func (el *Canvas) ScanDragTo(x, y, gain int) {
+	tk.Get().Eval("%s scan dragto %d %d %d", el.GetID(), x, y, gain)
 }
