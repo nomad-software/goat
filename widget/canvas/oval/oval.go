@@ -10,6 +10,7 @@ const (
 
 // Oval represents an oval in the canvas.
 //
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/bind
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/fill
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/outline

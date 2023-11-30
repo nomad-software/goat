@@ -12,6 +12,7 @@ const (
 // Widget represents a widget in the canvas.
 //
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/anchor
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/bind
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/tag
 type Widget struct {

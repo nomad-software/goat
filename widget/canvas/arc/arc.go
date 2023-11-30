@@ -11,6 +11,7 @@ const (
 
 // Arc represents an arc in the canvas.
 //
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Arc -pkg=canvas/bind
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Arc -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Arc -pkg=canvas/fill
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Arc -pkg=canvas/outline
