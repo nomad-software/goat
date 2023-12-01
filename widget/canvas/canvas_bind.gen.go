@@ -169,7 +169,7 @@ func (el *Canvas) UnBind(binding string) {
 	name := command.GenerateName(binding, el.GetID())
 
 	tk.Get().Eval("bind %s {%s} {}", el.GetID(), binding)
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }
 
 // GenerateEvent generates the passed event on the ui element.

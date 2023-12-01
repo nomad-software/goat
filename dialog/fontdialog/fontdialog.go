@@ -68,5 +68,5 @@ func (el *FontDialog) DeleteCommand() {
 	tk.Get().Eval("tk fontchooser configure -command {}")
 
 	name := command.GenerateName(el.GetType())
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }

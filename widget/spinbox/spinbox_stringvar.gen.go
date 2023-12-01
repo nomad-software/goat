@@ -27,5 +27,5 @@ func (el *Spinbox) GetValue() string {
 // path name error from the interpreter.
 func (el *Spinbox) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

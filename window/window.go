@@ -142,7 +142,7 @@ func (w *Window) SetProtocolCommand(protocol string, callback command.Callback) 
 func (w *Window) UnBindProtocol(protocol string) {
 	name := command.GenerateName(protocol)
 	tk.Get().Eval("wm protocol %s {%s} {}", w.GetID(), protocol)
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }
 
 // SetResizeable sets if a window width and height can be resized.

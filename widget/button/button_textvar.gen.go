@@ -27,5 +27,5 @@ func (el *Button) GetText() string {
 // path name error from the interpreter.
 func (el *Button) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.textVar)
+	tk.Get().DestroyVar(el.textVar)
 }

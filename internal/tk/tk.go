@@ -270,8 +270,8 @@ func (tk *Tk) GetVarBoolValue(name string) bool {
 	return b
 }
 
-// DeleteVar deletes a variable and cleans up its resources
-func (tk *Tk) DeleteVar(name string) {
+// DestroyVar destroys a variable and cleans up its resources.
+func (tk *Tk) DestroyVar(name string) {
 	log.Debug("deleting variable {%s}", name)
 
 	cname := C.CString(name)
@@ -279,7 +279,7 @@ func (tk *Tk) DeleteVar(name string) {
 
 	result := C.Tcl_UnsetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
 	if result == C.TCL_ERROR {
-		err := tk.getTclError("delete variable error: {%s}", name)
+		err := tk.getTclError("destroy variable error: {%s}", name)
 		log.Error(err)
 	}
 }
@@ -344,16 +344,16 @@ func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback 
 	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
 }
 
-// DeleteCommand deletes the specified command from the interpreter.
-func (tk *Tk) DeleteCommand(name string) {
-	log.Debug("delete command {%s}", name)
+// DestroyCommand destroys a command and cleans up its resources.
+func (tk *Tk) DestroyCommand(name string) {
+	log.Debug("destroy command {%s}", name)
 
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
 	status := C.Tcl_DeleteCommand(tk.interpreter, cname)
 	if status != C.TCL_OK {
-		err := tk.getTclError("delete command failed")
+		err := tk.getTclError("destroy command failed")
 		log.Error(err)
 	}
 }

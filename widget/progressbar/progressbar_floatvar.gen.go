@@ -27,5 +27,5 @@ func (el *ProgressBar) GetValue() float64 {
 // path name error from the interpreter.
 func (el *ProgressBar) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

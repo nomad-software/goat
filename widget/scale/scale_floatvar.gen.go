@@ -27,5 +27,5 @@ func (el *Scale) GetValue() float64 {
 // path name error from the interpreter.
 func (el *Scale) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

@@ -41,7 +41,7 @@ func (el *Column) DeleteHeadingCommand() {
 	tk.Get().Eval("%s heading %s -command {}", el.GetParent().GetID(), el.GetID())
 
 	name := command.GenerateName(el.GetParent().GetID(), el.GetID())
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }
 
 // SetMinWidth sets the width of the column.

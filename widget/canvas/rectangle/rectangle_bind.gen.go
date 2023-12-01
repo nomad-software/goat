@@ -169,5 +169,5 @@ func (el *Rectangle) UnBind(binding string) {
 	name := command.GenerateName(binding, el.GetID())
 
 	tk.Get().Eval("%s bind {%s} {%s} {}", el.GetParent().GetID(), el.GetID(), binding)
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }

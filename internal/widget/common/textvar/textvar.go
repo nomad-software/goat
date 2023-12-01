@@ -26,5 +26,5 @@ func (el stub) GetText() string {
 // path name error from the interpreter.
 func (el stub) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.textVar)
+	tk.Get().DestroyVar(el.textVar)
 }

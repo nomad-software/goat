@@ -27,5 +27,5 @@ func (el *Combobox) GetValue() string {
 // path name error from the interpreter.
 func (el *Combobox) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

@@ -74,6 +74,6 @@ func (el *CheckButton) IsChecked() bool {
 // path name error from the interpreter.
 func (el *CheckButton) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.textVar)
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.textVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

@@ -26,5 +26,5 @@ func (el stub) GetValue() float64 {
 // path name error from the interpreter.
 func (el stub) Destroy() {
 	el.Ele.Destroy()
-	tk.Get().DeleteVar(el.valueVar)
+	tk.Get().DestroyVar(el.valueVar)
 }

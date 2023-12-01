@@ -21,5 +21,5 @@ func (el stub) DeleteCommand() {
 	tk.Get().Eval("%s configure -command {}", el.GetID())
 
 	name := command.GenerateName(el.GetID())
-	tk.Get().DeleteCommand(name)
+	tk.Get().DestroyCommand(name)
 }
