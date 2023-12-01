@@ -12,8 +12,9 @@ const (
 
 // Image represents an image in the canvas.
 //
-//go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/bind
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/anchor
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/bind
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/tag
 type Image struct {
