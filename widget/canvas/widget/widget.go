@@ -42,3 +42,8 @@ func (el *Widget) SetHeight(height float64) {
 func (el *Widget) SetWidget(e element.Element) {
 	tk.Get().Eval("%s itemconfigure %s -window %s", el.GetParent().GetID(), el.GetID(), e.GetID())
 }
+
+// SetCoords updates the item coordinates.
+func (el *Widget) SetCoords(x, y float64) {
+	tk.Get().Eval("%s coords %s [list %v %v]", el.GetParent().GetID(), el.GetID(), x, y)
+}

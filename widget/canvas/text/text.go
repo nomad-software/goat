@@ -64,3 +64,8 @@ func (el *Text) SetUnderline(index int) {
 func (el *Text) SetMaxWidth(width float64) {
 	tk.Get().Eval("%s itemconfigure %s -width %v", el.GetParent().GetID(), el.GetID(), width)
 }
+
+// SetCoords updates the item coordinates.
+func (el *Text) SetCoords(x, y float64) {
+	tk.Get().Eval("%s coords %s [list %v %v]", el.GetParent().GetID(), el.GetID(), x, y)
+}

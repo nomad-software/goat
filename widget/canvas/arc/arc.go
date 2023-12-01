@@ -53,3 +53,8 @@ func (el *Arc) SetExtent(extent float64) {
 func (el *Arc) SetStyle(style string) {
 	tk.Get().Eval("%s itemconfigure %s -style {%s}", el.GetParent().GetID(), el.GetID(), style)
 }
+
+// SetCoords updates the item coordinates.
+func (el *Arc) SetCoords(x1, y1, x2, y2 float64) {
+	tk.Get().Eval("%s coords %s [list %v %v %v %v]", el.GetParent().GetID(), el.GetID(), x1, y1, x2, y2)
+}

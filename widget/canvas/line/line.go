@@ -1,6 +1,8 @@
 package line
 
 import (
+	"fmt"
+
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
@@ -87,4 +89,13 @@ func (el *Line) SetSmoothMethod(method string) {
 // ignored unless the smooth method is set.
 func (el *Line) SetSplineSteps(n int) {
 	tk.Get().Eval("%s itemconfigure %s -splinesteps %d", el.GetParent().GetID(), el.GetID(), n)
+}
+
+// SetCoords updates the item coordinates.
+func (el *Line) SetCoords(x1, y1, x2, y2 float64, others ...float64) {
+	otherStr := ""
+	for _, i := range others {
+		otherStr += fmt.Sprintf(" %v", i)
+	}
+	tk.Get().Eval("%s coords %s [list %v %v %v %v %s]", el.GetParent().GetID(), el.GetID(), x1, y1, x2, y2, otherStr)
 }

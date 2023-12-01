@@ -1,6 +1,7 @@
 package oval
 
 import (
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
@@ -28,4 +29,9 @@ func New(parent element.Element) *Oval {
 	oval.SetType(Type)
 
 	return oval
+}
+
+// SetCoords updates the item coordinates.
+func (el *Oval) SetCoords(x1, y1, x2, y2 float64) {
+	tk.Get().Eval("%s coords %s [list %v %v %v %v]", el.GetParent().GetID(), el.GetID(), x1, y1, x2, y2)
 }

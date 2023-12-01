@@ -64,7 +64,7 @@ func New(parent element.Element) *Canvas {
 // AddArc adds an arc to the canvas.
 // The first four coordinates specify the oval that this arc is drawn on.
 func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
-	tk.Get().Eval("%s create arc %v %v %v %v", el.GetID(), x1, y1, x2, y2)
+	tk.Get().Eval("%s create arc [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
 	a := arc.New(el)
@@ -78,7 +78,7 @@ func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 
 // AddImage adds an image to the canvas.
 func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
-	tk.Get().Eval("%s create image %v %v -image %s", el.GetID(), x, y, img.GetID())
+	tk.Get().Eval("%s create image [list %v %v] -image %s", el.GetID(), x, y, img.GetID())
 	id := tk.Get().GetStrResult()
 
 	i := image.New(el)
@@ -111,7 +111,7 @@ func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line 
 // AddArc adds an oval to the canvas.
 // The four coordinates specify the oval.
 func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
-	tk.Get().Eval("%s create oval %v %v %v %v", el.GetID(), x1, y1, x2, y2)
+	tk.Get().Eval("%s create oval [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
 	ov := oval.New(el)
@@ -144,7 +144,7 @@ func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) 
 // AddRectangle adds a rectangle to the canvas.
 // The four coordinates specify the rectangle.
 func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
-	tk.Get().Eval("%s create rectangle %v %v %v %v", el.GetID(), x1, y1, x2, y2)
+	tk.Get().Eval("%s create rectangle [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
 	rect := rectangle.New(el)
@@ -157,7 +157,7 @@ func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
 
 // AddText adds text to the canvas.
 func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
-	tk.Get().Eval("%s create text %v %v -text {%s}", el.GetID(), x, y, txt)
+	tk.Get().Eval("%s create text [list %v %v] -text {%s}", el.GetID(), x, y, txt)
 	id := tk.Get().GetStrResult()
 
 	t := text.New(el)
@@ -170,7 +170,7 @@ func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
 
 // AddWidget adds a widget to the canvas.
 func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
-	tk.Get().Eval("%s create window %v %v -window %s", el.GetID(), x, y, e.GetID())
+	tk.Get().Eval("%s create window [list %v %v] -window %s", el.GetID(), x, y, e.GetID())
 	id := tk.Get().GetStrResult()
 
 	w := widget.New(el)

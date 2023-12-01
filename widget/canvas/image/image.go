@@ -43,3 +43,8 @@ func (el *Image) SetHoverImage(img *image.Image) {
 func (el *Image) SetDisabledImage(img *image.Image) {
 	tk.Get().Eval("%s itemconfigure %s -disabledimage %v", el.GetParent().GetID(), el.GetID(), img.GetID())
 }
+
+// SetCoords updates the item coordinates.
+func (el *Image) SetCoords(x, y float64) {
+	tk.Get().Eval("%s coords %s [list %v %v]", el.GetParent().GetID(), el.GetID(), x, y)
+}
