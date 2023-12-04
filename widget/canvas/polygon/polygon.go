@@ -21,6 +21,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Polygon -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Polygon -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Polygon -pkg=canvas/width
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Polygon -pkg=canvas/zorder
 type Polygon struct {
 	element.Ele
 }

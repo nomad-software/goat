@@ -32,8 +32,8 @@ type BindData struct {
 type Event struct {
 	MouseButton int
 	KeyCode     int
-	X           int
-	Y           int
+	ElementX    int
+	ElementY    int
 	Wheel       int
 	Key         string
 	ScreenX     int

@@ -16,6 +16,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/tag
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Widget -pkg=canvas/zorder
 type Widget struct {
 	element.Ele
 }

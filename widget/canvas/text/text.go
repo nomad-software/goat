@@ -19,6 +19,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/fill
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/tag
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/zorder
 type Text struct {
 	element.Ele
 }

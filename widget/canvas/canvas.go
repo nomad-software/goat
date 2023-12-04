@@ -43,12 +43,14 @@ type Canvas struct {
 	wid.Widget
 
 	itemRef map[string]element.Element
+	items   []element.Element
 }
 
 // New creates a new button.
 func New(parent element.Element) *Canvas {
 	canvas := &Canvas{
 		itemRef: make(map[string]element.Element),
+		items:   make([]element.Element, 0),
 	}
 	canvas.SetParent(parent)
 	canvas.SetType(Type)
@@ -67,13 +69,14 @@ func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	tk.Get().Eval("%s create arc [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	a := arc.New(el)
-	a.SetID(id)
-	a.SetStyle(style.Pie)
+	item := arc.New(el)
+	item.SetID(id)
+	item.SetStyle(style.Pie)
 
-	el.itemRef[id] = a
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return a
+	return item
 }
 
 // AddImage adds an image to the canvas.
@@ -81,12 +84,13 @@ func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
 	tk.Get().Eval("%s create image [list %v %v] -image %s", el.GetID(), x, y, img.GetID())
 	id := tk.Get().GetStrResult()
 
-	i := image.New(el)
-	i.SetID(id)
+	item := image.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = i
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return i
+	return item
 }
 
 // AddLine adds a line to the canvas.
@@ -100,12 +104,13 @@ func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line 
 	tk.Get().Eval("%s create line [list %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, otherStr)
 	id := tk.Get().GetStrResult()
 
-	ln := line.New(el)
-	ln.SetID(id)
+	item := line.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = ln
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return ln
+	return item
 }
 
 // AddArc adds an oval to the canvas.
@@ -114,12 +119,13 @@ func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
 	tk.Get().Eval("%s create oval [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	ov := oval.New(el)
-	ov.SetID(id)
+	item := oval.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = ov
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return ov
+	return item
 }
 
 // AddPolygon adds a polygon to the canvas.
@@ -133,12 +139,13 @@ func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) 
 	tk.Get().Eval("%s create polygon [list %v %v %v %v %v %v %s]", el.GetID(), x1, y1, x2, y2, x3, y3, otherStr)
 	id := tk.Get().GetStrResult()
 
-	poly := polygon.New(el)
-	poly.SetID(id)
+	item := polygon.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = poly
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return poly
+	return item
 }
 
 // AddRectangle adds a rectangle to the canvas.
@@ -147,12 +154,13 @@ func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
 	tk.Get().Eval("%s create rectangle [list %v %v %v %v]", el.GetID(), x1, y1, x2, y2)
 	id := tk.Get().GetStrResult()
 
-	rect := rectangle.New(el)
-	rect.SetID(id)
+	item := rectangle.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = rect
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return rect
+	return item
 }
 
 // AddText adds text to the canvas.
@@ -160,12 +168,13 @@ func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
 	tk.Get().Eval("%s create text [list %v %v] -text {%s}", el.GetID(), x, y, txt)
 	id := tk.Get().GetStrResult()
 
-	t := text.New(el)
-	t.SetID(id)
+	item := text.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = t
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return t
+	return item
 }
 
 // AddWidget adds a widget to the canvas.
@@ -173,12 +182,13 @@ func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
 	tk.Get().Eval("%s create window [list %v %v] -window %s", el.GetID(), x, y, e.GetID())
 	id := tk.Get().GetStrResult()
 
-	w := widget.New(el)
-	w.SetID(id)
+	item := widget.New(el)
+	item.SetID(id)
 
-	el.itemRef[id] = w
+	el.itemRef[id] = item
+	el.items = append(el.items, item)
 
-	return w
+	return item
 }
 
 // GetTag gets a tag from the canvas in order to modify its properties.
@@ -217,16 +227,16 @@ func (el *Canvas) SetScrollStep(step float64) {
 	tk.Get().Eval("%s configure -xscrollincrement %v -yscrollincrement %v", el.GetID(), step, step)
 }
 
-// GetXPosFromScreenXPos gets the x canvas position from the screen position.
-func (el *Canvas) GetXPosFromScreenXPos(x, grid int) int {
+// GetXPosFromElementXPos gets the x canvas position from the screen position.
+func (el *Canvas) GetXPosFromElementXPos(x, grid int) int {
 	tk.Get().Eval("%s canvasx %d %d", el.GetID(), x, grid)
 	xPos := tk.Get().GetFloatResult()
 
 	return int(xPos)
 }
 
-// GetYPosFromScreenYPos gets the y canvas position from the screen position.
-func (el *Canvas) GetYPosFromScreenYPos(y, grid int) int {
+// GetYPosFromElementYPos gets the y canvas position from the screen position.
+func (el *Canvas) GetYPosFromElementYPos(y, grid int) int {
 	tk.Get().Eval("%s canvasy %d %d", el.GetID(), y, grid)
 	yPos := tk.Get().GetFloatResult()
 
@@ -251,4 +261,55 @@ func (el *Canvas) SetScanMark(x, y int) {
 // value is an empty string.
 func (el *Canvas) ScanDragTo(x, y, gain int) {
 	tk.Get().Eval("%s scan dragto %d %d %d", el.GetID(), x, y, gain)
+}
+
+// GetItems returns all items in the canvas.
+func (el *Canvas) GetItems() []element.Element {
+	return el.items
+}
+
+// GetItemNear gets the nearest item to the coordinates supplied and returns it.
+func (el *Canvas) GetItemNear(x, y, radius int) element.Element {
+	tk.Get().Eval("%s find closest %d %d %d", el.GetID(), x, y, radius)
+	id := tk.Get().GetStrResult()
+
+	if e, ok := el.itemRef[id]; ok {
+		return e
+	}
+
+	return nil
+}
+
+// GetItemsEnclosed gets all the items fully enclosed by the passed rectangular
+// region.
+func (el *Canvas) GetItemsEnclosed(x1, y1, x2, y2 int) []element.Element {
+	tk.Get().Eval("%s find enclosed %d %d %d %d", el.GetID(), x1, y1, x2, y2)
+	ids := tk.Get().GetStrSliceResult()
+
+	items := make([]element.Element, 0)
+
+	for _, id := range ids {
+		if e, ok := el.itemRef[id]; ok {
+			items = append(items, e)
+		}
+	}
+
+	return items
+}
+
+// GetItemsEnclosed gets all the items overlapping the passed rectangular
+// region.
+func (el *Canvas) GetItemsOverlapping(x1, y1, x2, y2 int) []element.Element {
+	tk.Get().Eval("%s find overlapping %d %d %d %d", el.GetID(), x1, y1, x2, y2)
+	ids := tk.Get().GetStrSliceResult()
+
+	items := make([]element.Element, 0)
+
+	for _, id := range ids {
+		if e, ok := el.itemRef[id]; ok {
+			items = append(items, e)
+		}
+	}
+
+	return items
 }

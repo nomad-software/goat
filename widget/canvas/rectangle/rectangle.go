@@ -19,6 +19,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/width
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/zorder
 type Rectangle struct {
 	element.Ele
 }

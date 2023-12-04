@@ -17,6 +17,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Tag -pkg=canvas/outline
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Tag -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Tag -pkg=canvas/width
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Tag -pkg=canvas/zorder
 type Tag struct {
 	element.Ele
 }

@@ -17,6 +17,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/tag
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Image -pkg=canvas/zorder
 type Image struct {
 	element.Ele
 }

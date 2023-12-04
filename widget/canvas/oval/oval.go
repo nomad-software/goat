@@ -19,6 +19,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/width
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Oval -pkg=canvas/zorder
 type Oval struct {
 	element.Ele
 }

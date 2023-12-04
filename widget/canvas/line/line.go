@@ -20,6 +20,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/width
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/zorder
 type Line struct {
 	element.Ele
 }

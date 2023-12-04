@@ -381,8 +381,8 @@ func procWrapper(clientData unsafe.Pointer, interp *C.Tcl_Interp, argc C.int, ar
 	case *command.BindData:
 		data.Event.MouseButton = readIntArg(values, 1)
 		data.Event.KeyCode = readIntArg(values, 2)
-		data.Event.X = readIntArg(values, 3)
-		data.Event.Y = readIntArg(values, 4)
+		data.Event.ElementX = readIntArg(values, 3)
+		data.Event.ElementY = readIntArg(values, 4)
 		data.Event.Wheel = readIntArg(values, 5)
 		data.Event.Key = readStringArg(values, 6)
 		data.Event.ScreenX = readIntArg(values, 7)

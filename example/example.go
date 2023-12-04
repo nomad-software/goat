@@ -336,10 +336,10 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	canvas.AttachVerticalScrollbar(vscroll)
 	canvas.SetScrollRegion(-300, -250, 610, 500)
 	canvas.Bind("<ButtonPress-1>", func(data *command.BindData) {
-		canvas.SetScanMark(data.Event.X, data.Event.Y)
+		canvas.SetScanMark(data.Event.ElementX, data.Event.ElementY)
 	})
 	canvas.Bind("<Button1-Motion>", func(data *command.BindData) {
-		canvas.ScanDragTo(data.Event.X, data.Event.Y, 1)
+		canvas.ScanDragTo(data.Event.ElementX, data.Event.ElementY, 1)
 	})
 
 	hscroll.AttachWidget(canvas)
