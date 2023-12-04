@@ -17,6 +17,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/bind
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/fill
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/move
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Text -pkg=canvas/zorder

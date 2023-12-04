@@ -15,6 +15,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/fill
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/move
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/outline
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Rectangle -pkg=canvas/tag

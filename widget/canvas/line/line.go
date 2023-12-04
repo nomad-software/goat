@@ -17,6 +17,7 @@ const (
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/dash
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/delete
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/fill
+//go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/move
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/state
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/tag
 //go:generate go run ../../../internal/tools/generate/main.go -recv=*Line -pkg=canvas/width
