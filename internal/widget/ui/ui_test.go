@@ -119,7 +119,5 @@ func TestUIElementDestroy(t *testing.T) {
 
 	el.Destroy()
 
-	assert.Panics(t, func() {
-		assert.Equal(t, "Tk", el.GetClass())
-	})
+	assert.Equal(t, "invalid command name \".\"", el.GetClass())
 }
