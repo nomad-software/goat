@@ -10,7 +10,10 @@ import (
 //
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
 //
-//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -pkg=common/bind -out=menubar
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -out=menubar -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -out=menubar -pkg=common/borderwidth
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -out=menubar -pkg=common/color -methods=SetForegroundColor,SetBackgroundColor
+//go:generate go run ../../internal/tools/generate/main.go -recv=*MenuBar -out=menubar -pkg=common/relief
 type MenuBar struct {
 	ui.Ele
 }

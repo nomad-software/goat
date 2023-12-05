@@ -23,6 +23,9 @@ const (
 // Reference: https://www.tcl.tk/man/tcl8.6/TkCmd/menu.html
 //
 //go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=common/bind
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=common/borderwidth
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=common/color -methods=SetForegroundColor,SetBackgroundColor
+//go:generate go run ../../internal/tools/generate/main.go -recv=*Menu -pkg=common/relief
 type Menu struct {
 	ui.Ele
 

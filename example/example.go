@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/nomad-software/goat/app"
 	"github.com/nomad-software/goat/dialog/colordialog"
@@ -74,10 +75,10 @@ func main() {
 		showAbout(main)
 	})
 
-	// app.CreateIdleCallback(time.Second, func(data *command.CommandData) {
-	// 	timeEntry.SetValue(time.Now().Format(time.RFC3339))
-	// 	app.CreateIdleCallback(time.Second, data.Callback)
-	// })
+	app.CreateIdleCallback(time.Second, func(data *command.CommandData) {
+		timeEntry.SetValue(time.Now().Format(time.RFC3339))
+		app.CreateIdleCallback(time.Second, data.Callback)
+	})
 
 	main.SetProtocolCommand(protocol.DeleteWindow, func(*command.CommandData) {
 		main.Destroy()
@@ -85,6 +86,9 @@ func main() {
 
 	createMenu(main)
 	createNotebook(main)
+
+	sizegrip := sizegrip.New(main)
+	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
 
 	app.Start()
 }
@@ -140,11 +144,6 @@ func createNotebook(win *window.Window) {
 
 	img = embedded.GetImage("png/application_double.png")
 	note.AddImageTab(img, compound.Left, "Dialogs", underline.None, dialogPane)
-
-	note.SelectTab(2)
-
-	sizegrip := sizegrip.New(win)
-	sizegrip.Pack(0, 0, side.Bottom, fill.None, anchor.SouthEast, false)
 }
 
 func createWidgetPane(win *window.Window) *frame.Frame {
