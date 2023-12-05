@@ -18,6 +18,10 @@ learning. Being the _de facto_ GUI toolkit of Python has introduced more
 developers to GUI application programming and increased the popularity of the
 language as a whole. Goat is an attempt to provide Go with the same resource.
 
+### Documentation
+
+https://pkg.go.dev/github.com/nomad-software/goat
+
 ### Supported platforms
 
 * Linux
@@ -30,7 +34,7 @@ Windows machine for development. Pull requests are welcome in this respect.
 
 ## Dependencies
 
-### Install Tcl and Tk header files.
+### Install Tcl and Tk header files and libraries.
 
 #### Linux
 
@@ -40,7 +44,11 @@ sudo apt install tcl-dev tk-dev
 
 #### MacOS
 
-_They may already be installed by default but will need verification._
+```bash
+brew install tcl-tk
+```
+
+Reference: https://formulae.brew.sh/formula/tcl-tk
 
 #### Windows
 
