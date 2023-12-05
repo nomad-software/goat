@@ -313,3 +313,12 @@ func (el *Canvas) GetItemsOverlapping(x1, y1, x2, y2 int) []element.Element {
 
 	return items
 }
+
+// Clear deletes all items from the canvas.
+func (el *Canvas) Clear() {
+	for _, item := range el.items {
+		tk.Get().Eval("%s delete %s", el.GetID(), item.GetID())
+	}
+	clear(el.itemRef)
+	clear(el.items)
+}
