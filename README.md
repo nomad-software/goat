@@ -5,29 +5,28 @@ GUI toolkit for the Go programming language based on Tcl/Tk.
 ## Overview
 
 Goat is a fully cross-platform GUI toolkit based on
-[Tcl/Tk](http://www.tcl.tk/). Goat allows you to build GUI applications easily
+[Tcl/Tk](https://www.tcl.tk/about/). Goat allows you to build GUI applications easily
 and with the knowledge of a consistent, native look and feel on every platform.
 
-### Why Tcl/Tk?
+## Screenshots
 
-Goat development was initiated based on the performance and uptake of the
-[Tkinter](https://wiki.python.org/moin/TkInter) toolkit distributed as a
-standard part of the [Python](https://www.python.org/) programming language.
-Tkinter allows developers easy access to GUI programming with very little
-learning. Being the _de facto_ GUI toolkit of Python has introduced more
-developers to GUI application programming and increased the popularity of the
-language as a whole. Goat is an attempt to provide Go with the same resource.
+![](example/screenshots/1.png)
+![](example/screenshots/2.png)
+![](example/screenshots/3.png)
+![](example/screenshots/4.png)
 
-### Documentation
+_Compiled on Linux_
+
+## Documentation
 
 https://pkg.go.dev/github.com/nomad-software/goat
 
-### Supported platforms
+## Supported platforms
 
 * Linux
 * MacOS
 
-#### Windows
+### Windows
 
 It would be quite trivial to support windows but I don't have access to a
 Windows machine for development. Pull requests are welcome in this respect.
