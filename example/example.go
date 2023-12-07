@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"time"
 
 	"github.com/nomad-software/goat/app"
@@ -28,7 +29,7 @@ import (
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/canvas"
-	"github.com/nomad-software/goat/widget/canvas/line/arrow"
+	"github.com/nomad-software/goat/widget/canvas/oval"
 	"github.com/nomad-software/goat/widget/checkbutton"
 	"github.com/nomad-software/goat/widget/combobox"
 	"github.com/nomad-software/goat/widget/entry"
@@ -65,6 +66,7 @@ func main() {
 	main := app.GetMainWindow()
 	main.SetTitle("Goat showcase")
 	main.SetMinSize(600, 600)
+	main.SetMaxSize(1050, 1050)
 	main.SetIcon(icons, true)
 
 	main.Bind("<Control-Key-q>", func(*command.BindData) {
@@ -333,7 +335,7 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	canvas.SetCursor(cursor.Hand1)
 	canvas.AttachHorizontalScrollbar(hscroll)
 	canvas.AttachVerticalScrollbar(vscroll)
-	canvas.SetScrollRegion(-300, -250, 610, 500)
+	canvas.SetScrollRegion(-50, -50, 900, 900)
 	canvas.Bind("<ButtonPress-1>", func(data *command.BindData) {
 		canvas.SetScanMark(data.Event.ElementX, data.Event.ElementY)
 	})
@@ -342,46 +344,50 @@ func createCanvasPane(win *window.Window) *frame.Frame {
 	})
 
 	hscroll.AttachWidget(canvas)
-	hscroll.MoveTo(0.22)
+	hscroll.MoveTo(0)
 	vscroll.AttachWidget(canvas)
-	vscroll.MoveTo(0.25)
+	vscroll.MoveTo(0)
 
-	arc := canvas.AddArc(10, 110, 110, 210)
-	arc.SetStart(45)
-	arc.SetExtent(90)
-	arc.SetOutlineDash(8, 4)
-	arc.SetFillColor(color.PaleGreen)
+	colors := []string{
+		"#ff0000",
+		"#cc0049",
+		"#a200b8",
+		"#4500ac",
+		"#000eff",
+		"#0095d6",
+		"#009407",
+		"#c3ee00",
+		"#fffe00",
+		"#ffb800",
+		"#ff9000",
+		"#ff4b00",
+	}
 
-	canvas.AddImage(embedded.GetImage("png/thumbnail.png"), 210, 10)
-	canvas.AddImage(embedded.GetImage("gif/thumbnail.gif"), 260, 10)
+	circles := make([]*oval.Oval, 0)
+	for i, c := range colors {
+		width := float64((i + 1) * 100)
+		height := float64((i + 1) * 100)
+		oval := canvas.AddOval(-width/2, -height/2, width, height)
+		oval.SetFillColor(c)
+		oval.SetOutlineWidth(0)
+		oval.Lower(nil)
+		circles = append(circles, oval)
+	}
 
-	line := canvas.AddLine(120, 110, 200, 110, 200, 160)
-	line.SetArrow(arrow.Last)
-	line.SetArrowShape(-15, 2, 5)
+	button := button.New(nil, "Click Here")
+	button.SetImage(embedded.GetImage("png/color_swatch.png"), compound.Top)
+	button.SetCommand(func(data *command.CommandData) {
+		colors = slices.Insert(colors, 0, colors[len(colors)-1])
+		colors = colors[:len(colors)-1]
+		for i, circle := range circles {
+			circle.SetFillColor(colors[i])
+		}
+	})
 
-	oval := canvas.AddOval(10, 170, 200, 245)
-	oval.SetFillColor(color.RosyBrown3)
-
-	poly := canvas.AddPolygon(220, 80, 320, 80, 300, 120, 240, 120)
-	poly.SetOutlineColor(color.Black)
-	poly.SetFillColor(color.MediumPurple)
-
-	rect := canvas.AddRectangle(10, 10, 200, 100)
-	rect.SetTags("tag")
-
-	text := canvas.AddText("Goat Canvas", 35, 192)
-	text.SetAnchor(anchor.NorthWest)
-	text.SetFont("Arial", "18", "bold")
-	text.SetFillColor(color.White)
-
-	button := button.New(nil, "Embedded\nButton")
-	button.SetImage(embedded.GetImage("png/error.png"), compound.Top)
-	widget := canvas.AddWidget(button, 220, 140)
-	widget.SetAnchor(anchor.NorthWest)
+	widget := canvas.AddWidget(button, 25, 25)
+	widget.SetAnchor(anchor.Center)
 	widget.SetWidth(100)
-	widget.SetHeight(100)
-
-	canvas.GetTag("tag").SetFillColor(color.Salmon)
+	widget.SetHeight(75)
 
 	return pane
 }
