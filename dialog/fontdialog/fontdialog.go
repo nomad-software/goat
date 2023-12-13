@@ -21,8 +21,6 @@ type FontDialog struct {
 	element.Ele
 
 	title string
-
-	value string
 }
 
 // New creates a new message dialog.
