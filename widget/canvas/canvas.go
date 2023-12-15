@@ -46,7 +46,7 @@ type Canvas struct {
 	items   []element.Element
 }
 
-// New creates a new button.
+// New creates a new canvas.
 func New(parent element.Element) *Canvas {
 	canvas := &Canvas{
 		itemRef: make(map[string]element.Element),
