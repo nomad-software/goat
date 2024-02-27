@@ -2,8 +2,8 @@
 package scale
 
 import (
+	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/tk/command"
 
 )
 

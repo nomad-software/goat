@@ -4,10 +4,10 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/image"
 	"github.com/nomad-software/goat/internal/log"
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/widget/ui"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )

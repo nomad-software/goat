@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/nomad-software/goat/app"
+	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/dialog/colordialog"
 	"github.com/nomad-software/goat/dialog/directorydialog"
 	"github.com/nomad-software/goat/dialog/fontdialog"
@@ -15,7 +16,6 @@ import (
 	dtype "github.com/nomad-software/goat/dialog/type"
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
-	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/option/anchor"
 	"github.com/nomad-software/goat/option/color"
 	"github.com/nomad-software/goat/option/compound"

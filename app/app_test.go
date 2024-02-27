@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/nomad-software/goat/app/theme"
-	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/command"
 	"github.com/stretchr/testify/assert"
 )
 

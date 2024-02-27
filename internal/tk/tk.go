@@ -32,8 +32,8 @@ import (
 	"strings"
 	"unsafe"
 
+	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/internal/log"
-	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 

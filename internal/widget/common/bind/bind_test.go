@@ -3,7 +3,7 @@ package bind
 import (
 	"testing"
 
-	"github.com/nomad-software/goat/internal/tk/command"
+	"github.com/nomad-software/goat/command"
 	"github.com/stretchr/testify/assert"
 )
 

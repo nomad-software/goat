@@ -1,8 +1,8 @@
 package combobox
 
 import (
+	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/internal/tk"
-	"github.com/nomad-software/goat/internal/tk/command"
 	"github.com/nomad-software/goat/internal/tk/variable"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/state"
