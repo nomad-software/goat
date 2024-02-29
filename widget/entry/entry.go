@@ -7,6 +7,11 @@ import (
 	"github.com/nomad-software/goat/widget"
 )
 
+func init() {
+	// Open up the entry a bit, the standard one seems a bit narrow.
+	tk.Get().Eval("ttk::style configure TEntry -padding 3")
+}
+
 const (
 	Type = "entry"
 )
