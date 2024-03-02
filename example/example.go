@@ -26,7 +26,6 @@ import (
 	"github.com/nomad-software/goat/option/selectionmode"
 	"github.com/nomad-software/goat/option/side"
 	"github.com/nomad-software/goat/option/underline"
-	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget/button"
 	"github.com/nomad-software/goat/widget/canvas"
 	"github.com/nomad-software/goat/widget/canvas/oval"
@@ -171,11 +170,7 @@ func createWidgetPane(win *window.Window) *frame.Frame {
 	textEntry.SetHeight(0)
 	textEntry.SetText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nSed ultrices hendrerit mi vel fermentum. Etiam ut posuere neque.")
 
-	textEntry.SetFont("Iosevka Term Curly", "12")
-	textEntry.TagLine(2, "bold")
-	textEntry.GetTag("bold").SetFont("Iosevka Term Curly Heavy", "12")
-
-	textEntry.SetWrapMode(wrapmode.None)
+	// textEntry.SetWrapMode(wrapmode.None)
 	textEntry.AttachHorizontalScrollbar(hscroll)
 	textEntry.AttachVerticalScrollbar(vscroll)
 
