@@ -5,6 +5,7 @@ import (
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget"
+	"github.com/nomad-software/goat/widget/text/tag"
 )
 
 const (
@@ -139,4 +140,19 @@ func (el *Text) SetSelectForegroundColor(c string) {
 // A hexadecimal string can be used too. e.g. #FFFFFF.
 func (el *Text) SetSelectBackgroundColor(c string) {
 	tk.Get().Eval("%s configure -selectbackground {%s}", el.GetID(), c)
+}
+
+// SetLineTag tags the passed line.
+// The line numbering starts from 1.
+func (el *Text) TagLine(line int, tag string) {
+	tk.Get().Eval("%s tag add {%s} %d.0 %d.end", el.GetID(), tag, line, line)
+}
+
+// GetTag gets a tag from the canvas in order to modify its properties.
+// Tags exist once they've been added to a canvas item.
+func (el *Text) GetTag(name string) *tag.Tag {
+	t := tag.New(el)
+	t.SetID(name)
+
+	return t
 }

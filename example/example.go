@@ -169,7 +169,12 @@ func createWidgetPane(win *window.Window) *frame.Frame {
 	textEntry.Grid(0, 0, 0, 0, 1, 1, "nesw")
 	textEntry.SetWidth(0)
 	textEntry.SetHeight(0)
-	textEntry.SetText("hello")
+	textEntry.SetText("Lorem ipsum dolor sit amet, consectetur adipiscing elit.\nSed ultrices hendrerit mi vel fermentum. Etiam ut posuere neque.")
+
+	textEntry.SetFont("Iosevka Term Curly", "12")
+	textEntry.TagLine(2, "bold")
+	textEntry.GetTag("bold").SetFont("Iosevka Term Curly Heavy", "12")
+
 	textEntry.SetWrapMode(wrapmode.None)
 	textEntry.AttachHorizontalScrollbar(hscroll)
 	textEntry.AttachVerticalScrollbar(vscroll)
