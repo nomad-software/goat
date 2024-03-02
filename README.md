@@ -44,12 +44,18 @@ sudo apt install tcl-dev tk-dev
 #### MacOS
 
 ```bash
+brew install --cask xquartz
 brew install tcl-tk
 ```
 
-Reference: https://formulae.brew.sh/formula/tcl-tk
+* https://formulae.brew.sh/cask/xquartz
+* https://formulae.brew.sh/formula/tcl-tk
+
+This is completely untested!
 
 #### Windows
 
 These would be provided by DLLs.
 See https://github.com/nomad-software/tkd#windows-1
+
+This is completely untested!
