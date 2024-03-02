@@ -5,7 +5,10 @@ import (
 	"strings"
 
 	"github.com/nomad-software/goat/internal/tk"
+
 )
+
+
 
 // SetFont sets the widget's font.
 func (el *Tag) SetFont(font string, size string, styles ...string) {

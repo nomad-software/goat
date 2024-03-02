@@ -148,6 +148,12 @@ func (el *Text) TagLine(line int, tag string) {
 	tk.Get().Eval("%s tag add {%s} %d.0 %d.end", el.GetID(), tag, line, line)
 }
 
+// TagText tags a range of text in the widget.
+// The line numbering starts from 1, character starts from 0.
+func (el *Text) TagText(line int, char int, length int, tag string) {
+	tk.Get().Eval("%s tag add {%s} %d.%d %d.%d", el.GetID(), tag, line, char, line, char+length)
+}
+
 // GetTag gets a tag from the canvas in order to modify its properties.
 // Tags exist once they've been added to a canvas item.
 func (el *Text) GetTag(name string) *tag.Tag {
