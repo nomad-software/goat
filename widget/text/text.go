@@ -1,6 +1,8 @@
 package text
 
 import (
+	"strings"
+
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 	"github.com/nomad-software/goat/option/wrapmode"
@@ -63,11 +65,25 @@ func (el *Text) SetWrapMode(mode string) {
 
 // AppendText appends text to the end.
 func (el *Text) AppendText(text string) {
+	text = strings.ReplaceAll(text, "{", `\{`)
+	text = strings.ReplaceAll(text, "}", `\}`)
+
 	tk.Get().Eval("%s insert end {%s}", el.GetID(), text)
+}
+
+// AppendLine appends text to the end and adds a newline.
+func (el *Text) AppendLine(text string) {
+	text = strings.ReplaceAll(text, "{", `\{`)
+	text = strings.ReplaceAll(text, "}", `\}`)
+
+	tk.Get().Eval("%s insert end {%s\n}", el.GetID(), text)
 }
 
 // InsertText inserts text at the specified line and character.
 func (el *Text) InsertText(line, char int, text string) {
+	text = strings.ReplaceAll(text, "{", `\{`)
+	text = strings.ReplaceAll(text, "}", `\}`)
+
 	tk.Get().Eval("%s insert %d.%d {%s}", el.GetID(), line, char, text)
 }
 
