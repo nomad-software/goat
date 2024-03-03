@@ -5,6 +5,7 @@ import (
 
 	"github.com/nomad-software/goat/internal/tk"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
+	"github.com/nomad-software/goat/option/state"
 	"github.com/nomad-software/goat/option/wrapmode"
 	"github.com/nomad-software/goat/widget"
 	"github.com/nomad-software/goat/widget/text/tag"
@@ -46,6 +47,18 @@ func New(parent element.Element) *Text {
 	text.SetWrapMode(wrapmode.Word)
 
 	return text
+}
+
+// Enable enables the widget.
+// See [option.state.Disabled]
+func (el *Text) Enable() {
+	tk.Get().Eval("%s configure -state {%s}", el.GetID(), state.Normal)
+}
+
+// Disable disables the widget.
+// See [option.state.Disabled]
+func (el *Text) Disable() {
+	tk.Get().Eval("%s configure -state {%s}", el.GetID(), state.Disabled)
 }
 
 // EnableUndo enables undo functionality.
