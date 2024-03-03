@@ -2,6 +2,7 @@ package app
 
 import (
 	"fmt"
+	"strings"
 	"time"
 
 	"github.com/nomad-software/goat/command"
@@ -13,6 +14,7 @@ import (
 // init configures the environment.
 func init() {
 	tk.Get().Eval("encoding system utf-8")
+
 }
 
 // App is the struct representing the application.
@@ -55,6 +57,22 @@ func (w *App) SetTheme(theme string) {
 func (w *App) GetTheme() string {
 	tk.Get().Eval("ttk::style theme use ")
 	return tk.Get().GetStrResult()
+}
+
+// SetFont sets the font for the enire app.
+func (w *App) SetFont(font string, size string, styles ...string) {
+	style := strings.Join(styles, " ")
+
+	tk.Get().Eval("option add *font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure Cell -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure Heading -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TButton -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TCheckbutton -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TLabelframe.Label -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TMenubutton -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TNotebook.Tab -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure TRadiobutton -font {{%s} %s %s}", font, size, style)
+	tk.Get().Eval("ttk::style configure Treeview -font {{%s} %s %s}", font, size, style)
 }
 
 // Update is used to bring the application 'up to date' by entering the event
