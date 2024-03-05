@@ -1,6 +1,7 @@
 package text
 
 import (
+	"strconv"
 	"strings"
 
 	"github.com/nomad-software/goat/internal/tk"
@@ -106,6 +107,13 @@ func (el *Text) GetText() string {
 	return tk.Get().GetStrResult()
 }
 
+// GetLineText gets the passed line's text.
+// Lines start at 1.
+func (el *Text) GetLineText(line int) string {
+	tk.Get().Eval("%s get %d.0 %d.end", el.GetID(), line, line)
+	return tk.Get().GetStrResult()
+}
+
 // Clear clears all the text.
 func (el *Text) Clear() {
 	tk.Get().Eval("%s delete 0.0 end", el.GetID())
@@ -190,4 +198,38 @@ func (el *Text) GetTag(name string) *tag.Tag {
 	t.SetID(name)
 
 	return t
+}
+
+// GetInsertPos returns the insert cursor's position.
+// The returned slice contains the line number and character index.
+// Lines begin at 1 and character indexes begin at 0.
+func (el *Text) GetInsertPos() []int {
+	tk.Get().Eval("%s index insert", el.GetID())
+
+	index := tk.Get().GetStrResult()
+	result := make([]int, 0)
+
+	for _, val := range strings.Split(index, ".") {
+		i, _ := strconv.Atoi(val)
+		result = append(result, i)
+	}
+
+	return result
+}
+
+// GetCurrentPos returns the current cursor's position.
+// The returned slice contains the line number and character index.
+// Lines begin at 1 and character indexes begin at 0.
+func (el *Text) GetCurrentPos() []int {
+	tk.Get().Eval("%s index current", el.GetID())
+
+	index := tk.Get().GetStrResult()
+	result := make([]int, 0)
+
+	for _, val := range strings.Split(index, ".") {
+		i, _ := strconv.Atoi(val)
+		result = append(result, i)
+	}
+
+	return result
 }
