@@ -82,6 +82,9 @@ func (el *Text) AppendText(text string) {
 	text = strings.ReplaceAll(text, "{", `\{`)
 	text = strings.ReplaceAll(text, "}", `\}`)
 
+	text = strings.ReplaceAll(text, "[", `\[`)
+	text = strings.ReplaceAll(text, "]", `\]`)
+
 	tk.Get().Eval("%s insert end [subst {%s}]", el.GetID(), text)
 }
 
@@ -90,6 +93,9 @@ func (el *Text) AppendLine(text string) {
 	text = strings.ReplaceAll(text, "{", `\{`)
 	text = strings.ReplaceAll(text, "}", `\}`)
 
+	text = strings.ReplaceAll(text, "[", `\[`)
+	text = strings.ReplaceAll(text, "]", `\]`)
+
 	tk.Get().Eval("%s insert end [subst {%s\n}]", el.GetID(), text)
 }
 
@@ -97,6 +103,9 @@ func (el *Text) AppendLine(text string) {
 func (el *Text) InsertText(line, char int, text string) {
 	text = strings.ReplaceAll(text, "{", `\{`)
 	text = strings.ReplaceAll(text, "}", `\}`)
+
+	text = strings.ReplaceAll(text, "[", `\[`)
+	text = strings.ReplaceAll(text, "]", `\]`)
 
 	tk.Get().Eval("%s insert %d.%d [subst {%s}]", el.GetID(), line, char, text)
 }
