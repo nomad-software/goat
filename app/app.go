@@ -14,7 +14,6 @@ import (
 // init configures the environment.
 func init() {
 	tk.Get().Eval("encoding system utf-8")
-
 }
 
 // App is the struct representing the application.

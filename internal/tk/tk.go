@@ -35,6 +35,7 @@ static void RegisterTclCommand(Tcl_Interp* interp, char* name, int (*proc)(Clien
 import "C"
 
 import (
+	"errors"
 	"fmt"
 	"regexp"
 	"runtime"
@@ -42,10 +43,12 @@ import (
 	"strconv"
 	"strings"
 	"sync"
+	"sync/atomic"
 	"unsafe"
 
 	"github.com/nomad-software/goat/command"
 	"github.com/nomad-software/goat/internal/log"
+	"github.com/nomad-software/goat/internal/thread"
 	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
@@ -71,6 +74,9 @@ func Get() *Tk {
 // Tk is the main interpreter.
 type Tk struct {
 	interpreter *C.Tcl_Interp // The low level C based interpreter.
+	tid         uint64        // Thread id of the interpreter.
+	queue       chan func()   // Channel to send command on if they are on a different thread.
+	running     atomic.Bool   // Indicates that we have a functional interpreter.
 }
 
 // new creates a new instance of the interpreter.
@@ -82,7 +88,14 @@ func new() *Tk {
 
 	tk := &Tk{
 		interpreter: C.Tcl_CreateInterp(),
+		tid:         thread.GetTid(),
+		// A buffered channel is crucial for this interpreter design. Basically
+		// we are queuing up commands when building a UI to be executed by the
+		// main loop later. It's not a great design and one I can refine later.
+		queue: make(chan func(), 4096),
 	}
+
+	log.Info("interpreter locked to thread: %X", tk.tid)
 
 	log.Info("initialising interpreter")
 	if C.Tcl_Init(tk.interpreter) != C.TCL_OK {
@@ -96,6 +109,8 @@ func new() *Tk {
 		log.Panic(err, "cannot continue")
 	}
 
+	tk.running.Store(true)
+
 	return tk
 }
 
@@ -104,45 +119,116 @@ func new() *Tk {
 // interpreter is destroyed.
 func (tk *Tk) Start() {
 	log.Info("starting tk main loop")
-	C.Tk_MainLoop()
 
-	log.Info("exited tk main loop")
+	if tk.tid != thread.GetTid() {
+		log.Panic(errors.New("start must be called on the interpreter thread"), "cannot continue")
+	}
+
+	var info C.Tcl_CmdInfo
+	cwin := C.CString(".")
+	defer C.free(unsafe.Pointer(cwin))
+
+loop:
+	for tk.running.Load() {
+		select {
+		case fn := <-tk.queue:
+			if fn == nil {
+				continue
+			}
+			fn()
+
+		default:
+			C.Tcl_DoOneEvent(0)
+
+			// If the main window has been destroyed, destroy the interpreter
+			// and return.
+			if C.Tcl_GetCommandInfo(tk.interpreter, cwin, &info) == 0 {
+				break loop
+			}
+		}
+	}
+
+	log.Info("exited main loop")
+
 	tk.Destroy()
 }
 
 // Destroy deletes the interpreter and cleans up its resources.
 func (tk *Tk) Destroy() {
-	log.Info("deleting the interpreter")
-	C.Tcl_DeleteInterp(tk.interpreter)
-	instance = nil
+	if tk == nil {
+		return
+	}
 
-	runtime.UnlockOSThread() // Unlock the Tcl/Tk thread.
+	if !tk.running.Load() {
+		return
+	}
+
+	tk.run(func() {
+		log.Info("deleting the interpreter")
+
+		tk.running.Store(false)
+
+		if tk.interpreter != nil {
+			C.Tcl_DeleteInterp(tk.interpreter)
+			tk.interpreter = nil
+		}
+
+		close(tk.queue)
+		for range tk.queue {
+		}
+
+		instance = nil
+		runtime.UnlockOSThread() // Unlock the Tcl/Tk thread.
+	})
 }
 
 // Eval passes the specified command to the interpreter for evaluation.
 // This will end the program on any error.
 func (tk *Tk) Eval(format string, a ...any) {
+	if tk == nil {
+		return
+	}
+
 	cmd := fmt.Sprintf(format, a...)
-
-	log.Tcl(cmd)
-
 	cstr := C.CString(cmd)
 	defer C.free(unsafe.Pointer(cstr))
 
-	result := C.Tcl_EvalEx(tk.interpreter, cstr, -1, 0)
+	tk.run(func() {
+		log.Tcl(cmd)
 
-	if result == C.TCL_ERROR {
-		err := tk.getTclError("evaluation error")
-		log.Error(err)
+		result := C.Tcl_EvalEx(tk.interpreter, cstr, -1, 0)
+
+		if result == C.TCL_ERROR {
+			err := tk.getTclError("evaluation error")
+			log.Error(err)
+		}
+	})
+}
+
+// run makes sure the function passed runs in the interpreter's thread.
+func (tk *Tk) run(fn func()) {
+	if tk == nil || !tk.running.Load() {
+		return
 	}
+
+	if tk.tid == thread.GetTid() {
+		fn()
+		return
+	}
+
+	tk.queue <- fn
 }
 
 // GetStrResult gets the interpreter result as a string.
 func (tk *Tk) GetStrResult() string {
-	result := C.Tcl_GetStringResult(tk.interpreter)
-	str := C.GoString(result)
+	var str string
 
-	log.Debug("interpreter result: %v", str)
+	tk.run(func() {
+		result := C.Tcl_GetStringResult(tk.interpreter)
+		str = C.GoString(result)
+
+		log.Debug("interpreter result: %v", str)
+	})
 
 	return str
 }
@@ -184,10 +270,7 @@ func (tk *Tk) GetBoolResult() bool {
 }
 
 func (tk *Tk) GetStrSliceResult() []string {
-	result := C.Tcl_GetStringResult(tk.interpreter)
-	str := C.GoString(result)
-
-	log.Debug("interpreter result: %v", str)
+	str := tk.GetStrResult()
 
 	return parseTclList(str)
 }
@@ -200,9 +283,11 @@ func (tk *Tk) SetVarStrValue(name string, val string) {
 	cval := C.CString(val)
 	defer C.free(unsafe.Pointer(cval))
 
-	C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
+	tk.run(func() {
+		C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
 
-	log.Debug("set variable {%s} <- {%s}", name, val)
+		log.Debug("set variable {%s} <- {%s}", name, val)
+	})
 }
 
 // SetVarFloatValue sets the named variable value using a string.
@@ -213,9 +298,11 @@ func (tk *Tk) SetVarFloatValue(name string, val float64) {
 	cval := C.CString(fmt.Sprintf("%v", val))
 	defer C.free(unsafe.Pointer(cval))
 
-	C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
+	tk.run(func() {
+		C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
 
-	log.Debug("set variable {%s} <- {%v}", name, val)
+		log.Debug("set variable {%s} <- {%v}", name, val)
+	})
 }
 
 // GetVarStrValue gets the named variable value as a string.
@@ -223,23 +310,21 @@ func (tk *Tk) GetVarStrValue(name string) string {
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
-	str := C.GoString(result)
+	var str string
 
-	log.Debug("get variable {%s} -> %s", name, str)
+	tk.run(func() {
+		result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+		str = C.GoString(result)
+
+		log.Debug("get variable {%s} -> %s", name, str)
+	})
 
 	return str
 }
 
 // GetVarIntValue gets the named variable value as an integer.
 func (tk *Tk) GetVarIntValue(name string) int {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
-	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
-	str := C.GoString(result)
-
-	log.Debug("get variable {%s} -> %s", name, str)
+	str := tk.GetVarStrValue(name)
 
 	i, err := strconv.Atoi(str)
 	if err != nil {
@@ -251,13 +336,7 @@ func (tk *Tk) GetVarIntValue(name string) int {
 
 // GetVarFloatValue gets the named variable value as a float.
 func (tk *Tk) GetVarFloatValue(name string) float64 {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
-	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
-	str := C.GoString(result)
-
-	log.Debug("get variable {%s} -> %s", name, str)
+	str := tk.GetVarStrValue(name)
 
 	f, err := strconv.ParseFloat(str, 64)
 	if err != nil {
@@ -269,13 +348,7 @@ func (tk *Tk) GetVarFloatValue(name string) float64 {
 
 // GetVarBoolValue gets the named variable value as a boolean.
 func (tk *Tk) GetVarBoolValue(name string) bool {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
-	result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
-	str := C.GoString(result)
-
-	log.Debug("get variable {%s} -> %s", name, str)
+	str := tk.GetVarStrValue(name)
 
 	b, err := strconv.ParseBool(str)
 	if err != nil {
@@ -287,22 +360,23 @@ func (tk *Tk) GetVarBoolValue(name string) bool {
 
 // DestroyVar destroys a variable and cleans up its resources.
 func (tk *Tk) DestroyVar(name string) {
-	log.Debug("deleting variable {%s}", name)
 
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	result := C.Tcl_UnsetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
-	if result == C.TCL_ERROR {
-		err := tk.getTclError("destroy variable error: {%s}", name)
-		log.Error(err)
-	}
+	tk.run(func() {
+		log.Debug("deleting variable {%s}", name)
+
+		result := C.Tcl_UnsetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
+		if result == C.TCL_ERROR {
+			err := tk.getTclError("destroy variable error: {%s}", name)
+			log.Error(err)
+		}
+	})
 }
 
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Callback) {
-	log.Debug("create command {%s}", name)
-
 	data := &command.CommandData{
 		Element:     el,
 		CommandName: name,
@@ -312,17 +386,19 @@ func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Ca
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
-	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
-	cdata := C.uintptr_t(cgo.NewHandle(data))
+	tk.run(func() {
+		log.Debug("create command {%s}", name)
 
-	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+		cdata := C.uintptr_t(cgo.NewHandle(data))
+
+		C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+	})
 }
 
 // CreateBindCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateBindCommand(el element.Element, name string, callback command.BindCallback) {
-	log.Debug("create bind command {%s}", name)
-
 	data := &command.BindData{
 		Element:     el,
 		CommandName: name,
@@ -332,17 +408,19 @@ func (tk *Tk) CreateBindCommand(el element.Element, name string, callback comman
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
-	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
-	cdata := C.uintptr_t(cgo.NewHandle(data))
+	tk.run(func() {
+		log.Debug("create bind command {%s}", name)
 
-	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+		cdata := C.uintptr_t(cgo.NewHandle(data))
+
+		C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+	})
 }
 
 // CreateFontDialogCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback command.FontDialogCallback) {
-	log.Debug("create font dialog command {%s}", name)
-
 	data := &command.FontData{
 		Element:     el,
 		CommandName: name,
@@ -352,25 +430,31 @@ func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback 
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
-	delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
-	cdata := C.uintptr_t(cgo.NewHandle(data))
+	tk.run(func() {
+		log.Debug("create font dialog command {%s}", name)
 
-	C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
+		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
+		cdata := C.uintptr_t(cgo.NewHandle(data))
+
+		C.RegisterTclCommand(tk.interpreter, cname, procWrapper, cdata, delWrapper)
+	})
 }
 
 // DestroyCommand destroys a command and cleans up its resources.
 func (tk *Tk) DestroyCommand(name string) {
-	log.Debug("destroy command {%s}", name)
-
 	cname := C.CString(name)
 	defer C.free(unsafe.Pointer(cname))
 
-	status := C.Tcl_DeleteCommand(tk.interpreter, cname)
-	if status != C.TCL_OK {
-		err := tk.getTclError("destroy command failed")
-		log.Error(err)
-	}
+	tk.run(func() {
+		log.Debug("destroy command {%s}", name)
+
+		status := C.Tcl_DeleteCommand(tk.interpreter, cname)
+		if status != C.TCL_OK {
+			err := tk.getTclError("destroy command failed")
+			log.Error(err)
+		}
+	})
 }
 
 // getTclError reads the last result from the interpreter and returns it as

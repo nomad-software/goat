@@ -1,10 +1,11 @@
 module github.com/nomad-software/goat
 
-go 1.21.3
+go 1.24.0
 
 require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/stretchr/testify v1.8.4
+	golang.org/x/sys v0.38.0
 )
 
 require (
