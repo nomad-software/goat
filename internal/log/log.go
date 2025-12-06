@@ -6,41 +6,48 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+
+	"github.com/nomad-software/goat/internal/thread"
 )
 
-func show() bool {
+func init() {
 	if b, ok := os.LookupEnv("SHOW_LOG"); ok {
 		if ok, err := strconv.ParseBool(b); err == nil {
-			return ok
+			show = ok
 		}
 	}
-	return false
 }
+
+var (
+	show bool
+)
 
 // Info logs useful information.
 func Info(format string, a ...any) {
-	if show() {
-		fmt.Printf("INFO  "+format+"\n", a...)
+	if show {
+		format := fmt.Sprintf("[%X] INFO  %s\n", thread.GetTid(), format)
+		fmt.Printf(format, a...)
 	}
 }
 
 // Tcl logs tcl commands when the environment variable is set.
 func Tcl(cmd string) {
-	if show() {
-		fmt.Printf("TCL   %s\n", cmd)
+	if show {
+		fmt.Printf("[%X] TCL   %s\n", thread.GetTid(), cmd)
 	}
 }
 
 // Debug logs useful debug information.
 func Debug(format string, a ...any) {
-	if show() {
-		fmt.Printf("DEBUG "+format+"\n", a...)
+	if show {
+		format := fmt.Sprintf("[%X] DEBUG %s\n", thread.GetTid(), format)
+		fmt.Printf(format, a...)
 	}
 }
 
 // Error prints information about the passed error.
 func Error(err error) {
-	if show() {
+	if show {
 		fmt.Printf("ERROR %s\n", err)
 		for i := 1; i <= 10; i++ {
 			_, file, line, _ := runtime.Caller(i)
