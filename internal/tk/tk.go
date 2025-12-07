@@ -121,7 +121,7 @@ func (tk *Tk) Start() {
 	}
 
 	for C.Tk_GetNumMainWindows() > 0 {
-		C.Tcl_DoOneEvent(0)
+		C.Tcl_DoOneEvent(C.TCL_ALL_EVENTS | C.TCL_DONT_WAIT)
 
 		select {
 		case fn := <-tk.queue:
@@ -167,11 +167,11 @@ func (tk *Tk) Eval(format string, a ...any) {
 		return
 	}
 
-	cmd := fmt.Sprintf(format, a...)
-	cstr := C.CString(cmd)
-	defer C.free(unsafe.Pointer(cstr))
-
 	tk.run(func() {
+		cmd := fmt.Sprintf(format, a...)
+		cstr := C.CString(cmd)
+		defer C.free(unsafe.Pointer(cstr))
+
 		log.Tcl(cmd)
 
 		result := C.Tcl_EvalEx(tk.interpreter, cstr, -1, 0)
@@ -183,7 +183,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 	})
 }
 
-// run makes sure the function passed runs in the interpreter's thread.
+// run makes sure functions passed run in the interpreter's thread.
 func (tk *Tk) run(fn func()) {
 	if tk == nil {
 		return
@@ -255,13 +255,13 @@ func (tk *Tk) GetStrSliceResult() []string {
 
 // SetVarStrValue sets the named variable value using a string.
 func (tk *Tk) SetVarStrValue(name string, val string) {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
-	cval := C.CString(val)
-	defer C.free(unsafe.Pointer(cval))
-
 	tk.run(func() {
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
+
+		cval := C.CString(val)
+		defer C.free(unsafe.Pointer(cval))
+
 		C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
 
 		log.Debug("set variable {%s} <- {%s}", name, val)
@@ -270,13 +270,13 @@ func (tk *Tk) SetVarStrValue(name string, val string) {
 
 // SetVarFloatValue sets the named variable value using a string.
 func (tk *Tk) SetVarFloatValue(name string, val float64) {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
-	cval := C.CString(fmt.Sprintf("%v", val))
-	defer C.free(unsafe.Pointer(cval))
-
 	tk.run(func() {
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
+
+		cval := C.CString(fmt.Sprintf("%v", val))
+		defer C.free(unsafe.Pointer(cval))
+
 		C.Tcl_SetVar(tk.interpreter, cname, cval, C.TCL_GLOBAL_ONLY)
 
 		log.Debug("set variable {%s} <- {%v}", name, val)
@@ -285,12 +285,12 @@ func (tk *Tk) SetVarFloatValue(name string, val float64) {
 
 // GetVarStrValue gets the named variable value as a string.
 func (tk *Tk) GetVarStrValue(name string) string {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	var str string
 
 	tk.run(func() {
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
+
 		result := C.Tcl_GetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
 		str = C.GoString(result)
 
@@ -338,12 +338,11 @@ func (tk *Tk) GetVarBoolValue(name string) bool {
 
 // DestroyVar destroys a variable and cleans up its resources.
 func (tk *Tk) DestroyVar(name string) {
-
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	tk.run(func() {
 		log.Debug("deleting variable {%s}", name)
+
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
 
 		result := C.Tcl_UnsetVar(tk.interpreter, cname, C.TCL_GLOBAL_ONLY)
 		if result == C.TCL_ERROR {
@@ -355,17 +354,17 @@ func (tk *Tk) DestroyVar(name string) {
 
 // CreateCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Callback) {
-	data := &command.CommandData{
-		Element:     el,
-		CommandName: name,
-		Callback:    callback,
-	}
-
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	tk.run(func() {
 		log.Debug("create command {%s}", name)
+
+		data := &command.CommandData{
+			Element:     el,
+			CommandName: name,
+			Callback:    callback,
+		}
+
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
 
 		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
 		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
@@ -377,17 +376,17 @@ func (tk *Tk) CreateCommand(el element.Element, name string, callback command.Ca
 
 // CreateBindCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateBindCommand(el element.Element, name string, callback command.BindCallback) {
-	data := &command.BindData{
-		Element:     el,
-		CommandName: name,
-		Callback:    callback,
-	}
-
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	tk.run(func() {
 		log.Debug("create bind command {%s}", name)
+
+		data := &command.BindData{
+			Element:     el,
+			CommandName: name,
+			Callback:    callback,
+		}
+
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
 
 		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
 		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
@@ -399,17 +398,17 @@ func (tk *Tk) CreateBindCommand(el element.Element, name string, callback comman
 
 // CreateFontDialogCommand creates a custom command in the interpreter.
 func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback command.FontDialogCallback) {
-	data := &command.FontData{
-		Element:     el,
-		CommandName: name,
-		Callback:    callback,
-	}
-
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	tk.run(func() {
 		log.Debug("create font dialog command {%s}", name)
+
+		data := &command.FontData{
+			Element:     el,
+			CommandName: name,
+			Callback:    callback,
+		}
+
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
 
 		procWrapper := (*[0]byte)(unsafe.Pointer(C.procWrapper))
 		delWrapper := (*[0]byte)(unsafe.Pointer(C.delWrapper))
@@ -421,11 +420,11 @@ func (tk *Tk) CreateFontDialogCommand(el element.Element, name string, callback 
 
 // DestroyCommand destroys a command and cleans up its resources.
 func (tk *Tk) DestroyCommand(name string) {
-	cname := C.CString(name)
-	defer C.free(unsafe.Pointer(cname))
-
 	tk.run(func() {
 		log.Debug("destroy command {%s}", name)
+
+		cname := C.CString(name)
+		defer C.free(unsafe.Pointer(cname))
 
 		status := C.Tcl_DeleteCommand(tk.interpreter, cname)
 		if status != C.TCL_OK {
