@@ -87,9 +87,12 @@ func new() *Tk {
 	tk := &Tk{
 		interpreter: C.Tcl_CreateInterp(),
 		tid:         thread.GetTid(),
-		// A buffered channel is crucial for this interpreter design. Basically
-		// we are queuing up commands when building a UI to be executed by the
-		// main loop later. It's not a great design and one I can refine later.
+		// A buffered channel is crucial for this interpreter design. If a
+		// command is sent to the interpreter from a different thread, we add
+		// that command to the queue and it is marshalled to the correct thread
+		// and then executed. It's not a great design because the buffer size
+		// is a guess of how many commands we would need to support from other
+		// threads. I can refine this later.
 		queue: make(chan func(), 4096),
 	}
 
@@ -121,14 +124,13 @@ func (tk *Tk) Start() {
 	}
 
 	for C.Tk_GetNumMainWindows() > 0 {
-		C.Tcl_DoOneEvent(C.TCL_ALL_EVENTS | C.TCL_DONT_WAIT)
-
 		select {
 		case fn := <-tk.queue:
 			if fn != nil {
 				fn()
 			}
 		default:
+			C.Tcl_DoOneEvent(C.TCL_ALL_EVENTS | C.TCL_DONT_WAIT)
 		}
 	}
 
