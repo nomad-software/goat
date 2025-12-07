@@ -43,7 +43,6 @@ import (
 	"strconv"
 	"strings"
 	"sync"
-	"sync/atomic"
 	"unsafe"
 
 	"github.com/nomad-software/goat/command"
@@ -76,7 +75,6 @@ type Tk struct {
 	interpreter *C.Tcl_Interp // The low level C based interpreter.
 	tid         uint64        // Thread id of the interpreter.
 	queue       chan func()   // Channel to send command on if they are on a different thread.
-	running     atomic.Bool   // Indicates that we have a functional interpreter.
 }
 
 // new creates a new instance of the interpreter.
@@ -109,8 +107,6 @@ func new() *Tk {
 		log.Panic(err, "cannot continue")
 	}
 
-	tk.running.Store(true)
-
 	return tk
 }
 
@@ -124,27 +120,15 @@ func (tk *Tk) Start() {
 		log.Panic(errors.New("start must be called on the interpreter thread"), "cannot continue")
 	}
 
-	var info C.Tcl_CmdInfo
-	cwin := C.CString(".")
-	defer C.free(unsafe.Pointer(cwin))
+	for C.Tk_GetNumMainWindows() > 0 {
+		C.Tcl_DoOneEvent(0)
 
-loop:
-	for tk.running.Load() {
 		select {
 		case fn := <-tk.queue:
-			if fn == nil {
-				continue
+			if fn != nil {
+				fn()
 			}
-			fn()
-
 		default:
-			C.Tcl_DoOneEvent(0)
-
-			// If the main window has been destroyed, destroy the interpreter
-			// and return.
-			if C.Tcl_GetCommandInfo(tk.interpreter, cwin, &info) == 0 {
-				break loop
-			}
 		}
 	}
 
@@ -159,14 +143,8 @@ func (tk *Tk) Destroy() {
 		return
 	}
 
-	if !tk.running.Load() {
-		return
-	}
-
 	tk.run(func() {
 		log.Info("deleting the interpreter")
-
-		tk.running.Store(false)
 
 		if tk.interpreter != nil {
 			C.Tcl_DeleteInterp(tk.interpreter)
@@ -207,7 +185,7 @@ func (tk *Tk) Eval(format string, a ...any) {
 
 // run makes sure the function passed runs in the interpreter's thread.
 func (tk *Tk) run(fn func()) {
-	if tk == nil || !tk.running.Load() {
+	if tk == nil {
 		return
 	}
 
