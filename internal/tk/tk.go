@@ -130,7 +130,7 @@ func (tk *Tk) Start() {
 				fn()
 			}
 		default:
-			C.Tcl_DoOneEvent(C.TCL_ALL_EVENTS | C.TCL_DONT_WAIT)
+			C.Tcl_DoOneEvent(0)
 		}
 	}
 
