@@ -3,6 +3,7 @@ package image
 import (
 	"testing"
 
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -13,12 +14,18 @@ const (
 )
 
 func TestImage(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	img := New(data, typ)
 
 	assert.Regexp(t, `^\.png-[A-Z0-9]{1,8}$`, img.GetID())
 }
 
 func TestImageGamma(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	img := New(data, typ)
 
 	img.SetGamma(0.5)
@@ -28,6 +35,9 @@ func TestImageGamma(t *testing.T) {
 }
 
 func TestImageDimensions(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	img := New(data, typ)
 
 	img.SetWidth(1)

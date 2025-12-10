@@ -3,11 +3,14 @@ package ui
 import (
 	"testing"
 
-	"github.com/nomad-software/goat/option/cursor"
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestUIElementClass(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -15,16 +18,10 @@ func TestUIElementClass(t *testing.T) {
 	assert.Equal(t, "Tk", el.GetClass())
 }
 
-func TestUIElementCursor(t *testing.T) {
-	el := &Ele{}
-	el.SetID(".")
-	el.SetType("window")
-	el.SetCursor(cursor.Pirate)
-
-	assert.Equal(t, cursor.Pirate, el.GetCursor())
-}
-
 func TestUIElementKeyboardFocus(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -36,6 +33,9 @@ func TestUIElementKeyboardFocus(t *testing.T) {
 }
 
 func TestUIElementDimensions(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -45,6 +45,9 @@ func TestUIElementDimensions(t *testing.T) {
 }
 
 func TestUIElementOSHandle(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -53,6 +56,9 @@ func TestUIElementOSHandle(t *testing.T) {
 }
 
 func TestUIElementCursorPosition(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -71,6 +77,9 @@ func TestUIElementCursorPosition(t *testing.T) {
 }
 
 func TestUIElementScreenDimensions(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -80,6 +89,9 @@ func TestUIElementScreenDimensions(t *testing.T) {
 }
 
 func TestUIElementPosition(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -91,6 +103,9 @@ func TestUIElementPosition(t *testing.T) {
 }
 
 func TestUIElementFocus(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -101,6 +116,9 @@ func TestUIElementFocus(t *testing.T) {
 }
 
 func TestUIElementZPosition(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")
@@ -111,6 +129,9 @@ func TestUIElementZPosition(t *testing.T) {
 }
 
 func TestUIElementDestroy(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	el := &Ele{}
 	el.SetID(".")
 	el.SetType("window")

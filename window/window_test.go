@@ -5,10 +5,14 @@ import (
 
 	"github.com/nomad-software/goat/example/image"
 	"github.com/nomad-software/goat/image/store"
+	"github.com/nomad-software/goat/internal/tk"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestWindow(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	assert.Equal(t, "window", win.GetType())
@@ -18,6 +22,9 @@ func TestWindow(t *testing.T) {
 }
 
 func TestWindowParent(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	child := New(win)
 
@@ -28,6 +35,9 @@ func TestWindowParent(t *testing.T) {
 }
 
 func TestWindowSize(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	win.SetSize(250, 250)
@@ -38,6 +48,9 @@ func TestWindowSize(t *testing.T) {
 }
 
 func TestWindowGeometry(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	win.SetGeometry(350, 350, 150, 150)
@@ -51,6 +64,9 @@ func TestWindowGeometry(t *testing.T) {
 }
 
 func TestWindowTitle(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	win.SetTitle("foo")
 
@@ -58,6 +74,9 @@ func TestWindowTitle(t *testing.T) {
 }
 
 func TestWindowWaitForVisiblity(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	win.SetSize(250, 250)
@@ -68,6 +87,9 @@ func TestWindowWaitForVisiblity(t *testing.T) {
 }
 
 func TestWindowFullScreen(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	assert.False(t, win.IsFullScreen())
 
@@ -78,6 +100,9 @@ func TestWindowFullScreen(t *testing.T) {
 }
 
 func TestWindowTopmost(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	assert.False(t, win.IsTopmost())
 
@@ -88,12 +113,18 @@ func TestWindowTopmost(t *testing.T) {
 }
 
 func TestWindowIconfiy(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	win.SetIconify(true)
 	win.SetIconify(false)
 }
 
 func TestWindowMinMaxSize(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	win.SetMinSize(100, 100)
@@ -111,6 +142,9 @@ func TestWindowMinMaxSize(t *testing.T) {
 }
 
 func TestWindowResizable(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 
 	res := win.GetResizeable()
@@ -125,6 +159,9 @@ func TestWindowResizable(t *testing.T) {
 }
 
 func TestWindowIsAbove(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	win.Update()
 
@@ -136,6 +173,9 @@ func TestWindowIsAbove(t *testing.T) {
 }
 
 func TestWindowIsBelow(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	win := New(nil)
 	child := New(win)
 
@@ -147,6 +187,9 @@ func TestWindowIsBelow(t *testing.T) {
 }
 
 func TestWindowIcon(t *testing.T) {
+	tk := tk.Get()
+	defer tk.Destroy()
+
 	store := store.New(image.FS)
 	icons := store.GetImages("png/tkicon.png")
 

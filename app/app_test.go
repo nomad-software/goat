@@ -20,17 +20,22 @@ func TestAppStart(t *testing.T) {
 
 func TestAppTheme(t *testing.T) {
 	app := New()
-	assert.Equal(t, app.GetTheme(), theme.Default)
+	assert.Equal(t, theme.Default, app.GetTheme())
 
 	app.SetTheme(theme.Clam)
-	assert.Equal(t, app.GetTheme(), theme.Clam)
+	assert.Equal(t, theme.Clam, app.GetTheme())
+
+	app.Exit()
 }
 
 func TestAppGetMainWindow(t *testing.T) {
 	app := New()
 	main := app.GetMainWindow()
-	assert.Equal(t, main.GetID(), ".")
-	assert.Equal(t, main.GetClass(), "Tk")
+
+	assert.Equal(t, ".", main.GetID())
+	assert.Equal(t, "Tk", main.GetClass())
+
+	app.Exit()
 }
 
 func TestAppCreateVirtualEvent(t *testing.T) {

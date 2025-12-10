@@ -54,6 +54,7 @@ import (
 var (
 	// Global interpreter instance.
 	instance *Tk
+	instmu   sync.Mutex
 	once     sync.Once
 
 	Binding      = regexp.MustCompile(`^<.*?>$`)
@@ -63,9 +64,12 @@ var (
 
 // Get gets the global instance of the interpreter.
 func Get() *Tk {
-	once.Do(func() {
-		instance = new()
-	})
+	instmu.Lock()
+	defer instmu.Unlock()
+
+	if instance == nil {
+		instance = New()
+	}
 
 	return instance
 }
@@ -77,9 +81,9 @@ type Tk struct {
 	queue       chan func()   // Channel to send command on if they are on a different thread.
 }
 
-// new creates a new instance of the interpreter.
+// New creates a New instance of the interpreter.
 // This will end the program on any error.
-func new() *Tk {
+func New() *Tk {
 	runtime.LockOSThread() // Lock Tcl/Tk calls to one thread.
 
 	log.Info("creating new interpreter")
@@ -150,14 +154,18 @@ func (tk *Tk) Destroy() {
 
 		if tk.interpreter != nil {
 			C.Tcl_DeleteInterp(tk.interpreter)
+
+			close(tk.queue)
+			for range tk.queue {
+			}
+
 			tk.interpreter = nil
 		}
 
-		close(tk.queue)
-		for range tk.queue {
-		}
-
+		instmu.Lock()
+		defer instmu.Unlock()
 		instance = nil
+
 		runtime.UnlockOSThread() // Unlock the Tcl/Tk thread.
 	})
 }

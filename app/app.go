@@ -11,17 +11,14 @@ import (
 	"github.com/nomad-software/goat/window"
 )
 
-// init configures the environment.
-func init() {
-	tk.Get().Eval("encoding system utf-8")
-}
-
 // App is the struct representing the application.
 type App struct {
 }
 
 // New creates the main window of the application.
 func New() *App {
+	tk.Get().Eval("encoding system utf-8")
+
 	app := &App{}
 
 	return app
@@ -54,7 +51,7 @@ func (w *App) SetTheme(theme string) {
 // GetTheme gets the theme of the app.
 // See [app.theme] for theme names.
 func (w *App) GetTheme() string {
-	tk.Get().Eval("ttk::style theme use ")
+	tk.Get().Eval("ttk::style theme use")
 	return tk.Get().GetStrResult()
 }
 
@@ -142,4 +139,5 @@ func (w *App) CreateIdleCallback(dur time.Duration, callback command.Callback) {
 // Exit closes the app.
 func (w *App) Exit() {
 	w.GetMainWindow().Destroy()
+	tk.Get().Destroy()
 }
