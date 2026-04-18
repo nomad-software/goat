@@ -1,3 +1,5 @@
+//go:build windows
+
 package savefiledialog
 
 // SetDefaultExtension sets the default extension to use.

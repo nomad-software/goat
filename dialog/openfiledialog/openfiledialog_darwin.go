@@ -1,3 +1,5 @@
+//go:build darwin
+
 package openfiledialog
 
 import "github.com/nomad-software/goat/internal/tk"

@@ -1,3 +1,5 @@
+//go:build windows
+
 package app
 
 import "github.com/nomad-software/goat/internal/tk"

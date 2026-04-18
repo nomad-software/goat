@@ -1,3 +1,5 @@
+//go:build linux
+
 package openfiledialog
 
 import "github.com/nomad-software/goat/internal/tk"
