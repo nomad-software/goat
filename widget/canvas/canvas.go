@@ -42,15 +42,13 @@ const (
 type Canvas struct {
 	wid.Widget
 
-	itemRef map[string]element.Element
-	items   []element.Element
+	Items map[string]element.Element
 }
 
 // New creates a new canvas.
 func New(parent element.Element) *Canvas {
 	canvas := &Canvas{
-		itemRef: make(map[string]element.Element),
-		items:   make([]element.Element, 0),
+		Items: make(map[string]element.Element),
 	}
 	canvas.SetParent(parent)
 	canvas.SetType(Type)
@@ -73,8 +71,7 @@ func (el *Canvas) AddArc(x1, y1, x2, y2 float64) *arc.Arc {
 	item.SetID(id)
 	item.SetStyle(style.Pie)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -87,8 +84,7 @@ func (el *Canvas) AddImage(img *img.Image, x, y float64) *image.Image {
 	item := image.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -107,8 +103,7 @@ func (el *Canvas) AddLine(x1, y1, x2, y2 float64, others ...float64) *line.Line 
 	item := line.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -122,8 +117,7 @@ func (el *Canvas) AddOval(x1, y1, x2, y2 float64) *oval.Oval {
 	item := oval.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -142,8 +136,7 @@ func (el *Canvas) AddPolygon(x1, y1, x2, y2, x3, y3 float64, others ...float64) 
 	item := polygon.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -157,8 +150,7 @@ func (el *Canvas) AddRectangle(x1, y1, x2, y2 float64) *rectangle.Rectangle {
 	item := rectangle.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -171,8 +163,7 @@ func (el *Canvas) AddText(txt string, x, y float64) *text.Text {
 	item := text.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -185,8 +176,7 @@ func (el *Canvas) AddWidget(e element.Element, x, y float64) *widget.Widget {
 	item := widget.New(el)
 	item.SetID(id)
 
-	el.itemRef[id] = item
-	el.items = append(el.items, item)
+	el.Items[id] = item
 
 	return item
 }
@@ -264,8 +254,8 @@ func (el *Canvas) ScanDragTo(x, y, gain int) {
 }
 
 // GetItems returns all items in the canvas.
-func (el *Canvas) GetItems() []element.Element {
-	return el.items
+func (el *Canvas) GetItems() map[string]element.Element {
+	return el.Items
 }
 
 // GetItemNear gets the nearest item to the coordinates supplied and returns it.
@@ -273,7 +263,7 @@ func (el *Canvas) GetItemNear(x, y, radius int) element.Element {
 	tk.Get().Eval("%s find closest %d %d %d", el.GetID(), x, y, radius)
 	id := tk.Get().GetStrResult()
 
-	if e, ok := el.itemRef[id]; ok {
+	if e, ok := el.Items[id]; ok {
 		return e
 	}
 
@@ -289,7 +279,7 @@ func (el *Canvas) GetItemsEnclosed(x1, y1, x2, y2 int) []element.Element {
 	items := make([]element.Element, 0)
 
 	for _, id := range ids {
-		if e, ok := el.itemRef[id]; ok {
+		if e, ok := el.Items[id]; ok {
 			items = append(items, e)
 		}
 	}
@@ -306,7 +296,7 @@ func (el *Canvas) GetItemsOverlapping(x1, y1, x2, y2 int) []element.Element {
 	items := make([]element.Element, 0)
 
 	for _, id := range ids {
-		if e, ok := el.itemRef[id]; ok {
+		if e, ok := el.Items[id]; ok {
 			items = append(items, e)
 		}
 	}
@@ -316,9 +306,8 @@ func (el *Canvas) GetItemsOverlapping(x1, y1, x2, y2 int) []element.Element {
 
 // Clear deletes all items from the canvas.
 func (el *Canvas) Clear() {
-	for _, item := range el.items {
+	for _, item := range el.Items {
 		tk.Get().Eval("%s delete %s", el.GetID(), item.GetID())
 	}
-	clear(el.itemRef)
-	clear(el.items)
+	clear(el.Items)
 }
