@@ -83,3 +83,12 @@ func (el *RadioButton) Select() {
 func (el *RadioButton) IsSelected() bool {
 	return tk.Get().GetVarStrValue(el.valueVar) == el.selectedValue
 }
+
+// Destroy removes the ui element from the UI and cleans up its resources. Once
+// destroyed you cannot refer to this ui element again or you will get a bad
+// path name error from the interpreter.
+func (el *RadioButton) Destroy() {
+	el.Ele.Destroy()
+	tk.Get().DestroyVar(el.textVar)
+	tk.Get().DestroyVar(el.valueVar)
+}
