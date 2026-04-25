@@ -2,13 +2,16 @@
 package line
 
 import (
-	"github.com/nomad-software/goat/internal/tk"
-
+	"github.com/nomad-software/goat/internal/widget/ui/element"
 )
 
 
 
-// Delete remove this item from the canvas.
+type deleter interface {
+	DeleteItem(item element.Element)
+}
+
+// Delete removes this item from the canvas.
 func (el *Line) Delete() {
-	tk.Get().Eval("%s delete %s", el.GetParent().GetID(), el.GetID())
+	el.GetParent().(deleter).DeleteItem(el)
 }
