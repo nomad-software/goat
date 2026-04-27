@@ -122,7 +122,7 @@ func (w *Window) SetMinSize(width, height int) {
 	tk.Get().Eval("wm minsize %s %d %d", w.GetID(), width, height)
 }
 
-// SetMinSize sets the maximum size of the window.
+// SetMaxSize sets the maximum size of the window.
 func (w *Window) SetMaxSize(width, height int) {
 	tk.Get().Eval("wm maxsize %s %d %d", w.GetID(), width, height)
 }

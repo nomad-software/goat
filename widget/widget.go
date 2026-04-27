@@ -101,7 +101,7 @@ func (w *Widget) ReadOnly() {
 	w.SetState([]string{state.Readonly})
 }
 
-// ReadAnWrite sets the widget to be read and write.
+// ReadAndWrite sets the widget to be read and write.
 // See [option.state.Readonly]
 func (w *Widget) ReadAndWrite() {
 	w.RemoveState([]string{state.Readonly})

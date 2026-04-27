@@ -55,15 +55,15 @@ func (el *Ele) GetCursor() string {
 	return tk.Get().GetStrResult()
 }
 
-// SetKeyboadFocus sets that this ui element accepts the focus during keyboard
+// SetKeyboardFocus sets that this ui element accepts the focus during keyboard
 // traversal.
-func (el *Ele) SetKeyboadFocus(focus bool) {
+func (el *Ele) SetKeyboardFocus(focus bool) {
 	tk.Get().Eval("%s configure -takefocus %v", el.GetID(), focus)
 }
 
-// AcceptsKeyboadFocus returns true if this ui element accepts the focus during
+// AcceptsKeyboardFocus returns true if this ui element accepts the focus during
 // keyboard traversal.
-func (el *Ele) AcceptsKeyboadFocus() bool {
+func (el *Ele) AcceptsKeyboardFocus() bool {
 	tk.Get().Eval("%s cget -takefocus", el.GetID())
 	return tk.Get().GetBoolResult()
 }
