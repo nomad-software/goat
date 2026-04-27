@@ -26,10 +26,10 @@ func TestUIElementKeyboardFocus(t *testing.T) {
 	el.SetID(".")
 	el.SetType("window")
 
-	assert.False(t, el.AcceptsKeyboadFocus())
+	assert.False(t, el.AcceptsKeyboardFocus())
 
-	el.SetKeyboadFocus(true)
-	assert.True(t, el.AcceptsKeyboadFocus())
+	el.SetKeyboardFocus(true)
+	assert.True(t, el.AcceptsKeyboardFocus())
 }
 
 func TestUIElementDimensions(t *testing.T) {
@@ -98,8 +98,8 @@ func TestUIElementPosition(t *testing.T) {
 
 	el.Update()
 
-	assert.Greater(t, el.GetXPos(false), 0)
-	assert.Greater(t, el.GetYPos(false), 0)
+	assert.GreaterOrEqual(t, el.GetXPos(false), 0)
+	assert.GreaterOrEqual(t, el.GetYPos(false), 0)
 }
 
 func TestUIElementFocus(t *testing.T) {

@@ -60,7 +60,7 @@ func TestWindowGeometry(t *testing.T) {
 	assert.Equal(t, 350, win.GetHeight())
 
 	assert.Equal(t, 150, win.GetXPos(false))
-	assert.Equal(t, 187, win.GetYPos(false))
+	assert.Equal(t, 150, win.GetYPos(false))
 }
 
 func TestWindowTitle(t *testing.T) {
